@@ -1,23 +1,32 @@
 <template>
-  <router-view></router-view>
-  <pre>
-
-  </pre>
-  <div style="position: absolute; bottom: 3px; width: 100%">
-    <LKNavbar
-        :active_route="this.$route.path"
-    ></LKNavbar>
+  <div v-if="$store.state.loading">
+    <LoadingStart></LoadingStart>
   </div>
+  <div v-else>
+    <div v-if="$store.state.auth">
+      <router-view></router-view>
 
+      <div style="position: absolute; bottom: 3px; width: 100%">
+        <LKNavbar
+            :active_route="this.$route.path"
+        ></LKNavbar>
+      </div>
+    </div>
+    <div v-else>
+
+    </div>
+  </div>
 </template>
 
 <script>
 import LKNavbar from "@/components/LKNavbar";
+import LoadingStart from "@/components/LoadingStart";
 
 export default {
   name: 'App',
   components: {
-    LKNavbar
+    LKNavbar,
+    LoadingStart
   },
 }
 </script>
@@ -31,7 +40,8 @@ export default {
 #app {
   width: 100vw;
   margin: 0 auto;
-  font-family: 'Roboto', Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Roboto';
+  font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: relative;

@@ -86,7 +86,7 @@ export default {
     flex-direction: column;
     align-items: center;
     .title_rus{
-      width: 187px;
+      width: 100%;
       height: 18px;
 
       font-weight: 700;
@@ -94,8 +94,6 @@ export default {
       line-height: 18px;
       /* identical to box height, or 138% */
 
-      display: flex;
-      align-items: center;
       text-align: center;
       letter-spacing: -0.408px;
 
@@ -103,7 +101,7 @@ export default {
       color: #8A8A8E;
     }
     .title_eng{
-      width: 112px;
+      width: 100%;
       height: 16px;
 
       font-weight: 500;
@@ -111,8 +109,6 @@ export default {
       line-height: 16px;
       /* identical to box height, or 183% */
 
-      display: flex;
-      align-items: center;
       text-align: center;
       //letter-spacing: -0.408px;
 

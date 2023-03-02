@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 
 export default createStore({
     state: {
-        auth: true,
+        auth: false,
         loading: true,
 
         logo: require('@/assets/img/logo_n.svg'),

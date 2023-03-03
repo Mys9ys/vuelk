@@ -1,4 +1,6 @@
 <template>
+
+<!--  {{$store.state.auth}}-->
   <div v-if="$store.state.loading">
     <LoadingStart></LoadingStart>
   </div>

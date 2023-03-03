@@ -14,11 +14,11 @@
           :inputInfo="el"
       ></AuthInput>
 
-      <BlueBtn @click="enterClick($router, $store)">Войти</BlueBtn>
+      <BlueBtn @click="enterClick" :arrow="true">Войти</BlueBtn>
     </form>
 
     <div class="btn_link_box">
-      <div class="btn_link">Забыли свой пароль?</div>
+      <div class="btn_link" @click="$router.push('/recover')">Забыли свой пароль?</div>
       <div class="btn_link" @click="$router.push('/register')">Регистрация</div>
     </div>
 
@@ -44,20 +44,20 @@ export default {
   data() {
     return {
       inputs: [
-        {f_icon: require('@/assets/icon/register/mail.svg'), title: 'E-mail', l_icon: ''},
+        {f_icon: require('@/assets/icon/form/mail.svg'), title: 'E-mail', l_icon: ''},
         {
-          f_icon: require('@/assets/icon/register/pass.svg'),
+          f_icon: require('@/assets/icon/form/pass.svg'),
           title: 'Пароль',
-          l_icon: require('@/assets/icon/register/eye.svg')
+          l_icon: require('@/assets/icon/form/eye.svg')
         },
       ]
     }
   },
 
   methods: {
-    enterClick($router, $store){
-      $store.state.auth = true
-      $router.push('/')
+    enterClick(){
+      this.$store.dispatch('authSuccess');
+      this.$router.push('/')
     }
   }
 }
@@ -72,10 +72,6 @@ export default {
   height: 100vh;
   text-align: center;
   padding: 0 24px;
-
-  .header {
-    margin-top: 35px;
-  }
 
   .logo {
     margin-top: 149px;

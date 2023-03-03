@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 
 export default createStore({
     state: {
-        auth: false,
+        auth: true,
         loading: true,
 
         logo: require('@/assets/img/logo_n.svg'),
@@ -14,7 +14,18 @@ export default createStore({
             return state.auth
         }
     },
+    actions: {
+        authSuccess({commit}){
+            console.log('authSuccess')
+            commit('IS_AUTH')
+        }
+    },
     mutations: {
+        IS_AUTH(state){
+            console.log('IS_AUTH')
+            state.auth = true
+        }
+
         // logout(state) {
         //     state.auth = false
         // },

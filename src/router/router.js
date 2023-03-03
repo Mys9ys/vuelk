@@ -12,10 +12,12 @@ const router = createRouter({
 const isAuthenticated = store.getters.isAuth
 // const isAuthenticated = false
 
-console.log(isAuthenticated)
+console.log(isAuthenticated,'isAuthenticated')
+console.log(store.state.auth,'store.state.auth')
 
 router.beforeEach((to, from) => {
     if (to.meta.requiresAuth && !isAuthenticated) {
+        // console.log("isAuthenticated")
         return { name: 'hello' }
     }
 })

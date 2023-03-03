@@ -6,6 +6,10 @@ import RegisterPage from "@/pages/RegisterPage";
 import NotAuthHello from "@/pages/NotAuthHello";
 import AuthPage from "@/pages/AuthPage";
 import AuthSuccess from "@/pages/AuthSuccess";
+import RecoverPage from "@/pages/RecoverPage";
+import RecoverMail from "@/pages/RecoverMail";
+import RecoverSms from "@/pages/RecoverSms";
+import RecoverSuccess from "@/pages/RecoverSuccess";
 
 const routes = [
     {
@@ -53,6 +57,23 @@ const routes = [
         path: '/auth_success',
         component: AuthSuccess
     },
+    {
+        path: '/recover',
+        component: RecoverPage,
+    },
+    {
+        path: '/recover_mail',
+        component: RecoverMail
+    },
+    {
+        path: '/recover_sms',
+        component: RecoverSms
+    },
+    {
+        path: '/recover_success',
+        component: RecoverSuccess
+    },
+
 ]
 
 export default routes

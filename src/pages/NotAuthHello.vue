@@ -1,5 +1,7 @@
 <template>
+  <LoaderEK></LoaderEK>
   <div class="wrapper">
+
     <div class="logo_block">
       <div class="logo">
         <img class="logo_img" :src="$store.state.logo" alt="">
@@ -24,13 +26,15 @@
 import BlueBtn from "@/components/ui/btn/BlueBtn";
 import TransparentBtn from "@/components/ui/btn/TransparentBtn";
 import PrivacyPolicy from "@/components/ui/btn/PrivacyPolicy";
+import LoaderEK from "@/components/ui/LoaderEK";
 
 export default {
   name: "NotAuthHello",
   components: {
     BlueBtn,
     TransparentBtn,
-    PrivacyPolicy
+    PrivacyPolicy,
+    LoaderEK
   }
 
 }

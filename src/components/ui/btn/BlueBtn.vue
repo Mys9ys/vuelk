@@ -1,21 +1,31 @@
 <template>
-  <div class="btn">
-    <slot></slot>
+  <div class="btn" :class="{'arrow' : arrow}">
+    <span><slot></slot></span>
+    <img v-if="arrow" src="@/assets/icon/btn/arrow.svg">
   </div>
 </template>
 
 <script>
 export default {
-  name: "BlueBtn"
+  name: "BlueBtn",
+  props: {
+    arrow: {
+      type: Boolean
+    }
+  }
+
 }
 </script>
 
 <style lang="less" scoped>
 
   .btn{
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    box-sizing: border-box;
     width: 100%;
-    padding: 17px 0;
+    padding: 17px 18px;
     cursor: pointer;
 
     /* Корп цвет */
@@ -32,6 +42,10 @@ export default {
     /* Белый */
 
     color: #FFFFFF;
+
+    &.arrow{
+      justify-content: space-between;
+    }
 
 }
 

@@ -14,7 +14,11 @@
             :inputInfo ="el"
         ></AuthInput>
 
-        <BlueBtn class="btn" @click="$router.push('/auth_success')">Зарегистрироваться</BlueBtn>
+        <BlueBtn
+            class="btn"
+            :arrow = "true"
+            @click="$router.push('/auth_success')"
+        >Зарегистрироваться</BlueBtn>
       </form>
 
       <PrivacyPolicy class="policy">Регистрируясь</PrivacyPolicy>
@@ -39,11 +43,11 @@ export default {
   data(){
     return {
       inputs: [
-        { f_icon: require('@/assets/icon/register/fio.svg'), title: 'Ф.И.О.', l_icon: ''},
-        { f_icon: require('@/assets/icon/register/phone.svg'), title: 'Мобильный телефон', l_icon: ''},
-        { f_icon: require('@/assets/icon/register/mail.svg'), title: 'E-mail', l_icon: ''},
-        { f_icon: require('@/assets/icon/register/pass.svg'), title: 'Пароль', l_icon: require('@/assets/icon/register/eye.svg')},
-        { f_icon: require('@/assets/icon/register/pass.svg'), title: 'Повторите пароль', l_icon: require('@/assets/icon/register/eye.svg')},
+        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Ф.И.О.', l_icon: ''},
+        { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: ''},
+        { f_icon: require('@/assets/icon/form/mail.svg'), title: 'E-mail', l_icon: ''},
+        { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Пароль', l_icon: require('@/assets/icon/form/eye.svg')},
+        { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Повторите пароль', l_icon: require('@/assets/icon/form/eye.svg')},
       ]
     }
   },
@@ -59,10 +63,6 @@ export default {
     height: 100vh;
     text-align: center;
     padding: 0 24px;
-
-    .header{
-      margin-top: 35px;
-    }
 
     .ava_wrapper{
       position: relative;

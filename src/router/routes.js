@@ -10,6 +10,8 @@ import RecoverPage from "@/pages/RecoverPage";
 import RecoverMail from "@/pages/RecoverMail";
 import RecoverSms from "@/pages/RecoverSms";
 import RecoverSuccess from "@/pages/RecoverSuccess";
+import PatientSend from "@/pages/PatientSend";
+import SendSuccess from "@/pages/SendSuccess";
 
 const routes = [
     {
@@ -72,6 +74,14 @@ const routes = [
     {
         path: '/recover_success',
         component: RecoverSuccess
+    },
+    {
+        path: '/patient_send',
+        component: PatientSend
+    },
+    {
+        path: '/send_success',
+        component: SendSuccess
     },
 
 ]

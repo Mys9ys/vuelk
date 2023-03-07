@@ -1,24 +1,45 @@
 <template>
   <div class="wrapper">
     <div class="bonus_block">
-      <div class="bonus_header">
-        <div class="bonus_title">Бонусы</div>
-        <div class="bonus_filter">Последняя неделя <img src="@/assets/icon/btn/arrow_down.svg" alt=""></div>
+      <div class="header">
+        <div class="title">Бонусы</div>
+        <div class="filter">Последняя неделя <img src="@/assets/icon/btn/arrow_down.svg" alt=""></div>
       </div>
-      <BonusChart :chartdata="chartData" :options="chartOptions"></BonusChart>
+      <BonusCharts></BonusCharts>
+      <div class="bonus_footer">
+        <div class="bonus_sum">136 000 <RubIco style="width: 28px"></RubIco></div>
+        <BlueBlurBtn>Подробнее</BlueBlurBtn>
+
+      </div>
+    </div>
+    <BlueBtn class="btn_margin" :arrow="true" @click="$router.push('/patient_send')">Передать нового пациента</BlueBtn>
+
+    <div class="patients">
+      <div class="title">Последние переданные пациенты</div>
+      <PatientEl
+          v-for="(el, index) in $store.state.patients"
+          :key="index"
+          :el="el"
+      ></PatientEl>
+
     </div>
   </div>
 </template>
 
 <script>
-import BonusChart from "@/components/BonusCharts";
+import BlueBlurBtn from "@/components/ui/btn/BlueBlurBtn";
+import RubIco from "@/components/ui/RubIco";
+import BlueBtn from "@/components/ui/btn/BlueBtn";
+import BonusCharts from "@/components/BonusCharts";
+import PatientEl from "@/components/PatientEl";
+
 export default {
   name: "MainPage",
-  components: {BonusChart},
-  data () {
+  components: {BonusCharts, BlueBlurBtn, RubIco, BlueBtn, PatientEl},
+  data() {
     return {
       chartData: {
-        labels: ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'],
+        labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
         datasets: {
           data: [15000, 0, 1000, 30000, 45000, 5000, 2000]
         },
@@ -42,13 +63,17 @@ export default {
   text-align: center;
   padding: 0 24px;
   padding-top: 35px;
+  overflow-y:scroll;
 
   .bonus_block {
-    .bonus_header {
+
+    .header {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      .bonus_title{
+      margin-bottom: 22px;
+
+      .title {
         font-weight: 500;
         font-size: 16px;
         line-height: 22px;
@@ -59,7 +84,8 @@ export default {
         /* Черный */
         color: #000000;
       }
-      .bonus_filter{
+
+      .filter {
         font-weight: 500;
         font-size: 14px;
         line-height: 22px;
@@ -75,6 +101,55 @@ export default {
         /* Серый */
         color: #8A8A8E;
       }
+    }
+  }
+  .bonus_footer{
+    margin-top: 17px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #E7E7E7;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    align-items: center;
+
+    .bonus_sum{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+      font-weight: 900;
+      font-size: 32px;
+      line-height: 22px;
+      /* identical to box height, or 69% */
+
+      letter-spacing: -0.408px;
+
+      /* Черный */
+
+      color: #000000;
+    }
+  }
+  .btn_margin{
+    margin-top: 22px;
+    margin-bottom: 22px;
+  }
+  .patients{
+    text-align: left;
+    border-top: 1px solid #E7E7E7;
+    padding-top: 22px;
+    .title{
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 22px;
+      /* identical to box height, or 138% */
+
+      letter-spacing: -0.408px;
+
+      /* Черный */
+
+      color: #000000;
     }
   }
 }

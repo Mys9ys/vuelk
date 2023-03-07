@@ -21,7 +21,6 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-top: 35px;
     .block_title{
       font-weight: 500;
       font-size: 16px;

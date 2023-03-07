@@ -8,7 +8,7 @@
 import {Chart} from "chart.js/auto";
 
 export default {
-  name: "BonusCharts",
+  name: "BarChartsTest",
   mounted() {
     const data = [
       { day: 'Пн', count: 15000 },

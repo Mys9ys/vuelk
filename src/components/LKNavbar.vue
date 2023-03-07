@@ -43,6 +43,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  background: #fff;
 }
 
 .lkn_item_box{

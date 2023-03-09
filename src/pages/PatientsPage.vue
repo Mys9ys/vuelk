@@ -2,10 +2,19 @@
   <div class="wrapper">
     <div class="header">
       <div class="title">Пациенты</div>
-      <div class="filter">Статус <img src="@/assets/icon/btn/arrow_down.svg" alt=""></div>
+      <div class="filter">Дата <img src="@/assets/icon/btn/arrow_down.svg" alt=""></div>
     </div>
     <div class="patients">
 
+      <div class="date_block" v-for="(arItems, index) in $store.state.arPatients" :key="index">
+        <div class="title">{{arItems.day.split('.')[1]}} {{$store.state.month[+arItems.day.split('.')[0]-1]}}</div>
+
+        <PatientEl
+            v-for="(el, index) in arItems.patients"
+            :key="index"
+            :el="el"
+        ></PatientEl>
+      </div>
     </div>
     <div class="footer">
       <PaginationBlock></PaginationBlock>
@@ -17,13 +26,15 @@
 <script>
 import BlueBtn from "@/components/ui/btn/BlueBtn";
 import PaginationBlock from "@/components/ui/PaginationBlock";
+import PatientEl from "@/components/PatientEl";
 
 export default {
   name: "PatientsPage",
   components: {
     BlueBtn,
-    PaginationBlock
-  }
+    PaginationBlock,
+    PatientEl
+  },
 }
 </script>
 
@@ -37,6 +48,7 @@ export default {
   text-align: center;
   padding: 0 24px;
   padding-top: 35px;
+  padding-bottom: 48px;
 
   .header {
     display: flex;
@@ -71,6 +83,21 @@ export default {
 
       /* Серый */
       color: #8A8A8E;
+    }
+  }
+  .date_block{
+    .title{
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 22px;
+      text-align:left;
+      /* identical to box height, or 183% */
+
+      letter-spacing: -0.408px;
+
+      /* Черный */
+
+      color: #000000;
     }
   }
   .footer{

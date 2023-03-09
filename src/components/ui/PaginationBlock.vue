@@ -1,14 +1,17 @@
 <template>
   <div class="pagination">
-    <div class="left arrow"><img src="@/assets/icon/pagination/left.svg" alt=""></div>
-    <div v-for="index in 4" :key="index">
-      <div class="btn_page active" v-if="active===index" ><span>{{index}}</span></div>
-      <div class="btn_page" v-else ><span>{{index}}</span></div>
-    </div>
+    <div class="left arrow" @click="minusPage"><img src="@/assets/icon/pagination/left.svg" alt=""></div>
+
+    <div
+        v-for="index in btns" :key="index"
+        class="btn_page"
+        :class="{'active' : active===index}"
+        @click="paginationClick(index)"
+    ><span>{{index}}</span></div>
 
     <span class="btn_page">...</span>
-    <div class="btn_page"><span>{{btns}}</span></div>
-    <div class="right"><img src="@/assets/icon/pagination/right.svg" alt=""></div>
+    <div class="btn_page"><span>{{btns_max}}</span></div>
+    <div class="right" @click="plusPage"><img src="@/assets/icon/pagination/right.svg" alt=""></div>
   </div>
 </template>
 
@@ -17,13 +20,30 @@ export default {
   name: "PaginationBlock",
   data() {
     return {
-      btns: 14,
-      active: 1
+      btns_max: 14,
+      active: 1,
+      btns: [1,2,3,4]
+      // btns: [1,2,3,4, '...', btns_max]
     }
   },
   methods: {
-    paginationClick(){
-
+    paginationClick(value){
+      if(this.btns[0]<this.btns_max-4){
+        this.btns = Array.from({ length: 4 }, (_, i) => i+value)
+      }
+      this.active = value
+    },
+    minusPage(){
+      if(this.btns[0]>1) {
+        this.btns = this.btns.map(i=>i-1)
+        this.active -= 1
+      }
+    },
+    plusPage(){
+      if(this.btns[0]<this.btns_max) {
+        this.btns = this.btns.map(i=>i+1)
+        this.active += 1
+      }
     }
   }
 }
@@ -77,7 +97,6 @@ export default {
         mix-blend-mode: difference;
       }
     }
-
   }
 }
 </style>

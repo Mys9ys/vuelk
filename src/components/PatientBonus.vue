@@ -1,9 +1,14 @@
 <template>
   <div class="patient">
-    <div class="ava" :class="el.ava">{{ el.name.charAt(0).toUpperCase() }}</div>
+    <div class="ava">
+      <img src="@/assets/icon/other/bonus.svg" alt="">
+    </div>
     <div class="info">
-      <div class="name">{{ el.name }}</div>
-      <div class="status" :class="el.status_bg"><span class="text">{{ el.status }}</span></div>
+      <div class="header">
+        <div class="name">{{ el.name }}</div>
+        <div class="money" >{{el.status === 'Подписан договор' ? '15 000 р' : '1 000 р'}}</div>
+      </div>
+      <div class="status"><span class="text">{{ el.status }}</span></div>
     </div>
   </div>
 </template>
@@ -20,13 +25,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@max1: #f1416c;
-@max2: #50cd89;
-@max3: #ffc700;
-@max4: #009ef7;
-@max5: #90a4ae;
-@max6: #7239ea;
-@max7: #8a1538;
 
 .patient {
   width: 100%;
@@ -56,47 +54,47 @@ export default {
     /* Серый */
     color: #fff;
     border-radius: 10px;
-
-    &.ava1 {
-      background: @max1;
-    }
-    &.ava2 {
-      background: @max2;
-    }
-    &.ava3 {
-      background: @max3;
-    }
-    &.ava4 {
-      background: @max4;
-    }
-    &.ava5 {
-      background: @max5;
-    }
-    &.ava6 {
-      background: @max6;
-    }
-    &.ava7 {
-      background: @max7;
-    }
+    background: #E7E7E7;
 
   }
 
   .info{
-
+    width: 100%;
     text-align: left;
 
-    .name{
-      font-weight: 500;
-      font-size: 12px;
-      line-height: 20px;
-      /* identical to box height, or 183% */
+    .header{
 
-      letter-spacing: -0.408px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      .name{
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 20px;
+        /* identical to box height, or 183% */
 
-      /* Черный */
+        letter-spacing: -0.408px;
 
-      color: #000000;
+        /* Черный */
+
+        color: #000000;
+      }
+      .money{
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 22px;
+        /* identical to box height, or 183% */
+
+        text-align: right;
+        letter-spacing: -0.408px;
+
+        /* Черный */
+
+        color: #000000;
+      }
     }
+
+
     .status{
       display: inline-block;
       font-weight: 400;
@@ -115,19 +113,6 @@ export default {
       /* Inside auto layout */
       .text{
         mix-blend-mode: difference;
-      }
-
-      &.bg1{
-        background: #FFEAA1;
-      }
-      &.bg2{
-        background: #B4E3E6;
-      }
-      &.bg4{
-        background: #FFC8C8;
-      }
-      &.bg3{
-        background: @max2;
       }
 
     }

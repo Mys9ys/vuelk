@@ -8,7 +8,7 @@
       <BonusCharts></BonusCharts>
       <div class="bonus_footer">
         <div class="bonus_sum">136 000 <RubIco style="width: 28px"></RubIco></div>
-        <BlueBlurBtn>Подробнее</BlueBlurBtn>
+        <BlueBlurBtn @click="$router.push('/bonus')">Подробнее</BlueBlurBtn>
 
       </div>
     </div>
@@ -63,6 +63,7 @@ export default {
   text-align: center;
   padding: 0 24px;
   padding-top: 35px;
+  padding-bottom: 48px;
   overflow-y:scroll;
 
   .bonus_block {

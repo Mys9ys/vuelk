@@ -1,13 +1,139 @@
 <template>
-<h2>BonusPage</h2>
+  <div class="wrapper">
+    <div class="header">
+      <div class="title">Бонусы</div>
+      <div class="filter">Период <img src="@/assets/icon/btn/arrow_down.svg" alt=""></div>
+    </div>
+
+    <div class="sub_header">
+      <div class="title">Январь 2023</div>
+      <div class="filter">223 000 Р</div>
+    </div>
+
+    <div class="bonuses">
+
+      <div class="date_block" v-for="(arItems, index) in $store.state.bonuses" :key="index">
+        <div class="title">{{arItems.day.split('.')[1]}} {{$store.state.month[+arItems.day.split('.')[0]-1]}}</div>
+
+        <PatientBonus
+            v-for="(el, index) in arItems.patients"
+            :key="index"
+            :el="el"
+        ></PatientBonus>
+      </div>
+    </div>
+
+
+  </div>
 </template>
 
 <script>
+import PatientBonus from "@/components/PatientBonus";
+
 export default {
-  name: "BonusPage"
+  name: "BonusPage",
+  components: {
+    PatientBonus
+  }
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+.wrapper {
+  position: relative;
+  background: #FFFFFF;
+  width: 100vw;
+  margin: 0 auto;
+  height: 100vh;
+  text-align: center;
+  padding: 0 24px;
+  padding-top: 35px;
+  padding-bottom: 48px;
 
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    .title {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 22px;
+      /* identical to box height, or 138% */
+
+      letter-spacing: -0.408px;
+
+      /* Черный */
+      color: #000000;
+    }
+
+    .filter {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 22px;
+      /* identical to box height, or 157% */
+
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+
+      text-align: right;
+      letter-spacing: -0.408px;
+
+      /* Серый */
+      color: #8A8A8E;
+    }
+  }
+  .sub_header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    .title{
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 22px;
+      /* identical to box height, or 138% */
+
+
+      /* Черный */
+
+      color: #000000;
+    }
+    .filter {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 22px;
+      /* identical to box height, or 157% */
+
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+
+      text-align: right;
+      letter-spacing: -0.408px;
+
+      /* Серый */
+      color: #8A8A8E;
+    }
+  }
+
+  .date_block{
+    .title{
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 22px;
+      text-align:left;
+      /* identical to box height, or 183% */
+
+      letter-spacing: -0.408px;
+
+      /* Черный */
+
+      color: #000000;
+    }
+  }
+}
 </style>

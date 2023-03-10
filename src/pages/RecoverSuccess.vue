@@ -27,6 +27,7 @@ export default {
   height: 100vh;
   text-align: center;
   padding: 0 24px;
+  padding-top: 35px;
   display: flex;
   flex-direction: column;
   align-items: center;

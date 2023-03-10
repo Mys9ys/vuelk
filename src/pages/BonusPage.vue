@@ -23,17 +23,23 @@
       </div>
     </div>
 
+    <div class="footer">
+      <PaginationBlock></PaginationBlock>
+    </div>
+
 
   </div>
 </template>
 
 <script>
 import PatientBonus from "@/components/PatientBonus";
+import PaginationBlock from "@/components/ui/PaginationBlock";
 
 export default {
   name: "BonusPage",
   components: {
-    PatientBonus
+    PatientBonus,
+    PaginationBlock
   }
 }
 </script>
@@ -134,6 +140,11 @@ export default {
 
       color: #000000;
     }
+  }
+  .footer{
+    width: calc(100% - 48px);
+    position: absolute;
+    bottom: 60px;
   }
 }
 </style>

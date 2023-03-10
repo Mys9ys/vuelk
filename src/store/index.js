@@ -14,6 +14,11 @@ export default createStore({
             "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"
         ],
 
+        profile_info: {
+            name: 'Иванова Дарья', phone: '+7 (999) 999-99-99', mail: 'admin@eurokappa.ru',
+            patients: 128, contracts: 167, bonuses: '230К'
+        },
+
         patients: [
             { name: 'Власова Анастасия Дмитриевна', status: 'Не отвечает больше положенного срока', status_bg: 'bg4', ava: 'ava1'},
             { name: 'Шкуренко Андрей Евгеньевич', status: 'Думает', status_bg: 'bg1', ava: 'ava3'},
@@ -56,8 +61,8 @@ export default createStore({
                     { name: 'Кузай Мария Михайловна', status: 'Подписан договор'},
                 ]}
         ]
-
     },
+
     getters: {
         isAuth(state) {
             return state.auth

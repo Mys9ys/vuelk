@@ -72,6 +72,7 @@ export default {
   height: 100vh;
   text-align: center;
   padding: 0 24px;
+  padding-top: 35px;
 
   .logo {
     margin-top: 149px;

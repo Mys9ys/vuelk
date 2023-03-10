@@ -1,6 +1,6 @@
 <template>
 
-<!--  {{$store.state.auth}}-->
+  <!--  {{$store.state.auth}}-->
   <div v-if="$store.state.loading">
     <LoadingStart></LoadingStart>
   </div>
@@ -39,6 +39,35 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('@/font/Roboto-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('@/font/Roboto-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('@/font/Roboto-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('@/font/Roboto-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
 #app {
   width: 100vw;
   margin: 0 auto;

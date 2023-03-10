@@ -8,7 +8,7 @@
     <div v-if="$store.state.auth">
       <router-view></router-view>
 
-      <div style="position: absolute; bottom: 3px; width: 100%">
+      <div style="position: absolute; bottom: 0px; width: 100%">
         <LKNavbar
             :active_route="this.$route.path"
         ></LKNavbar>

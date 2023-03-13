@@ -1,11 +1,20 @@
 <template>
-  <div class="input_wrapper" :class="{wrapper_active : activeInput}" @click="clickActiveInput">
+  <div class="input_wrapper" :class="{wrapper_active : activeInput, wrapper_error: error}" @click="clickActiveInput">
+    <div v-if="error" class="error_mes">{{ error }}</div>
     <div class="first_icon">
       <img :src="inputInfo.f_icon" alt="">
     </div>
-    <div class="placeholder">{{inputInfo.title}}</div>
-    <input v-if="activeInput" type="text" class="input" v-focus v-on:blur="focusOut" v-model="inputText">
-    <div class="last_icon" v-if="inputInfo.l_icon">
+    <div class="placeholder">{{ inputInfo.title }}</div>
+    <input v-if="activeInput"
+           :type="inputInfo.l_icon && !openPass ? 'password' : 'text'"
+           v-focus
+           class="input"
+           @focusout="focusOut(inputInfo.title)"
+           v-model="inputText"
+           @input="inputChange($event.target.value)"
+           @error="error"
+    >
+    <div class="last_icon" v-if="inputInfo.l_icon" @click="openPassword">
       <img :src="inputInfo.l_icon" alt="">
     </div>
   </div>
@@ -22,15 +31,44 @@ export default {
   data() {
     return {
       activeInput: false,
-      inputText: ''
+      inputText: null,
+      openPass: false,
+      error: null
     }
   },
   methods: {
     clickActiveInput() {
       this.activeInput = true
+      this.error = null
     },
-    focusOut(){
-      if(!this.inputText) this.activeInput = false
+    focusOut(type) {
+      if (!this.inputText) {
+        console.log('viwel', type)
+        this.error = 'Введите ' + type
+        this.$emit('update:error', this.error)
+        console.log(' this.error',  this.error)
+      } else {
+        if (type === 'E-mail') {
+          if (!this.emailValidate(this.inputText)) {
+            this.error = 'Укажите корректный ' + type
+            this.$emit('update:error', this.error)
+          } else {
+            this.error = ''
+            this.$emit('update:error', this.error)
+          }
+        }
+      }
+    },
+    openPassword() {
+      this.openPass = !this.openPass
+    },
+    inputChange(value){
+      this.$emit('update:value', value)
+    },
+
+    emailValidate(email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
     }
   }
 }
@@ -56,6 +94,17 @@ export default {
   &.wrapper_active {
     justify-content: space-between;
     border: 2px solid #43BAC0;
+  }
+
+  &.wrapper_error {
+    border: 2px solid #FF6262;
+  }
+
+  .error_mes {
+    position: absolute;
+    left: 10px;
+    top: -22px;
+    color: #FF6262;
   }
 
   .first_icon {

@@ -6,13 +6,15 @@
         <AuthInput
             v-for="(el, index) in inputs"
             :key="index"
+            :name="el.vmod"
+            v-model:value="el.value"
             :inputInfo ="el"
         ></AuthInput>
 
         <BlueBtn
             class="btn"
             :arrow = "true"
-            @click="$router.push('/auth_success')"
+            @click="enterClick"
         >Зарегистрироваться</BlueBtn>
       </form>
 
@@ -40,12 +42,22 @@ export default {
   data(){
     return {
       inputs: [
-        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Ф.И.О.', l_icon: ''},
-        { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: ''},
-        { f_icon: require('@/assets/icon/form/mail.svg'), title: 'E-mail', l_icon: ''},
-        { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Пароль', l_icon: require('@/assets/icon/form/eye.svg')},
-        { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Повторите пароль', l_icon: require('@/assets/icon/form/eye.svg')},
+        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Ф.И.О.', l_icon: '', vmod: 'fio', value: null},
+        { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: '', vmod: 'phone', value: null },
+        { f_icon: require('@/assets/icon/form/mail.svg'), title: 'E-mail', l_icon: '', vmod: 'mail', value: null},
+        { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass', value: null},
+        { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Повторите пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass2', value: null},
       ]
+    }
+  },
+  methods: {
+    enterClick() {
+
+      this.inputs.forEach((el)=>{
+        console.log(el.value)
+      })
+      // this.$store.dispatch('authSuccess');
+      // this.$router.push('/')
     }
   },
 }

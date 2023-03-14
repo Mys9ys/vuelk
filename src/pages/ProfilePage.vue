@@ -26,11 +26,11 @@
       </div>
     </div>
     <div class="btns">
-      <a class="btn" href="tel:8 (800) 500-11-61"><img src="@/assets/icon/profile/call.svg" alt=""> Связаться с нами</a>
-      <div class="btn"><img src="@/assets/icon/profile/shield.svg" alt="">Политика конфиденциальности</div>
-      <div class="btn"><img src="@/assets/icon/profile/pen.svg" alt="">Изменить профиль</div>
-      <div class="btn" @click="outLink"><img src="@/assets/icon/profile/link.svg" alt=""> Наш сайт</div>
-      <div @click="logoutLK($router, $store)" class="btn"><img src="@/assets/icon/profile/exit.svg" alt="">Выйти из приложения</div>
+      <a class="btn" href="tel:8 (800) 500-11-61"><img src="@/assets/icon/profile/call.svg" alt=""><span>Связаться с нами</span></a>
+      <div class="btn"><img src="@/assets/icon/profile/shield.svg" alt=""><span>Политика конфиденциальности</span></div>
+      <div class="btn"><img src="@/assets/icon/profile/pen.svg" alt=""><span>Изменить профиль</span></div>
+      <div class="btn" @click="outLink"><img src="@/assets/icon/profile/link.svg" alt=""><span>Наш сайт</span></div>
+      <div @click="logoutLK($router, $store)" class="btn"><img src="@/assets/icon/profile/exit.svg" alt=""><span>Выйти из приложения</span></div>
     </div>
 
   </div>
@@ -66,7 +66,7 @@ export default {
   text-align: center;
   padding: 0 24px;
   padding-top: 35px;
-  padding-bottom: 48px;
+  padding-bottom: 69px;
 
   .header {
     display: flex;
@@ -184,9 +184,11 @@ export default {
     flex-direction: column;
     justify-content: flex-start;
     gap: 28px;
+    padding-bottom: 80px;
     .btn{
       display: flex;
       flex-direction: row;
+      align-items: flex-start;
       gap: 16px;
 
       font-weight: 500;
@@ -198,6 +200,10 @@ export default {
       color: #000000;
 
       text-decoration: none;
+
+      span{
+        text-align: left;
+      }
     }
   }
 }

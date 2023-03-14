@@ -8,7 +8,7 @@
     <div v-if="$store.state.auth">
       <router-view></router-view>
 
-      <div style="position: absolute; bottom: 0px; width: 100%">
+      <div class="main_navbar">
         <LKNavbar
             :active_route="this.$route.path"
         ></LKNavbar>
@@ -38,6 +38,10 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.main_navbar{
+  position: fixed; bottom: 0px; width: 100%
 }
 
 @font-face {

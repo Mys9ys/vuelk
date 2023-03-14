@@ -44,6 +44,7 @@ export default {
   flex-direction: row;
   justify-content: space-around;
   background: #fff;
+  padding-bottom: 21px;
 }
 
 .lkn_item_box{
@@ -56,19 +57,9 @@ export default {
   gap: 10px;
   height: 47px;
 
-  /* Inside auto layout */
-  flex: none;
-  order: 1;
-  flex-grow: 0;
-
   .lkn_icon{
     width: 20.8px;
     height: 24px;
-
-    /* Inside auto layout */
-    flex: none;
-    order: 0;
-    flex-grow: 0;
   }
 
   .lkn_title{
@@ -86,10 +77,6 @@ export default {
     /* Белый */
     color: #FFFFFF;
 
-    /* Inside auto layout */
-    flex: none;
-    order: 1;
-    flex-grow: 0;
   }
 
   &.active{

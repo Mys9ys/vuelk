@@ -54,7 +54,8 @@ export default {
   text-align: center;
   padding: 0 24px;
   padding-top: 35px;
-  padding-bottom: 48px;
+  padding-bottom: 125px;
+  overflow-y: scroll;
 
   .header {
     display: flex;
@@ -125,6 +126,9 @@ export default {
       color: #8A8A8E;
     }
   }
+  .bonuses{
+    padding-bottom: 45px;
+  }
 
   .date_block{
     .title{
@@ -142,9 +146,18 @@ export default {
     }
   }
   .footer{
-    width: calc(100% - 48px);
-    position: absolute;
-    bottom: 60px;
+
+    width: 100%;
+    position: fixed;
+    bottom: 67px;
+    display: flex;
+    flex-direction: column;
+    gap: 21px;
+    background: #fff;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 24px;
+    padding-bottom: 21px;
   }
 }
 </style>

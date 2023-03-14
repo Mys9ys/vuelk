@@ -55,7 +55,7 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 20px;
+  padding: 0px 20px;
   gap:20px;
   .arrow{
     display: flex;

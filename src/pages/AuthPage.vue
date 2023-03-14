@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import {mapMutations, mapActions, mapState} from 'vuex'
 import PageHeader from "@/components/ui/PageHeader";
 import PrivacyPolicy from "@/components/ui/btn/PrivacyPolicy";
 import AuthInput from "@/components/ui/input/AuthInput";
@@ -69,13 +70,31 @@ export default {
   },
 
   methods: {
+    ...mapMutations({
+      setAuthData: 'auth/setAuthData',
+    }),
+    ...mapActions({
+      authRequest: 'auth/authRequest'
+    }),
     enterClick() {
+
 
       this.inputs.forEach((el) => {
         console.log(el.value)
         console.log(el.error)
         console.log(el)
+        this.authData[el.vmod] = el.value
       })
+
+      // const data = {
+      //   login: 'fds',
+      //   pass: 'fdsfs'
+      // }
+
+      console.log(this.authData, 'this.authData')
+      // this.setAuthData(data)
+
+      this.authRequest()
       // this.$store.dispatch('authSuccess');
       // this.$router.push('/')
     },
@@ -84,7 +103,12 @@ export default {
       e.preventDefault()
     },
 
+  },
 
+  computed: {
+    ...mapState({
+      authData: state => state.auth.authData,
+    })
   },
   watch: {
     focusLeave(el) {

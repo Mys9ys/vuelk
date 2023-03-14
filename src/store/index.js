@@ -1,8 +1,9 @@
 import {createStore} from "vuex";
+import {authModule} from "@/store/authModule";
 
 export default createStore({
     state: {
-        auth: false,
+        auth: true,
         loading: true,
 
         logo: require('@/assets/img/logo_n.svg'),
@@ -83,5 +84,8 @@ export default createStore({
         // logout(state) {
         //     state.auth = false
         // },
+    },
+    modules: {
+        auth: authModule
     }
 })

@@ -34,20 +34,25 @@
     </div>
 
   </div>
+  <LKNavbar
+      :active_route="this.$route.path"
+  ></LKNavbar>
 </template>
 
 <script>
 import AvaComponent from "@/components/AvaComponent";
+import LKNavbar from "@/components/LKNavbar";
 
 export default {
   name: "ProfilePage",
   components: {
-    AvaComponent
+    AvaComponent,
+    LKNavbar
   },
   methods: {
     logoutLK($router, $store) {
-      $store.state.auth = false
-      if(!$store.state.auth) $router.push('/hello')
+      $store.state.auth.isAuth = false
+      if(!$store.state.auth.isAuth) $router.push('/')
     },
     outLink(){
       window.location.href = 'https://lk-partners.eurokappa.ru';

@@ -1,5 +1,4 @@
 <template>
-  <LoaderEK></LoaderEK>
   <div class="wrapper">
 
     <div class="logo_block">
@@ -26,7 +25,7 @@
 import BlueBtn from "@/components/ui/btn/BlueBtn";
 import TransparentBtn from "@/components/ui/btn/TransparentBtn";
 import PrivacyPolicy from "@/components/ui/btn/PrivacyPolicy";
-import LoaderEK from "@/components/ui/LoaderEK";
+// import LoaderEK from "@/components/ui/LoaderEK";
 
 export default {
   name: "NotAuthHello",
@@ -34,7 +33,7 @@ export default {
     BlueBtn,
     TransparentBtn,
     PrivacyPolicy,
-    LoaderEK
+    // LoaderEK
   }
 
 }

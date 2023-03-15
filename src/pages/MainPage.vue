@@ -23,7 +23,11 @@
       ></PatientEl>
 
     </div>
+
   </div>
+  <LKNavbar
+      :active_route="this.$route.path"
+  ></LKNavbar>
 </template>
 
 <script>
@@ -32,10 +36,11 @@ import RubIco from "@/components/ui/RubIco";
 import BlueBtn from "@/components/ui/btn/BlueBtn";
 import BonusCharts from "@/components/BonusCharts";
 import PatientEl from "@/components/PatientEl";
+import LKNavbar from "@/components/LKNavbar";
 
 export default {
   name: "MainPage",
-  components: {BonusCharts, BlueBlurBtn, RubIco, BlueBtn, PatientEl},
+  components: {BonusCharts, BlueBlurBtn, RubIco, BlueBtn, PatientEl, LKNavbar},
   data() {
     return {
       chartData: {

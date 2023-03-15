@@ -9,7 +9,10 @@ export const authModule = {
             mail: null,
             pass: null
         },
-        authInfo: {},
+        authInfo: {
+            authorized: true
+        },
+        isAuth: false,
         baseUrl: baseConfig.BASE_URL
     }),
     getters: {},
@@ -19,9 +22,17 @@ export const authModule = {
         },
         setAuthInfo(state, authInfo){
             state.authInfo = authInfo
+        },
+        setAuth(state){
+            console.log('IS_AUTH')
+            state.isAuth = true
         }
     },
     actions: {
+        authSuccess({commit}){
+            console.log('authSuccess')
+            commit('setAuth')
+        },
         async authRequest({state, commit}) {
             try {
                 const response = await axios.post(state.baseUrl + 'auth/', state.authData)

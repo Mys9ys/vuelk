@@ -15,11 +15,8 @@ import SendSuccess from "@/pages/SendSuccess";
 
 const routes = [
     {
-        path: '/',
+        path: '/main',
         component: MainPage,
-        meta: {
-            requiresAuth: true,
-        }
     },
     {
         path: '/patients',
@@ -43,8 +40,7 @@ const routes = [
         }
     },
     {
-        path: '/hello',
-        name: 'hello',
+        path: '/',
         component: NotAuthHello
     },
     {

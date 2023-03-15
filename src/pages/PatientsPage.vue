@@ -21,19 +21,24 @@
       <BlueBtn class="btn_margin" :arrow="true" @click="$router.push('/patient_send')">Передать нового пациента</BlueBtn>
     </div>
   </div>
+  <LKNavbar
+      :active_route="this.$route.path"
+  ></LKNavbar>
 </template>
 
 <script>
 import BlueBtn from "@/components/ui/btn/BlueBtn";
 import PaginationBlock from "@/components/ui/PaginationBlock";
 import PatientEl from "@/components/PatientEl";
+import LKNavbar from "@/components/LKNavbar";
 
 export default {
   name: "PatientsPage",
   components: {
     BlueBtn,
     PaginationBlock,
-    PatientEl
+    PatientEl,
+    LKNavbar
   },
 }
 </script>

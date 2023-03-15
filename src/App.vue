@@ -1,33 +1,18 @@
 <template>
-
-  <!--  {{$store.state.auth}}-->
   <div v-if="$store.state.loading">
     <LoadingStart></LoadingStart>
   </div>
-  <div v-else>
-    <div v-if="$store.state.auth">
-      <router-view></router-view>
-
-      <div class="main_navbar">
-        <LKNavbar
-            :active_route="this.$route.path"
-        ></LKNavbar>
-      </div>
-    </div>
-    <div v-else>
-      <router-view></router-view>
-    </div>
-  </div>
+  <transition-group name="fade">
+    <router-view></router-view>
+  </transition-group>
 </template>
 
 <script>
-import LKNavbar from "@/components/LKNavbar";
 import LoadingStart from "@/components/LoadingStart";
 
 export default {
   name: 'App',
   components: {
-    LKNavbar,
     LoadingStart
   },
 }
@@ -38,10 +23,6 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-.main_navbar{
-  position: fixed; bottom: 0px; width: 100%
 }
 
 @font-face {

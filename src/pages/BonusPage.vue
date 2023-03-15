@@ -29,17 +29,22 @@
 
 
   </div>
+  <LKNavbar
+      :active_route="this.$route.path"
+  ></LKNavbar>
 </template>
 
 <script>
 import PatientBonus from "@/components/PatientBonus";
 import PaginationBlock from "@/components/ui/PaginationBlock";
+import LKNavbar from "@/components/LKNavbar";
 
 export default {
   name: "BonusPage",
   components: {
     PatientBonus,
-    PaginationBlock
+    PaginationBlock,
+    LKNavbar
   }
 }
 </script>

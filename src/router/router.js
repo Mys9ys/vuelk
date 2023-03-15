@@ -5,22 +5,23 @@ import store from "@/store";
 
 const router = createRouter({
     routes,
+    base: "/mob_app/",
     history: createWebHistory(process.env.BASE_URL)
 })
 
 // Для упрощения укажем это в переменной
-const isAuthenticated = store.getters.isAuth
-// const isAuthenticated = false
-
-console.log(isAuthenticated,'isAuthenticated')
-console.log(store.state.auth,'store.state.auth')
-
-router.beforeEach((to, from) => {
-    if (to.meta.requiresAuth && !isAuthenticated) {
-        // console.log("isAuthenticated")
-        return { name: 'hello' }
-    }
-})
+// const isAuthenticated = store.getters.isAuth
+// // const isAuthenticated = false
+//
+// console.log(isAuthenticated,'isAuthenticated')
+// console.log(store.state.auth,'store.state.auth')
+//
+// router.beforeEach((to, from) => {
+//     if (to.meta.requiresAuth && !isAuthenticated) {
+//         // console.log("isAuthenticated")
+//         return { name: 'hello' }
+//     }
+// })
 
 // router.beforeEach((next) => {
 //

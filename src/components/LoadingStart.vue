@@ -35,6 +35,7 @@ export default {
   margin: 0 auto;
   height: 100vh;
   text-align: center;
+  z-index: 3;
 
   .logo_block{
     display: block;

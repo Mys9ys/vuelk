@@ -72,9 +72,11 @@ export default {
   methods: {
     ...mapMutations({
       setAuthData: 'auth/setAuthData',
+      setAuth: 'auth/setAuthData',
     }),
     ...mapActions({
-      authRequest: 'auth/authRequest'
+      authRequest: 'auth/authRequest',
+      authSuccess: 'auth/authSuccess',
     }),
     enterClick() {
 
@@ -95,8 +97,10 @@ export default {
       // this.setAuthData(data)
 
       this.authRequest()
+      this.authSuccess()
+
       // this.$store.dispatch('authSuccess');
-      // this.$router.push('/')
+      this.$router.push('/main')
     },
 
     formSubmit(e) {
@@ -108,6 +112,7 @@ export default {
   computed: {
     ...mapState({
       authData: state => state.auth.authData,
+      authInfo: state => state.auth.authInfo,
     })
   },
   watch: {

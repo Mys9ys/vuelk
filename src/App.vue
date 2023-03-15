@@ -1,4 +1,6 @@
 <template>
+  {{$store.state.token}}
+  <p>Auth: {{$store.state.auth.isAuth}}</p>
   <div v-if="$store.state.loading">
     <LoadingStart></LoadingStart>
   </div>
@@ -14,6 +16,15 @@ export default {
   name: 'App',
   components: {
     LoadingStart
+  },
+  mounted:function(){
+    this.method1() //method1 will execute at pageload
+  },
+  methods:{
+    method1:function(){
+      this.$store.state.auth.isAuth = true
+      this.$router.push('main')
+    }
   },
 }
 </script>

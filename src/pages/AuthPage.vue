@@ -99,6 +99,8 @@ export default {
       this.authRequest()
       this.authSuccess()
 
+      localStorage.setItem('lk_token', 'gdegddsfgs');
+
       // this.$store.dispatch('authSuccess');
       this.$router.push('/main')
     },

@@ -9,6 +9,7 @@ export const authModule = {
             mail: null,
             pass: null
         },
+        token: localStorage.getItem('lk_token') || '',
         authInfo: {
             authorized: true
         },
@@ -41,7 +42,16 @@ export const authModule = {
             }  catch (e) {
                 console.log('error', e)
             }
-        }
+        },
+        async loginRequest({state, commit}) {
+            try {
+                const response = await axios.post(state.baseUrl + 'auth/', state.token)
+                commit('setAuthInfo', response.data)
+                console.log(response.data)
+            }  catch (e) {
+                console.log('error', e)
+            }
+        },
     },
     namespaced: true
 }

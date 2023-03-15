@@ -2,6 +2,7 @@
 import {createRouter, createWebHistory} from "vue-router";
 import routes from "@/router/routes";
 import store from "@/store";
+import {log10} from "chart.js/helpers";
 
 const router = createRouter({
     routes,
@@ -15,11 +16,20 @@ const router = createRouter({
 //
 // console.log(isAuthenticated,'isAuthenticated')
 // console.log(store.state.auth,'store.state.auth')
+
+// console.log('store.state.auth.isAuth', store.state.auth.isAuth)
 //
-// router.beforeEach((to, from) => {
-//     if (to.meta.requiresAuth && !isAuthenticated) {
+
+
+// router.beforeEach((to, from, next) => {
+//     console.log('store.state.auth.isAuth2', store.state.auth.isAuth)
+//     if (store.state.auth.isAuth) {
 //         // console.log("isAuthenticated")
-//         return { name: 'hello' }
+//         // next({name: 'main'})
+//         console.log('re main')
+//     } else {
+//         // next({name: 'start'})
+//         console.log('re start')
 //     }
 // })
 

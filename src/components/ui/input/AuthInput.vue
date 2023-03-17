@@ -1,5 +1,5 @@
 <template>
-  <div class="input_wrapper" :class="{wrapper_active : activeInput, wrapper_error: error}" @click="clickActiveInput">
+  <div class="input_wrapper" :class="{wrapper_error: error, wrapper_active : activeBorder}" @click="clickActiveInput">
     <div v-if="error" class="error_mes">{{ error }}</div>
     <div class="first_icon">
       <img :src="inputInfo.f_icon" alt="">
@@ -30,6 +30,7 @@ export default {
   },
   data() {
     return {
+      activeBorder: false,
       activeInput: false,
       inputText: null,
       openPass: false,
@@ -39,15 +40,19 @@ export default {
   methods: {
     clickActiveInput() {
       this.activeInput = true
+      this.activeBorder = true
       this.error = null
     },
     focusOut(type) {
+      this.activeBorder = false
+
       if (!this.inputText) {
-        console.log('viwel', type)
+        this.activeInput = false
         this.error = 'Введите ' + type
         this.$emit('update:error', this.error)
-        console.log(' this.error',  this.error)
+
       } else {
+
         if (type === 'E-mail') {
           if (!this.emailValidate(this.inputText)) {
             this.error = 'Укажите корректный ' + type

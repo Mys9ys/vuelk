@@ -15,7 +15,6 @@ export default createStore({
         ],
 
         profile_info: {
-            name: 'Иванова Дарья', phone: '+7 (999) 999-99-99', mail: 'admin@eurokappa.ru',
             patients: 128, contracts: 167, bonuses: '230К'
         },
 

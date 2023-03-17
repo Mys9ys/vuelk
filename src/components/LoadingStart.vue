@@ -17,12 +17,14 @@
 </template>
 
 <script>
+
 export default {
   name: "LoadingStart",
   mounted() {
     setInterval(() => {
       this.$store.state.loading = false
     }, 1100)
+    // this.loginRequest()
   },
 }
 </script>

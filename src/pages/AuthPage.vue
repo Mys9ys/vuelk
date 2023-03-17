@@ -18,8 +18,12 @@
           :inputInfo="el"
       ></AuthInput>
 
-      <BlueBtn v-if="errors" class="disable" :arrow="true">Войти</BlueBtn>
-      <BlueBtn v-else @click="enterClick" :arrow="true">Войти</BlueBtn>
+      <div class="btn_send_block">
+        <div v-if="loginError" class="error_mes">{{ loginError }}</div>
+        <!--        <BlueBtn class="disable" :arrow="true">Войти</BlueBtn>-->
+        <BlueBtn @click="enterClick" :arrow="true">Войти</BlueBtn>
+      </div>
+
     </form>
 
     <div class="btn_link_box">
@@ -65,44 +69,63 @@ export default {
           value: '',
         },
       ],
-      errors: false
+      error: null,
+      allowFlag: []
     }
   },
 
   methods: {
     ...mapMutations({
-      setAuthData: 'auth/setAuthData',
-      setAuth: 'auth/setAuthData',
+      setLoginData: 'auth/setLoginData',
     }),
     ...mapActions({
       authRequest: 'auth/authRequest',
-      authSuccess: 'auth/authSuccess',
     }),
-    enterClick() {
 
+    enterClick() {
+      let errors = []
 
       this.inputs.forEach((el) => {
-        console.log(el.value)
-        console.log(el.error)
-        console.log(el)
-        this.authData[el.vmod] = el.value
+
+        if (el.error) {
+
+          errors.push(el.error)
+
+        } else {
+
+          if (el.value) {
+            this.loginData[el.vmod] = el.value
+          } else {
+            errors.push('empty ' + el.vmod)
+          }
+
+        }
+
       })
+
+      if (errors.length === 0) {
+
+        this.loginData['type'] = 'newLogin'
+
+        this.authRequest()
+
+        if (!this.loginError) this.$router.push('/main')
+      }
+      // this.authRequest()
+
 
       // const data = {
       //   login: 'fds',
       //   pass: 'fdsfs'
       // }
 
-      console.log(this.authData, 'this.authData')
-      // this.setAuthData(data)
+      // console.log(this.loginData, 'this.setLoginData')
+      //
 
-      this.authRequest()
-      this.authSuccess()
-
-      localStorage.setItem('lk_token', 'gdegddsfgs');
+      // this.authRequest()
 
       // this.$store.dispatch('authSuccess');
-      this.$router.push('/main')
+      //
     },
 
     formSubmit(e) {
@@ -113,8 +136,8 @@ export default {
 
   computed: {
     ...mapState({
-      authData: state => state.auth.authData,
-      authInfo: state => state.auth.authInfo,
+      loginData: state => state.auth.loginData,
+      loginError: state => state.auth.loginError,
     })
   },
   watch: {
@@ -151,6 +174,18 @@ export default {
     margin-top: 52px;
     flex-direction: column;
     gap: 32px;
+  }
+
+  .btn_send_block {
+    position: relative;
+
+    .error_mes {
+      position: absolute;
+      left: 10px;
+      top: -22px;
+      color: #FF6262;
+    }
+
   }
 
   .btn_link_box {

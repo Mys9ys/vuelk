@@ -1,6 +1,7 @@
 <template>
-  {{$store.state.token}}
-  <p>Auth: {{$store.state.auth.isAuth}}</p>
+  <!--  <p>Auth: {{$store.state.auth.isAuth}}</p>-->
+  <!--  <p>LoginData: {{$store.state.auth.loginData}}</p>-->
+  <!--  <p>User: {{$store.state.auth.userInfo}}</p>-->
   <div v-if="$store.state.loading">
     <LoadingStart></LoadingStart>
   </div>
@@ -11,20 +12,62 @@
 
 <script>
 import LoadingStart from "@/components/LoadingStart";
+import {mapActions, mapMutations, mapState} from "vuex";
 
 export default {
   name: 'App',
   components: {
     LoadingStart
   },
-  mounted:function(){
-    this.method1() //method1 will execute at pageload
-  },
-  methods:{
-    method1:function(){
-      this.$store.state.auth.isAuth = true
-      this.$router.push('main')
+  data() {
+    return {
+      arr: []
     }
+  },
+
+  methods: {
+    ...mapMutations({
+      setLoginError: 'auth/setLoginError',
+    }),
+    ...mapActions({
+      loginRequest: 'auth/loginRequest',
+    }),
+
+    checkValue(arr) {
+      console.log('value',arr)
+    },
+
+    loadLogin: function () {
+
+      // this.loginRequest()
+
+      if (this.token) {
+        console.log('this.loginError', this.loginError)
+        console.log('this.userInfo', this.userInfo)
+        console.log('this.authData', this.authData)
+        console.log('this.$store.state.auth.isAuth', this.$store.state.auth.loginError)
+        // if(!this.loginError) this.$router.push('main')
+      }
+
+      // this.$store.state.auth.isAuth = true
+      //
+    }
+  },
+  computed: {
+    ...mapState({
+      // loginError: state => state.auth.loginError,
+      authData: state => state.auth.authData,
+      token: state => state.auth.authData.token,
+      userInfo: state => state.auth.userInfo,
+
+    })
+  },
+
+  mounted: function () {
+    // this.loadLogin()
+
+    //method1 will execute at pageload
+
   },
 }
 </script>

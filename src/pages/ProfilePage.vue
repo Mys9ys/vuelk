@@ -6,21 +6,21 @@
     </div>
     <AvaComponent></AvaComponent>
     <div class="info">
-      <div class="name">{{$store.state.profile_info.name}}</div>
-      <div class="phone">{{$store.state.profile_info.phone}}</div>
-      <div class="mail">{{$store.state.profile_info.mail}}</div>
+      <div class="name">{{userInfo.NAME}} {{userInfo.LAST_NAME}}</div>
+      <div class="phone">{{userInfo.PERSONAL_PHONE}}</div>
+      <div class="mail">{{userInfo.EMAIL}}</div>
     </div>
     <div class="statistic">
       <div class="patients s_block">
-        <div class="count">{{$store.state.profile_info.patients}}</div>
+        <div class="count">{{profile.patients}}</div>
         <div class="description">Пациентов</div>
       </div>
       <div class="contracts s_block">
-        <div class="count">{{$store.state.profile_info.contracts}}</div>
+        <div class="count">{{profile.contracts}}</div>
         <div class="description">Договоров</div>
       </div>
       <div class="bonuses s_block">
-        <div class="count">{{$store.state.profile_info.bonuses}}</div>
+        <div class="count">{{profile.bonuses}}</div>
         <div class="description">Бонусов за <br>
           все время</div>
       </div>
@@ -42,12 +42,19 @@
 <script>
 import AvaComponent from "@/components/AvaComponent";
 import LKNavbar from "@/components/LKNavbar";
+import {mapState} from "vuex";
 
 export default {
   name: "ProfilePage",
   components: {
     AvaComponent,
     LKNavbar
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.auth.userInfo,
+      profile: state => state.profile_info
+    })
   },
   methods: {
     logoutLK($router, $store) {

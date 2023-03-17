@@ -32,7 +32,6 @@ export const authModule = {
 
         setLoginData(state, loginData) {
             state.loginData = loginData
-            console.log('fga', state.loginData)
         },
 
         setUserInfo(state, userInfo) {
@@ -40,13 +39,12 @@ export const authModule = {
         },
 
         setLoginError(state, loginError) {
-            console.log('fga')
             state.loginError = loginError
         },
 
-        setAuth(state) {
-            state.isAuth = true
-            localStorage.setItem('lk_auth', 'true')
+        setAuth(state, value) {
+            state.isAuth = value
+            localStorage.setItem('lk_auth', value)
         },
 
         setToken(state, token){
@@ -59,8 +57,10 @@ export const authModule = {
         }
     },
     actions: {
-        authSuccess({commit}) {
-            commit('setAuth')
+
+        logoutVue({commit}){
+            commit('setAuth', false)
+            commit('setToken', '')
         },
 
         async authRequest({state, commit}) {
@@ -71,13 +71,17 @@ export const authModule = {
 
                 if (response.data.status == 'ok') {
                     commit('setUserInfo', response.data.info)
-                    commit('setAuth')
+                    commit('setAuth', true)
                     commit('setToken', response.data.info.UF_TOKEN)
                     commit('setLoginError', '')
                 }
-                if (response.data.status == 'error') commit('setLoginError', response.data.mes)
+                if (response.data.status == 'error') {
+                    commit('setLoginError', response.data.mes)
+                    commit('setAuth', false)
+                    // state.loginError = 'fvvvn v'
+                }
 
-                console.log(response.data)
+                // console.log(response.data)
             } catch (e) {
                 console.log('error', e)
             }
@@ -92,10 +96,12 @@ export const authModule = {
 
                 if (response.data.status == 'ok') {
                     commit('setUserInfo', response.data.info)
-                    commit('setAuth')
+                    commit('setAuth', true)
                 }
 
-                if (response.data.status == 'error') commit('setLoginError', response.data.mes)
+                if (response.data.status == 'error') {
+                    commit('setAuth', false)
+                }
 
             } catch (e) {
                 console.log('error', e)

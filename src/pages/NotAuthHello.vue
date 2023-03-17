@@ -25,6 +25,7 @@
 import BlueBtn from "@/components/ui/btn/BlueBtn";
 import TransparentBtn from "@/components/ui/btn/TransparentBtn";
 import PrivacyPolicy from "@/components/ui/btn/PrivacyPolicy";
+import {mapActions, mapMutations, mapState} from "vuex";
 // import LoaderEK from "@/components/ui/LoaderEK";
 
 export default {
@@ -34,7 +35,39 @@ export default {
     TransparentBtn,
     PrivacyPolicy,
     // LoaderEK
-  }
+  },
+  methods: {
+    ...mapMutations({
+      setLoginError: 'auth/setLoginError',
+    }),
+    ...mapActions({
+      loginRequest: 'auth/loginRequest',
+    }),
+
+    async loadLogin () {
+
+      await this.loginRequest()
+
+      if (this.token) {
+
+        console.log('this.token', this.token)
+
+        if(this.isAuth) this.$router.push('main')
+
+      }
+
+    }
+  },
+  computed: {
+    ...mapState({
+      token: state => state.auth.authData.token,
+      isAuth: state => state.auth.isAuth
+    })
+  },
+
+  mounted: function () {
+    this.loadLogin()
+  },
 
 }
 </script>

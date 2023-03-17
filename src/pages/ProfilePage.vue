@@ -42,7 +42,7 @@
 <script>
 import AvaComponent from "@/components/AvaComponent";
 import LKNavbar from "@/components/LKNavbar";
-import {mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "ProfilePage",
@@ -56,9 +56,14 @@ export default {
       profile: state => state.profile_info
     })
   },
+
+
   methods: {
+    ...mapActions({
+      logoutVue: 'auth/logoutVue',
+    }),
     logoutLK($router, $store) {
-      $store.state.auth.isAuth = false
+      this.logoutVue()
       if(!$store.state.auth.isAuth) $router.push('/')
     },
     outLink(){

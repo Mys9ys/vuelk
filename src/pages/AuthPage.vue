@@ -82,7 +82,7 @@ export default {
       authRequest: 'auth/authRequest',
     }),
 
-    enterClick() {
+    async enterClick() {
       let errors = []
 
       this.inputs.forEach((el) => {
@@ -107,25 +107,11 @@ export default {
 
         this.loginData['type'] = 'newLogin'
 
-        this.authRequest()
+        await this.authRequest()
 
         if (!this.loginError) this.$router.push('/main')
       }
-      // this.authRequest()
 
-
-      // const data = {
-      //   login: 'fds',
-      //   pass: 'fdsfs'
-      // }
-
-      // console.log(this.loginData, 'this.setLoginData')
-      //
-
-      // this.authRequest()
-
-      // this.$store.dispatch('authSuccess');
-      //
     },
 
     formSubmit(e) {

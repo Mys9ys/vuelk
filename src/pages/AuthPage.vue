@@ -83,27 +83,25 @@ export default {
     }),
 
     async enterClick() {
+
       let errors = []
 
       this.inputs.forEach((el) => {
-
+          // валидация данных формы
         if (el.error) {
-
           errors.push(el.error)
-
         } else {
-
           if (el.value) {
             this.loginData[el.vmod] = el.value
           } else {
             errors.push('empty ' + el.vmod)
           }
-
         }
 
       })
 
       if (errors.length === 0) {
+        // запрос авторизации
 
         this.loginData['type'] = 'newLogin'
 

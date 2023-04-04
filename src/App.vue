@@ -9,12 +9,42 @@
 
 <script>
 import LoadingStart from "@/components/LoadingStart";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: 'App',
   components: {
     LoadingStart
   },
+
+  computed: {
+    ...mapState({
+      token: state => state.auth.authData.token,
+    })
+  },
+  mounted() {
+    //
+    this.$nextTick(function () {
+      if(this.token) {
+        // проверка токена на актуальность
+        console.log('token yes')
+        this.checkAuth()
+      } else {
+        console.log('token no')
+        this.$router.push('/')
+      }
+    })
+  },
+
+  methods: {
+    ...mapActions({
+      loginRequest: 'auth/loginRequest',
+    }),
+
+    async checkAuth(){
+      await this.loginRequest()
+    }
+  }
 }
 </script>
 

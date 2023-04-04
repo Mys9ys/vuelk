@@ -10,15 +10,17 @@
             v-model:value="el.value"
             :inputInfo ="el"
         ></AuthInput>
+      </form>
 
+      <div class="footer">
         <BlueBtn
             class="btn"
             :arrow = "true"
             @click="enterClick"
         >Зарегистрироваться</BlueBtn>
-      </form>
+        <PrivacyPolicy class="policy">Регистрируясь</PrivacyPolicy>
+      </div>
 
-      <PrivacyPolicy class="policy">Регистрируясь</PrivacyPolicy>
     </div>
 </template>
 
@@ -84,12 +86,18 @@ export default {
         margin-top: 69px;
       }
     }
-    .policy{
+    .footer{
+      width: 100%;
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
       bottom: 45px;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
+
   }
 </style>

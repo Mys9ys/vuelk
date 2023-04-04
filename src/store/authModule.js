@@ -18,6 +18,11 @@ export const authModule = {
             token: localStorage.getItem('lk_token') || '',
         },
 
+        avaData: {
+            type: 'ava',
+            file: ''
+        },
+
         isAuth: localStorage.getItem('lk_auth') || false,
 
         userInfo: [],
@@ -42,23 +47,27 @@ export const authModule = {
             state.loginError = loginError
         },
 
+        setAvaFile(state, avaFile) {
+            state.avaData.file = avaFile
+        },
+
         setAuth(state, value) {
             state.isAuth = value
             localStorage.setItem('lk_auth', value)
         },
 
-        setToken(state, token){
+        setToken(state, token) {
             state.authData.token = token
             localStorage.setItem('lk_token', token)
         },
 
-        setTypeRequest(state, type){
+        setTypeRequest(state, type) {
             state.authData.type = type
         }
     },
     actions: {
 
-        logoutVue({commit}){
+        logoutVue({commit}) {
             commit('setAuth', false)
             commit('setToken', '')
         },
@@ -67,9 +76,16 @@ export const authModule = {
             console.log('axios data', state.loginData)
 
             try {
-                const response = await axios.post(state.baseUrl + 'auth/', state.loginData)
+                const response = await axios.post(state.baseUrl + 'auth/', state.loginData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                )
 
                 if (response.data.status == 'ok') {
+                    console.log('axios data', response.data)
                     commit('setUserInfo', response.data.info)
                     commit('setAuth', true)
                     commit('setToken', response.data.info.UF_TOKEN)
@@ -92,9 +108,15 @@ export const authModule = {
             commit('setTypeRequest', 'tokenLogin')
 
             try {
-                const response = await axios.post(state.baseUrl + 'auth/', state.authData)
+                const response = await axios.post(state.baseUrl + 'auth/', state.authData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
 
                 if (response.data.status == 'ok') {
+                    console.log('response.data', response.data)
                     commit('setUserInfo', response.data.info)
                     commit('setAuth', true)
                 }
@@ -107,6 +129,23 @@ export const authModule = {
                 console.log('error', e)
             }
         },
+
+        async avaSetRequest({state}) {
+            try {
+
+                state.avaData.token = state.authData.token
+
+                const response = await axios.post(state.baseUrl + 'auth/', state.avaData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+
+            } catch (e) {
+                console.log('error', e)
+            }
+        }
     },
     namespaced: true
 }

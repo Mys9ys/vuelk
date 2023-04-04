@@ -4,7 +4,9 @@
       <div class="title">Профиль</div>
       <div class="filter"></div>
     </div>
-    <AvaComponent></AvaComponent>
+    <AvaComponent
+    :img="userInfo.ava"
+    ></AvaComponent>
     <div class="info">
       <div class="name">{{userInfo.NAME}} {{userInfo.LAST_NAME}}</div>
       <div class="phone">{{userInfo.PERSONAL_PHONE}}</div>

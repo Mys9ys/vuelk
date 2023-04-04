@@ -8,6 +8,7 @@
     <input v-if="activeInput"
            :type="inputInfo.l_icon && !openPass ? 'password' : 'text'"
            v-focus
+           v-mask
            class="input"
            @focusout="focusOut(inputInfo.title)"
            v-model="inputText"

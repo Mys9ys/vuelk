@@ -129,6 +129,8 @@ export default {
   }
 
   .background {
+    width: 100px;
+    height: 100px;
     display: flex;
     flex-direction: row;
     align-items: center;

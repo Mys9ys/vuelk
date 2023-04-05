@@ -15,6 +15,7 @@
           v-model:value="el.value"
           v-model:error="el.error"
 
+          ref="authInput"
           :inputInfo="el"
       ></AuthInput>
 
@@ -53,7 +54,7 @@ export default {
   data() {
     return {
       inputs: [
-        {
+         {
           f_icon: require('@/assets/icon/form/mail.svg'),
           title: 'E-mail',
           l_icon: '',
@@ -67,6 +68,7 @@ export default {
           l_icon: require('@/assets/icon/form/eye.svg'),
           vmod: 'pass',
           value: '',
+          error: null,
         },
       ],
       error: null,
@@ -86,23 +88,35 @@ export default {
 
       let errors = []
 
-      this.inputs.forEach((el) => {
-          // валидация данных формы
-        if (el.error) {
-          errors.push(el.error)
-        } else {
-          if (el.value) {
-            this.loginData[el.vmod] = el.value
-          } else {
-            errors.push('empty ' + el.vmod)
-          }
-        }
+      this.$refs.authInput.forEach((el, index) =>{
 
+        if(!el.inputInfo.value) {
+          // вбиваем ошибки незаполненых полей
+          this.inputs[index].error = 'Введите ' + el.inputInfo.title
+          errors.push(this.inputs[index].error)
+        } else {
+          // вбиваем данные авторизации
+          this.inputs[index].error = ''
+          this.loginData[el.inputInfo.vmod] = el.inputInfo.value
+        }
       })
+
+      // this.inputs.forEach((el) => {
+      //     // валидация данных формы
+      //   if (el.error) {
+      //     errors.push(el.error)
+      //   } else {
+      //     if (el.value) {
+      //       this.loginData[el.vmod] = el.value
+      //     } else {
+      //       errors.push('empty ' + el.vmod)
+      //     }
+      //   }
+      //
+      // })
 
       if (errors.length === 0) {
         // запрос авторизации
-
         this.loginData['type'] = 'newLogin'
 
         await this.authRequest()
@@ -112,9 +126,9 @@ export default {
 
     },
 
-    formSubmit(e) {
-      e.preventDefault()
-    },
+    // formSubmit(e) {
+    //   e.preventDefault()
+    // },
 
   },
 

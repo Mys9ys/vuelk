@@ -43,6 +43,7 @@ export default {
 
     async checkAuth(){
       await this.loginRequest()
+      if(location.pathname ==='/mob_app/')this.$router.push('/main')
     }
   }
 }

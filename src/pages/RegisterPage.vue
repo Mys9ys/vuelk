@@ -1,13 +1,18 @@
 <template>
     <div class="wrapper">
       <PageHeader class="header">Регистрация</PageHeader>
-      <AvaComponent></AvaComponent>
+      <AvaComponent
+          :pageType="'reg'"
+      ></AvaComponent>
       <form action="" class="form">
         <AuthInput
             v-for="(el, index) in inputs"
             :key="index"
             :name="el.vmod"
             v-model:value="el.value"
+            v-model:error="el.error"
+
+            ref="regInput"
             :inputInfo ="el"
         ></AuthInput>
       </form>
@@ -30,6 +35,7 @@ import AuthInput from "@/components/ui/input/AuthInput";
 import BlueBtn from "@/components/ui/btn/BlueBtn";
 import PrivacyPolicy from "@/components/ui/btn/PrivacyPolicy";
 import AvaComponent from "@/components/AvaComponent";
+import {mapState} from "vuex";
 
 export default {
   name: "RegisterPage",
@@ -44,23 +50,57 @@ export default {
   data(){
     return {
       inputs: [
-        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Ф.И.О.', l_icon: '', vmod: 'fio', value: null},
-        { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: '', vmod: 'phone', value: null },
-        { f_icon: require('@/assets/icon/form/mail.svg'), title: 'E-mail', l_icon: '', vmod: 'mail', value: null},
-        { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass', value: null},
-        { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Повторите пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass2', value: null},
-      ]
+        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Ф.И.О.', l_icon: '', vmod: 'fio', value: ''},
+        { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: '', vmod: 'phone', value: '' },
+        { f_icon: require('@/assets/icon/form/mail.svg'), title: 'E-mail', l_icon: '', vmod: 'mail', value: ''},
+        { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass', value: ''},
+        { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Повторите пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass2', value: ''},
+      ],
+      // inputs: [
+      //   { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Ф.И.О.', l_icon: '', vmod: 'fio', value: 'Иванов Иван'},
+      //   { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: '', vmod: 'phone', value: '+7(978) 979-89878' },
+      //   { f_icon: require('@/assets/icon/form/mail.svg'), title: 'E-mail', l_icon: '', vmod: 'mail', value: 'test@test.ru'},
+      //   { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass', value: '123456'},
+      //   { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Повторите пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass2', value: '123456'},
+      // ]
     }
   },
   methods: {
-    enterClick() {
+    async enterClick() {
 
-      this.inputs.forEach((el)=>{
-        console.log(el.value)
+      let errors = []
+
+      this.$refs.regInput.forEach((el, index) =>{
+
+        if(!el.inputInfo.value) {
+          // вбиваем ошибки незаполненых полей
+          this.inputs[index].error = 'Введите ' + el.inputInfo.title
+          errors.push(this.inputs[index].error)
+        } else {
+          // вбиваем данные авторизации
+          this.inputs[index].error = ''
+          this.loginData[el.inputInfo.vmod] = el.inputInfo.value
+        }
       })
-      // this.$store.dispatch('authSuccess');
-      // this.$router.push('/')
-    }
+
+      errors.push('ddfs')
+
+      if (errors.length === 0) {
+        // запрос авторизации
+        this.loginData['type'] = 'newLogin'
+
+        await this.authRequest()
+
+        if (!this.loginError) this.$router.push('/main')
+      }
+
+    },
+  },
+
+  computed: {
+    ...mapState({
+      ava: state => state.reg.regAva,
+    })
   },
 }
 </script>

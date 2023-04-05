@@ -1,5 +1,6 @@
 import {createStore} from "vuex";
 import {authModule} from "@/store/authModule";
+import {regModule} from "@/store/regModule";
 
 export default createStore({
     state: {
@@ -63,27 +64,16 @@ export default createStore({
     },
 
     getters: {
-        // isAuth(state) {
-        //     return state.auth
-        // }
+
     },
     actions: {
-        // authSuccess({commit}){
-        //     console.log('authSuccess')
-        //     commit('IS_AUTH')
-        // }
+
     },
     mutations: {
-        // IS_AUTH(state){
-        //     console.log('IS_AUTH')
-        //     state.auth = true
-        // }
 
-        // logout(state) {
-        //     state.auth = false
-        // },
     },
     modules: {
-        auth: authModule
+        auth: authModule,
+        reg: regModule
     }
 })

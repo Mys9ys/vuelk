@@ -1,6 +1,7 @@
 <template>
-  <div class="input_wrapper" :class="{wrapper_error: error, wrapper_active : activeBorder}" @click="clickActiveInput">
-    <div v-if="error" class="error_mes">{{ error }}</div>
+
+  <div class="input_wrapper" :class="{wrapper_error: error || inputInfo.error, wrapper_active : activeBorder}" @click="clickActiveInput">
+    <div v-if="error || inputInfo.error" class="error_mes">{{ error || inputInfo.error }}</div>
     <div class="first_icon">
       <img :src="inputInfo.f_icon" alt="">
     </div>
@@ -8,12 +9,11 @@
     <input v-if="activeInput"
            :type="inputInfo.l_icon && !openPass ? 'password' : 'text'"
            v-focus
-           v-mask
            class="input"
            @focusout="focusOut(inputInfo.title)"
            v-model="inputText"
            @input="inputChange($event.target.value)"
-           @error="error"
+           @error="error || inputInfo.error"
     >
     <div class="last_icon" v-if="inputInfo.l_icon" @click="openPassword">
       <img :src="inputInfo.l_icon" alt="">
@@ -33,9 +33,9 @@ export default {
     return {
       activeBorder: false,
       activeInput: false,
-      inputText: null,
+      inputText: this.inputInfo.value ?? '',
       openPass: false,
-      error: null
+      error: this.inputInfo.value ?? null
     }
   },
   methods: {
@@ -54,28 +54,69 @@ export default {
 
       } else {
 
+        // обнуляем ошибки для всех типов полей
+        this.error = null
+        this.$emit('update:error', this.error)
+
         if (type === 'E-mail') {
           if (!this.emailValidate(this.inputText)) {
             this.error = 'Укажите корректный ' + type
-            this.$emit('update:error', this.error)
           } else {
             this.error = ''
-            this.$emit('update:error', this.error)
           }
+          this.$emit('update:error', this.error)
         }
+
+        if(type === 'Мобильный телефон'){
+          if(this.inputText.length<16){
+            this.error = 'Ошибка в номере'
+          }else {
+            this.error = ''
+          }
+          this.$emit('update:error', this.error)
+        }
+
+        if(type === 'Ф.И.О.'){
+          if(this.inputText.length<4 || this.inputText.indexOf(' ')<0){
+            this.error = 'Введите фамилию и имя'
+          } else {
+            this.error = ''
+          }
+          this.$emit('update:error', this.error)
+        }
+
       }
     },
     openPassword() {
       this.openPass = !this.openPass
     },
-    inputChange(value){
+    inputChange(value) {
       this.$emit('update:value', value)
+      // включаем маску на номер
+      if(this.inputInfo.vmod === 'phone'){
+        this.inputText = this.replaceNumberForInput(value)
+      }
     },
 
-    emailValidate(email) {
+    emailValidate(email) { // проверка правила e-mail
       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
-    }
+    },
+
+    replaceNumberForInput(value) {// маска на номер телефона
+      if(!value) return
+
+      let val = ''
+      const x = value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,4})/)
+
+      if(x[1] === '7' || x[1] === '8') {
+        x[1] = '+7'
+      }
+
+      val = !x[3] ? x[1] + x[2] : x[1] + '(' + x[2] + ') ' + x[3] + (x[4] ? '-' + x[4] : '')
+      return val
+    },
+
   }
 }
 </script>

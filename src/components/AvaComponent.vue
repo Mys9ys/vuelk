@@ -1,5 +1,6 @@
 <template>
   <div class="ava_wrapper">
+    <p>{{pageType}}</p>
     <div class="modal" v-if="error">
       <div class="close" @click="errorClear()"><span>+</span></div>
       <div class="body">{{errorText}}</div>
@@ -34,12 +35,17 @@ export default {
   props: {
     img: {
       type: String
+    },
+    pageType: {
+      type: String
     }
   },
 
   computed: {
     ...mapState({
       token: state => state.auth.authData.token,
+      avaData: state => state.auth.avaData,
+      ava: state => state.reg.regAva,
     })
   },
 
@@ -58,7 +64,13 @@ export default {
     loadFile(){
       this.$refs.file.click();
     },
+
     async handleFileUpload(){
+
+      console.log(this.img)
+      console.log('this.ava', this.ava)
+
+      // this.img = 'upload/resize_cache/main/3a9/105_105_175511db9cefbc414a902a46f1b8fae16/3a95097da41b865d85980102e75e1202.jpeg'
 
       this.setAvaFile(this.$refs.file.files[0])
 
@@ -72,6 +84,11 @@ export default {
         if(this.token) {
           await this.avaSetRequest()
           location.reload()
+        } else {
+          this.avaData.type = this.pageType
+          await this.avaSetRequest()
+
+          console.log('this.pageType', this.pageType)
         }
       }
     },

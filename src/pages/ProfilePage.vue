@@ -5,7 +5,7 @@
       <div class="filter"></div>
     </div>
     <AvaComponent
-    :img="userInfo.ava"
+    :img="$store.state.auth.userInfo.ava"
     ></AvaComponent>
     <div class="info">
       <div class="name">{{userInfo.NAME}} {{userInfo.LAST_NAME}}</div>

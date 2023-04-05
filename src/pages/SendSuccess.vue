@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="info">Пациент успешно передан</div>
-    <TransparentBtn @click="$router.push('/')">Вернуться</TransparentBtn>
+    <TransparentBtn @click="$router.push('/main')">Вернуться</TransparentBtn>
   </div>
 </template>
 

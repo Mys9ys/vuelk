@@ -1,6 +1,5 @@
 <template>
   <div class="ava_wrapper">
-    <p>{{pageType}}</p>
     <div class="modal" v-if="error">
       <div class="close" @click="errorClear()"><span>+</span></div>
       <div class="body">{{errorText}}</div>
@@ -44,17 +43,17 @@ export default {
   computed: {
     ...mapState({
       token: state => state.auth.authData.token,
-      avaData: state => state.auth.avaData,
-      ava: state => state.reg.regAva,
     })
   },
 
   methods: {
     ...mapMutations({
       setAvaFile: 'auth/setAvaFile',
+      setAvaFileReg: 'reg/setAvaFileReg',
     }),
     ...mapActions({
       avaSetRequest: 'auth/avaSetRequest',
+      avaLoadRequest: 'reg/avaLoadRequest',
     }),
 
     errorClear(){
@@ -67,13 +66,6 @@ export default {
 
     async handleFileUpload(){
 
-      console.log(this.img)
-      console.log('this.ava', this.ava)
-
-      // this.img = 'upload/resize_cache/main/3a9/105_105_175511db9cefbc414a902a46f1b8fae16/3a95097da41b865d85980102e75e1202.jpeg'
-
-      this.setAvaFile(this.$refs.file.files[0])
-
       if(this.$refs.file.files[0].size > 500000){
         this.error = true
         setInterval(() => {
@@ -82,13 +74,18 @@ export default {
       } else {
 
         if(this.token) {
+
+          // замена аватарки в профиле
+          this.setAvaFile(this.$refs.file.files[0])
           await this.avaSetRequest()
           location.reload()
-        } else {
-          this.avaData.type = this.pageType
-          await this.avaSetRequest()
 
-          console.log('this.pageType', this.pageType)
+        } else {
+
+          // загрузка аватарки при регистрации
+          this.setAvaFileReg(this.$refs.file.files[0])
+          await this.avaLoadRequest()
+
         }
       }
     },
@@ -97,8 +94,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
-
 
 .ava_wrapper {
   width: 100%;

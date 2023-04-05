@@ -35,10 +35,10 @@ export default {
   data(){
     return {
       inputs: [
-        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Фамилия', l_icon: ''},
-        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Имя', l_icon: ''},
-        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Отчество', l_icon: ''},
-        { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: ''},
+        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Фамилия', l_icon: '', vmod: 'f'},
+        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Имя', l_icon: '', vmod: 'i'},
+        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Отчество', l_icon: '', vmod: 'o'},
+        { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: '', vmod: 'phone'},
       ]
     }
   },

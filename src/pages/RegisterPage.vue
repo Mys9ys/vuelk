@@ -1,8 +1,10 @@
 <template>
     <div class="wrapper">
+
       <PageHeader class="header">Регистрация</PageHeader>
       <AvaComponent
           :pageType="'reg'"
+          :img="$store.state.reg.avaLink"
       ></AvaComponent>
       <form action="" class="form">
         <AuthInput
@@ -35,7 +37,7 @@ import AuthInput from "@/components/ui/input/AuthInput";
 import BlueBtn from "@/components/ui/btn/BlueBtn";
 import PrivacyPolicy from "@/components/ui/btn/PrivacyPolicy";
 import AvaComponent from "@/components/AvaComponent";
-import {mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "RegisterPage",
@@ -49,23 +51,28 @@ export default {
 
   data(){
     return {
-      inputs: [
-        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Ф.И.О.', l_icon: '', vmod: 'fio', value: ''},
-        { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: '', vmod: 'phone', value: '' },
-        { f_icon: require('@/assets/icon/form/mail.svg'), title: 'E-mail', l_icon: '', vmod: 'mail', value: ''},
-        { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass', value: ''},
-        { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Повторите пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass2', value: ''},
-      ],
       // inputs: [
-      //   { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Ф.И.О.', l_icon: '', vmod: 'fio', value: 'Иванов Иван'},
-      //   { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: '', vmod: 'phone', value: '+7(978) 979-89878' },
-      //   { f_icon: require('@/assets/icon/form/mail.svg'), title: 'E-mail', l_icon: '', vmod: 'mail', value: 'test@test.ru'},
-      //   { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass', value: '123456'},
-      //   { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Повторите пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass2', value: '123456'},
-      // ]
+      //   { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Ф.И.О.', l_icon: '', vmod: 'fio', value: ''},
+      //   { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: '', vmod: 'phone', value: '' },
+      //   { f_icon: require('@/assets/icon/form/mail.svg'), title: 'E-mail', l_icon: '', vmod: 'mail', value: ''},
+      //   { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass', value: ''},
+      //   { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Повторите пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass2', value: ''},
+      // ],
+      inputs: [
+        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Ф.И.О.', l_icon: '', vmod: 'fio', value: 'Иванов Иван'},
+        { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: '', vmod: 'phone', value: '+7(978) 979-8987'},
+        { f_icon: require('@/assets/icon/form/mail.svg'), title: 'E-mail', l_icon: '', vmod: 'mail', value: 'test2test@test.ru'},
+        { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass', value: '123456'},
+        { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Повторите пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass2', value: '123456'},
+      ]
     }
   },
   methods: {
+
+    ...mapActions({
+      registrationRequest: 'reg/registrationRequest',
+    }),
+
     async enterClick() {
 
       let errors = []
@@ -77,21 +84,21 @@ export default {
           this.inputs[index].error = 'Введите ' + el.inputInfo.title
           errors.push(this.inputs[index].error)
         } else {
-          // вбиваем данные авторизации
+          // вбиваем данные регистрации
           this.inputs[index].error = ''
-          this.loginData[el.inputInfo.vmod] = el.inputInfo.value
+          this.regData[el.inputInfo.vmod] = el.inputInfo.value
         }
       })
 
-      errors.push('ddfs')
+      console.log('fdfhdf',this.regData )
+      console.log('error',errors )
 
       if (errors.length === 0) {
         // запрос авторизации
-        this.loginData['type'] = 'newLogin'
 
-        await this.authRequest()
+        await this.registrationRequest()
 
-        if (!this.loginError) this.$router.push('/main')
+        // if (!this.loginError) this.$router.push('/main')
       }
 
     },
@@ -99,7 +106,8 @@ export default {
 
   computed: {
     ...mapState({
-      ava: state => state.reg.regAva,
+      avaLink: state => state.reg.avaLink,
+      regData: state => state.reg.regData,
     })
   },
 }

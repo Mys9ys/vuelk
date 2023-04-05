@@ -2,7 +2,7 @@
 node_modules
 /dist
 
-
+public/ajax/_logs
 # local env files
 .env.local
 .env.*.local

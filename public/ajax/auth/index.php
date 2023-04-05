@@ -9,53 +9,34 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php");
 
 //$input_data = json_decode(file_get_contents('php://input'), true);
-//file_put_contents('debug_request_new.json', json_encode($input_data));
-file_put_contents('debug_new.json', json_encode($_REQUEST));
+//file_put_contents('../_logs/debug_request_new.json', json_encode($input_data));
+file_put_contents('../_logs/debug_new.json', json_encode($_REQUEST));
 //
 //$input_data = json_decode(file_get_contents('debug_request_new.json'), true);
 
-$auth = new VueAuthClass($_REQUEST);
+file_put_contents('../_logs/file.json', json_encode($_FILES));
+$arFile = '';
 
-$response = $auth->getVueResult();
-
-file_put_contents('file.json', json_encode($_FILES));
-
-//var_dump($response);
-//
-if($response['status'] === 'ok' && $_FILES['file']){
+if($_FILES['file']){
 
     $fileId = CFile::SaveFile($_FILES['file'], '/main');
 
     $arFile = CFile::MakeFileArray ($fileId);
 
-    file_put_contents('file_id.json', json_encode(CFile::GetPath($fileId)));
+    file_put_contents('../_logs/file_id.json', json_encode(CFile::GetPath($fileId)));
+}
+
+$auth = new VueAuthClass($_REQUEST);
+
+$response = $auth->getVueResult();
+
+if($response['status'] === 'ok' && $_FILES['file']){
 
     $auth->setAvaImg($arFile, $_REQUEST['token']);
 }
 
 echo json_encode($response);
 
-//CUser::Login(
-//    string login,
-// string password,
-// string remember = "N",
-// string password_original = "Y"
-//)
-//$email = 'a.avdiuk@eurokappa.ru';
-//$filter = array("EMAIL" => $email);
-//$sql = CUser::GetList(($by = "id"), ($order = "desc"), $filter);
-//if ($sql->NavNext(true, "f_")) {
-//    $login = $f_LOGIN;
-//    echo $login;
-//}
-//
-//$USER = new CUser;
-//$arAuthResult = $USER->Login($login, "32Tameda", "Y");
-//
-//
-//echo $arAuthResult;
-//
-//echo '<br>' . $USER->GetLogin();
 
 class VueAuthClass
 {
@@ -73,7 +54,7 @@ class VueAuthClass
 
     protected $userInfo = [];
 
-    protected $error = '';
+    protected $error = 'Ошибка авторизации';
 
     public function __construct($data)
     {
@@ -85,11 +66,12 @@ class VueAuthClass
 
         if($this->type === 'newLogin') $this->newLogin();
         if($this->type === 'tokenLogin' || $this->type === 'ava') $this->tokenLogin();
-        if(!$this->type) $this->error = 'Ошибка авторизации';
 
     }
 
     protected function newLogin(){
+
+        $this->error = '';
 
         $this->getUserLogin();
 
@@ -114,6 +96,7 @@ class VueAuthClass
     }
 
     protected function tokenLogin(){
+        $this->error = '';
 
         $this->checkToken();
         if(!$this->login) {
@@ -183,7 +166,8 @@ class VueAuthClass
             'select' => array('ID', 'EMAIL', 'PERSONAL_PHONE', 'UF_TOKEN', 'NAME', 'LAST_NAME', 'PERSONAL_PHOTO'),
             'filter' => array('=LOGIN' => $this->login)
         ))->fetch();
-        $dbUser['ava'] = $this->imageFormat($dbUser['PERSONAL_PHOTO'], 105, 105, 90);
+//        $dbUser['ava'] = $this->imageFormat($dbUser['PERSONAL_PHOTO'], 105, 105, 90);
+        $dbUser['ava'] = CFile::GetPath($dbUser['PERSONAL_PHOTO']);
         unset($dbUser['PERSONAL_PHOTO']);
         $this->userInfo = $dbUser;
     }
@@ -227,15 +211,9 @@ class VueAuthClass
 
         $arFileTmp = CFile::ResizeImageGet(
             $id,
-            array("width" => $width, "height" => $height),
+            ["width" => $width, "height" => $height],
             BX_RESIZE_IMAGE_PROPORTIONAL,
             true,
-            array(
-                "name" => "sharpen",
-                "precision" => 15
-            ),
-            false,
-            $jpgQuality
         );
         return $arFileTmp["src"];
     }

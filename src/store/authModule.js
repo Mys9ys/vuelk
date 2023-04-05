@@ -104,9 +104,8 @@ export const authModule = {
         },
 
         async loginRequest({state, commit}) {
-            console.log('xhz')
-            commit('setTypeRequest', 'tokenLogin')
 
+            commit('setTypeRequest', 'tokenLogin')
             try {
                 const response = await axios.post(state.baseUrl + 'auth/', state.authData,
                     {
@@ -130,7 +129,7 @@ export const authModule = {
             }
         },
 
-        async avaSetRequest({state}) {
+        async avaSetRequest({state, commit}) {
             try {
 
                 state.avaData.token = state.authData.token
@@ -141,6 +140,11 @@ export const authModule = {
                             'Content-Type': 'multipart/form-data'
                         }
                     })
+
+                if (response.data.status == 'ok') {
+                    console.log('response.data', response.data)
+                    commit('setUserInfo', response.data.info)
+                }
 
             } catch (e) {
                 console.log('error', e)

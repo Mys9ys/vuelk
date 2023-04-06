@@ -20,11 +20,16 @@
       </form>
 
       <div class="footer">
-        <BlueBtn
-            class="btn"
-            :arrow = "true"
-            @click="enterClick"
-        >Зарегистрироваться</BlueBtn>
+        <div class="btn_block">
+          <div v-if="registerError" class="error_mes">{{ registerError }}</div>
+          <!--        <BlueBtn class="disable" :arrow="true">Войти</BlueBtn>-->
+          <BlueBtn
+              class="btn"
+              :arrow = "true"
+              @click="enterClick"
+          >Зарегистрироваться</BlueBtn>
+        </div>
+
         <PrivacyPolicy class="policy">Регистрируясь</PrivacyPolicy>
       </div>
 
@@ -68,7 +73,6 @@ export default {
     }
   },
   methods: {
-
     ...mapActions({
       registrationRequest: 'reg/registrationRequest',
     }),
@@ -98,7 +102,7 @@ export default {
 
         await this.registrationRequest()
 
-        // if (!this.loginError) this.$router.push('/main')
+        if (!this.registerError) this.$router.push('/register_success')
       }
 
     },
@@ -108,6 +112,7 @@ export default {
     ...mapState({
       avaLink: state => state.reg.avaLink,
       regData: state => state.reg.regData,
+      registerError: state => state.reg.registerError,
     })
   },
 }
@@ -145,6 +150,18 @@ export default {
       display: flex;
       flex-direction: column;
       gap: 12px;
+
+      .btn_block {
+        position: relative;
+
+        .error_mes {
+          position: absolute;
+          display: inline-block;
+          left: 10px;
+          bottom: 60px;
+          color: #FF6262;
+        }
+      }
     }
 
   }

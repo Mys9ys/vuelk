@@ -12,6 +12,7 @@ import RecoverSms from "@/pages/RecoverSms";
 import RecoverSuccess from "@/pages/RecoverSuccess";
 import PatientSend from "@/pages/PatientSend";
 import SendSuccess from "@/pages/SendSuccess";
+import RegisterSuccess from "@/pages/RegisterSuccess";
 
 const routes = [
     {
@@ -53,10 +54,7 @@ const routes = [
         path: '/auth',
         component: AuthPage
     },
-    {
-        path: '/auth_success',
-        component: AuthSuccess
-    },
+
     {
         path: '/recover',
         component: RecoverPage,
@@ -69,13 +67,23 @@ const routes = [
         path: '/recover_sms',
         component: RecoverSms
     },
+
+    {
+        path: '/patient_send',
+        component: PatientSend
+    },
+
+    {
+        path: '/auth_success',
+        component: AuthSuccess
+    },
     {
         path: '/recover_success',
         component: RecoverSuccess
     },
     {
-        path: '/patient_send',
-        component: PatientSend
+        path: '/register_success',
+        component: RegisterSuccess
     },
     {
         path: '/send_success',

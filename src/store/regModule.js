@@ -19,6 +19,16 @@ export const regModule = {
             file: '/upload/main/d8e/d8e464c093083bc55434c13989838971.jpeg'
         },
 
+        checkPhone: {
+            type: 'checkPhone',
+            phone: ''
+        },
+
+        checkMail: {
+            type: 'checkPhone',
+            mail: ''
+        },
+
         registerError: '',
 
 
@@ -36,7 +46,7 @@ export const regModule = {
         },
 
         setRegisterError(state, mes) {
-            state.loginError = mes
+            state.registerError = mes
         },
     },
     actions: {
@@ -61,6 +71,34 @@ export const regModule = {
             }
         },
 
+        async checkMailUniqRequest({state, commit}){
+            try {
+                const response = await axios.post(state.baseUrl + 'register/', state.checkMail,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+            }
+            catch (e) {
+                console.log('error', e)
+            }
+        },
+
+        async checkPhoneUniqRequest({state, commit}){
+            try {
+                const response = await axios.post(state.baseUrl + 'register/', state.checkPhone,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+            }
+            catch (e) {
+                console.log('error', e)
+            }
+        },
+
         async registrationRequest({state, commit}) {
             try {
 
@@ -75,6 +113,7 @@ export const regModule = {
                     console.log('axios data', response.data)
                     commit('setAvaLink', response.data.link)
                 } else {
+                    console.log('error', response.data.mes)
                     commit('setRegisterError', response.data.mes)
                 }
 

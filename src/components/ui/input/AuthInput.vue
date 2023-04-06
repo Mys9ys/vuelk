@@ -74,6 +74,10 @@ export default {
             this.error = ''
           }
           this.$emit('update:error', this.error)
+
+          if(this.$router.currentRoute.value.path === '/register') {
+            console.log('$router', this.$router)
+          }
         }
 
         if(type === 'Ф.И.О.'){
@@ -96,6 +100,10 @@ export default {
       if(this.inputInfo.vmod === 'phone'){
         this.inputText = this.replaceNumberForInput(value)
       }
+    },
+
+    checkPhoneUniq(){
+      console.log()
     },
 
     emailValidate(email) { // проверка правила e-mail

@@ -6,7 +6,7 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php");
 
-file_put_contents('../_logs/file.json', json_encode($_FILES));
+file_put_contents('../_logs/file.json', json_encode($_FILES), FILE_APPEND);
 
 $arFile = '';
 
@@ -16,7 +16,7 @@ if($_FILES['file']){
 
     $arFile = CFile::MakeFileArray ($fileId);
 
-    file_put_contents('../_logs/file_id.json', json_encode(CFile::GetPath($fileId)));
+    file_put_contents('../_logs/file_id.json', json_encode(CFile::GetPath($fileId)), FILE_APPEND);
 
     if($arFile) {
         echo json_encode(['status' => 'ok','link' => CFile::GetPath($fileId)]);

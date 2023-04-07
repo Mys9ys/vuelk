@@ -10,11 +10,11 @@ require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.
 
 //$input_data = json_decode(file_get_contents('php://input'), true);
 //file_put_contents('../_logs/debug_request_new.json', json_encode($input_data));
-file_put_contents('../_logs/debug_new.json', json_encode($_REQUEST));
+file_put_contents('../_logs/debug_new.json', json_encode($_REQUEST), FILE_APPEND);
 //
 //$input_data = json_decode(file_get_contents('debug_request_new.json'), true);
 
-file_put_contents('../_logs/file.json', json_encode($_FILES));
+file_put_contents('../_logs/file.json', json_encode($_FILES), FILE_APPEND);
 $arFile = '';
 
 if($_FILES['file']){
@@ -23,7 +23,7 @@ if($_FILES['file']){
 
     $arFile = CFile::MakeFileArray ($fileId);
 
-    file_put_contents('../_logs/file_id.json', json_encode(CFile::GetPath($fileId)));
+    file_put_contents('../_logs/file_id.json', json_encode(CFile::GetPath($fileId)), FILE_APPEND);
 }
 
 $auth = new VueAuthClass($_REQUEST);

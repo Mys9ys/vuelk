@@ -41,19 +41,19 @@ export default {
   data(){
     return {
       errors: [],
-      // inputs: [
-      //   { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Фамилия', l_icon: '', vmod: 'family'},
-      //   { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Имя', l_icon: '', vmod: 'name'},
-      //   { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Отчество', l_icon: '', vmod: 'fatherstvo'},
-      //   { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: '', vmod: 'phone'},
-      // ],
-
       inputs: [
-        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Фамилия', l_icon: '', vmod: 'family', value: 'shsghsh'},
-        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Имя', l_icon: '', vmod: 'name', value: 'fsddgfs'},
-        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Отчество', l_icon: '', vmod: 'fatherstvo', value: 'as tgasgf'},
-        { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: '', vmod: 'phone', value:'+7(969) 567-9556'},
-      ]
+        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Фамилия', l_icon: '', vmod: 'family'},
+        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Имя', l_icon: '', vmod: 'name'},
+        { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Отчество', l_icon: '', vmod: 'fatherstvo'},
+        { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: '', vmod: 'phone'},
+      ],
+
+      // inputs: [
+      //   { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Фамилия', l_icon: '', vmod: 'family', value: 'shsghsh'},
+      //   { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Имя', l_icon: '', vmod: 'name', value: 'fsddgfs'},
+      //   { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Отчество', l_icon: '', vmod: 'fatherstvo', value: 'as tgasgf'},
+      //   { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: '', vmod: 'phone', value:'+7(969) 567-9556'},
+      // ]
     }
   },
   methods: {
@@ -89,7 +89,7 @@ export default {
 
         await this.sendPatientRequest()
 
-        if (!this.patientError) this.$router.push('/main')
+        if (!this.patientError) this.$router.push('/send_success')
       }
 
     },

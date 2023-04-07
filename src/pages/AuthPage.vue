@@ -2,7 +2,6 @@
   <div class="wrapper">
     <PageHeader class="header">Авторизация</PageHeader>
 
-
     <div class="logo">
       <img class="logo_img" :src="$store.state.logo" alt="">
     </div>
@@ -53,6 +52,7 @@ export default {
   },
   data() {
     return {
+      errors: [],
       inputs: [
          {
           f_icon: require('@/assets/icon/form/mail.svg'),
@@ -86,17 +86,17 @@ export default {
 
     async enterClick() {
 
-      let errors = []
+      this.errors = []
 
       this.$refs.authInput.forEach((el, index) =>{
 
         console.log('el', el.inputInfo)
 
-        if(el.inputInfo.error) errors.push(el.inputInfo.error)
+        if(el.inputInfo.error) this.errors.push(el.inputInfo.error)
         if(!el.inputInfo.value) {
           // вбиваем ошибки незаполненых полей
           this.inputs[index].error = 'Введите ' + el.inputInfo.title
-          errors.push(this.inputs[index].error)
+          this.errors.push(this.inputs[index].error)
         } else {
           // вбиваем данные авторизации если не пришли ошибки
           if(!el.inputInfo.error){
@@ -106,9 +106,7 @@ export default {
         }
       })
 
-      console.log('errors auth', errors)
-
-      if (errors.length === 0) {
+      if (this.errors.length === 0) {
         // запрос авторизации
         this.loginData['type'] = 'newLogin'
 
@@ -131,17 +129,6 @@ export default {
       loginError: state => state.auth.loginError,
     })
   },
-  watch: {
-    focusLeave(el) {
-      if (el.error) {
-        console.log('err tru')
-        this.errors = true
-      } else {
-        console.log('err false')
-        this.errors = false
-      }
-    }
-  }
 }
 </script>
 
@@ -191,6 +178,7 @@ export default {
       margin-bottom: 8px;
       text-decoration: underline;
       color: #43BAC0;
+      cursor: pointer;
     }
   }
 

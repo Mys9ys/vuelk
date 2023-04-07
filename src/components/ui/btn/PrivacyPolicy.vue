@@ -1,7 +1,7 @@
 <template>
   <div class="policy">
-    <slot></slot>, вы принимаете <span>Условия участия</span>
-    <br>и <span>Политику конфиденциальности</span>
+    <slot></slot>, вы принимаете <span @click="$router.push('/policy')">Условия участия</span>
+    <br>и <span @click="$router.push('/policy')">Политику конфиденциальности</span>
   </div>
 </template>
 

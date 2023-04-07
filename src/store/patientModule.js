@@ -3,12 +3,18 @@ import axios from "axios";
 
 import {baseConfig} from "@/store/config";
 
-export const authModule = {
+export const patientModule = {
     state: () => ({
 
         patientData: {
 
-        }
+        },
+
+        patientError: {
+            mes: ''
+        },
+
+        baseUrl: baseConfig.BASE_URL
 
     }),
 
@@ -17,6 +23,10 @@ export const authModule = {
         setPatientData(state, data) {
             state.patientData = data
         },
+
+        setPatientError(state, mes){
+            state.patientError = mes
+        }
 
     },
 
@@ -35,12 +45,14 @@ export const authModule = {
                 if (response.data.status == 'ok') {
                     console.log('axios data', response.data)
                     commit('setPatientData', response.data)
+                } else {
+                    commit('setPatientError', response.data.mes)
                 }
 
             } catch (e) {
                 console.log('error', e)
             }
         },
-    }
-
+    },
+    namespaced: true
 }

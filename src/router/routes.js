@@ -13,6 +13,7 @@ import RecoverSuccess from "@/pages/RecoverSuccess";
 import PatientSend from "@/pages/PatientSend";
 import SendSuccess from "@/pages/SendSuccess";
 import RegisterSuccess from "@/pages/RegisterSuccess";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
 
 const routes = [
     {
@@ -88,6 +89,10 @@ const routes = [
     {
         path: '/send_success',
         component: SendSuccess
+    },
+    {
+        path: '/policy',
+        component: PrivacyPolicy
     },
 
 ]

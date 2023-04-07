@@ -14,23 +14,24 @@ export const regModule = {
         },
 
         regData: {
+            type: 'reg',
 
             // file: '',
             file: '/upload/main/d8e/d8e464c093083bc55434c13989838971.jpeg'
         },
 
-        checkPhone: {
-            type: 'checkPhone',
-            phone: ''
+        checkUniqArray: {
+            type: 'check',
+            name: '',
+            value: ''
         },
 
-        checkMail: {
-            type: 'checkPhone',
-            mail: ''
+        checkUniqError: {
+            name: '',
+            mes: ''
         },
 
         registerError: '',
-
 
         baseUrl: baseConfig.BASE_URL
     }),
@@ -45,9 +46,21 @@ export const regModule = {
             state.avaFileReg.file = file
         },
 
+        setCheckUniqError(state, arr){
+            state.checkUniqError.name = arr.name
+            state.checkUniqError.mes = arr.mes
+        },
+
         setRegisterError(state, mes) {
             state.registerError = mes
         },
+
+        setPhoneError(state, mes){
+            state.checkError.phone = mes
+        },
+        setMailError(state, mes){
+            state.checkError.mail = mes
+        }
     },
     actions: {
 
@@ -71,28 +84,19 @@ export const regModule = {
             }
         },
 
-        async checkMailUniqRequest({state, commit}){
+        async checkUniqValueRequest({state, commit}){
             try {
-                const response = await axios.post(state.baseUrl + 'register/', state.checkMail,
+                const response = await axios.post(state.baseUrl + 'register/', state.checkUniqArray,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     })
-            }
-            catch (e) {
-                console.log('error', e)
-            }
-        },
 
-        async checkPhoneUniqRequest({state, commit}){
-            try {
-                const response = await axios.post(state.baseUrl + 'register/', state.checkPhone,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
+                if (response.data.status == 'error') {
+                    console.log('axios data', response.data)
+                    commit('setCheckUniqError', response.data.result)
+                }
             }
             catch (e) {
                 console.log('error', e)

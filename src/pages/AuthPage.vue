@@ -90,30 +90,23 @@ export default {
 
       this.$refs.authInput.forEach((el, index) =>{
 
+        console.log('el', el.inputInfo)
+
+        if(el.inputInfo.error) errors.push(el.inputInfo.error)
         if(!el.inputInfo.value) {
           // вбиваем ошибки незаполненых полей
           this.inputs[index].error = 'Введите ' + el.inputInfo.title
           errors.push(this.inputs[index].error)
         } else {
-          // вбиваем данные авторизации
-          this.inputs[index].error = ''
-          this.loginData[el.inputInfo.vmod] = el.inputInfo.value
+          // вбиваем данные авторизации если не пришли ошибки
+          if(!el.inputInfo.error){
+            this.inputs[index].error = ''
+            this.loginData[el.inputInfo.vmod] = el.inputInfo.value
+          }
         }
       })
 
-      // this.inputs.forEach((el) => {
-      //     // валидация данных формы
-      //   if (el.error) {
-      //     errors.push(el.error)
-      //   } else {
-      //     if (el.value) {
-      //       this.loginData[el.vmod] = el.value
-      //     } else {
-      //       errors.push('empty ' + el.vmod)
-      //     }
-      //   }
-      //
-      // })
+      console.log('errors auth', errors)
 
       if (errors.length === 0) {
         // запрос авторизации
@@ -126,9 +119,9 @@ export default {
 
     },
 
-    // formSubmit(e) {
-    //   e.preventDefault()
-    // },
+    formSubmit(e) {
+      e.preventDefault()
+    },
 
   },
 

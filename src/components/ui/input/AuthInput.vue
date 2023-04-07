@@ -1,5 +1,4 @@
 <template>
-
   <div class="input_wrapper" :class="{wrapper_error: error || inputInfo.error, wrapper_active : activeBorder}" @click="clickActiveInput">
     <div v-if="error || inputInfo.error" class="error_mes">{{ error || inputInfo.error }}</div>
     <div class="first_icon">
@@ -22,6 +21,8 @@
 </template>
 
 <script>
+import {mapActions, mapState} from "vuex";
+
 export default {
   name: "AuthInput",
   props: {
@@ -35,15 +36,21 @@ export default {
       activeInput: false,
       inputText: this.inputInfo.value ?? '',
       openPass: false,
-      error: this.inputInfo.value ?? null
+      error: this.inputInfo.error ?? ''
     }
   },
   methods: {
-    clickActiveInput() {
+
+    ...mapActions({
+      checkUniqValueRequest: 'reg/checkUniqValueRequest',
+    }),
+
+    clickActiveInput() {//Поднимаем плайсхолдер и окрашиваем окантовку инпута
       this.activeInput = true
       this.activeBorder = true
       this.error = null
     },
+
     focusOut(type) {
       this.activeBorder = false
 
@@ -63,26 +70,39 @@ export default {
             this.error = 'Укажите корректный ' + type
           } else {
             this.error = ''
+
+            if(this.$router.currentRoute.value.path === '/register') {
+              this.checkValueUniq(this.inputInfo.vmod,this.inputText)
+            }
           }
           this.$emit('update:error', this.error)
         }
 
         if(type === 'Мобильный телефон'){
-          if(this.inputText.length<16){
+          if(this.inputText.length!==16){
             this.error = 'Ошибка в номере'
           }else {
             this.error = ''
+
+            if(this.$router.currentRoute.value.path === '/register') {
+              this.checkValueUniq(this.inputInfo.vmod,this.inputText)
+            }
           }
           this.$emit('update:error', this.error)
-
-          if(this.$router.currentRoute.value.path === '/register') {
-            console.log('$router', this.$router)
-          }
         }
 
         if(type === 'Ф.И.О.'){
           if(this.inputText.length<4 || this.inputText.indexOf(' ')<0){
             this.error = 'Введите фамилию и имя'
+          } else {
+            this.error = ''
+          }
+          this.$emit('update:error', this.error)
+        }
+
+        if(type === 'Пароль' || type === 'Повторите пароль'){
+          if(this.inputText.length<6){
+            this.error = 'Пароль должен быть больше 6 символов'
           } else {
             this.error = ''
           }
@@ -95,15 +115,27 @@ export default {
       this.openPass = !this.openPass
     },
     inputChange(value) {
-      this.$emit('update:value', value)
       // включаем маску на номер
       if(this.inputInfo.vmod === 'phone'){
-        this.inputText = this.replaceNumberForInput(value)
+        this.inputText = value = this.replaceNumberForInput(value)
       }
+
+      this.$emit('update:value', value)
     },
 
-    checkPhoneUniq(){
-      console.log()
+    async checkValueUniq(name, value){// проверка обязательных полей на уникальность (тел+майл)
+      this.checkUniqArray.name = name
+      this.checkUniqArray.value = value
+
+      this.checkUniqError.name = ''
+
+      await this.checkUniqValueRequest()
+
+      if(this.checkUniqError.name === name) {
+        this.error = this.checkUniqError.mes
+        this.$emit('update:error', this.error)
+      }
+
     },
 
     emailValidate(email) { // проверка правила e-mail
@@ -122,10 +154,18 @@ export default {
       }
 
       val = !x[3] ? x[1] + x[2] : x[1] + '(' + x[2] + ') ' + x[3] + (x[4] ? '-' + x[4] : '')
+
       return val
     },
 
-  }
+  },
+
+  computed: {
+    ...mapState({
+      checkUniqArray: state => state.reg.checkUniqArray,
+      checkUniqError: state => state.reg.checkUniqError,
+    })
+  },
 }
 </script>
 

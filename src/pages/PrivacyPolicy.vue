@@ -104,6 +104,7 @@ export default {
     padding-top: 35px;
 
     color: #43BAC0;
+    color: #163651;
 
     .icon_close{
       width: 20px;

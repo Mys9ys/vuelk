@@ -3,7 +3,7 @@
     <PageHeader class="header">Восстановление пароля</PageHeader>
 
     <div class="btn_link_box">
-      <BlueBtn @click="$router.push('/recover_mail')">Восстановить по Логину/E-Mail</BlueBtn>
+      <BlueBtn @click="$router.push('/recover_mail')">Восстановить по E-mail</BlueBtn>
       <TransparentBtn @click="$router.push('/recover_sms')">Восстановить по номеру телефона</TransparentBtn>
     </div>
   </div>

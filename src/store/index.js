@@ -2,6 +2,7 @@ import {createStore} from "vuex";
 import {authModule} from "@/store/authModule";
 import {regModule} from "@/store/regModule";
 import {patientModule} from "@/store/patientModule";
+import {recoverModule} from "@/store/recoverModule";
 
 
 export default createStore({
@@ -77,6 +78,7 @@ export default createStore({
     modules: {
         auth: authModule,
         reg: regModule,
-        patient: patientModule
+        patient: patientModule,
+        recover: recoverModule
     }
 })

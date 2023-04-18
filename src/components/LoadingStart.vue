@@ -21,7 +21,7 @@
 export default {
   name: "LoadingStart",
   mounted() {
-    setInterval(() => {
+    setTimeout(() => {
       this.$store.state.loading = false
     }, 1100)
     // this.loginRequest()

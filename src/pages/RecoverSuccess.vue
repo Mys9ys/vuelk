@@ -13,7 +13,14 @@ export default {
   name: "RecoverSuccess",
   components: {
     TransparentBtn
-  }
+  },
+
+  mounted() {
+    setTimeout(() => {
+      this.$router.push('/auth')
+    }, 2800)
+    // this.loginRequest()
+  },
 
 }
 </script>

@@ -109,6 +109,15 @@ export default {
           this.$emit('update:error', this.error)
         }
 
+        if(type === 'Проверочный код'){
+          if(this.inputText.length !== 7){
+            this.error = 'Код должен быть 6 символов'
+          } else {
+            this.error = ''
+          }
+          this.$emit('update:error', this.error)
+        }
+
       }
     },
     openPassword() {
@@ -118,6 +127,11 @@ export default {
       // включаем маску на номер
       if(this.inputInfo.vmod === 'phone'){
         this.inputText = value = this.replaceNumberForInput(value)
+      }
+
+      // маска на проверочный код
+      if(this.inputInfo.vmod === 'code'){
+        this.inputText = value = this.recoveryCodeValidate(value)
       }
 
       this.$emit('update:value', value)
@@ -157,6 +171,17 @@ export default {
 
       return val
     },
+
+    recoveryCodeValidate(value){
+      if(!value) return
+
+      let val = ''
+      const x = value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})/)
+
+      val = x[1] + '-' + x[2]
+
+      return val
+    }
 
   },
 

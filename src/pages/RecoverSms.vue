@@ -7,10 +7,19 @@
       <AuthInput
           v-for="(el, index) in inputs"
           :key="index"
-          :inputInfo ="el"
+          :name="el.vmod"
+          v-model:value="el.value"
+          v-model:error="el.error"
+
+          ref="authInput"
+          :inputInfo="el"
       ></AuthInput>
-      <GrayBtn v-if="actionSend" @click="sendBtn">Получить код</GrayBtn>
-      <BlueBtn v-else @click="sendBtn">Получить код</BlueBtn>
+
+      <div class="btn_send_block">
+        <div v-if="recoverCodeError.error" class="error_mes">{{ recoverCodeError.mes }}</div>
+        <GrayBtn v-if="actionSend">Получить код</GrayBtn>
+        <BlueBtn v-else @click="enterClick">Получить код</BlueBtn>
+      </div>
 
     </form>
     <div class="recover_wrapper" v-if="actionSend">
@@ -18,10 +27,8 @@
         Проверочный код отправлен
       </div>
 
-      <FormCode></FormCode>
+      <FormCode :userId="this.userId"></FormCode>
     </div>
-
-
 
   </div>
 </template>
@@ -32,6 +39,7 @@ import AuthInput from "@/components/ui/input/AuthInput";
 import BlueBtn from "@/components/ui/btn/BlueBtn";
 import FormCode from "@/components/ui/form/FormCode";
 import GrayBtn from "@/components/ui/btn/GrayBtn";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "RecoverMail",
@@ -45,16 +53,65 @@ export default {
   data() {
     return {
       inputs: [
-        { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Телефон', l_icon: ''},
+        { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Телефон', l_icon: '', vmod: 'phone',  error: '', value: ''},
+
       ],
       actionSend: false,
+      // actionSend: true,
     }
   },
   methods: {
-    sendBtn(){
-      this.actionSend = true
-    }
-  }
+    ...mapActions({
+      recoverCodeRequest: 'recover/recoverCodeRequest',
+    }),
+
+
+    async enterClick() {
+
+      this.errors = []
+
+      this.$refs.authInput.forEach((el, index) =>{
+
+        if(el.inputInfo.error) this.errors.push(el.inputInfo.error)
+        if(!el.inputInfo.value) {
+          // вбиваем ошибки незаполненых полей
+          this.inputs[index].error = 'Введите ' + el.inputInfo.title
+          this.errors.push(this.inputs[index].error)
+        } else {
+          // вбиваем данные авторизации если не пришли ошибки
+          if(!el.inputInfo.error){
+            this.inputs[index].error = ''
+            this.recoverData[el.inputInfo.vmod] = el.inputInfo.value
+          }
+        }
+      })
+
+      console.log('this.errors', this.errors)
+
+      if (this.errors.length === 0) {
+        // запрос авторизации
+        this.recoverData['type'] = 'recoverPhone'
+
+        await this.recoverCodeRequest()
+
+        if(this.sendCodeSuccess) this.actionSend = true
+
+      }
+
+    },
+
+    formSubmit(e) {
+      e.preventDefault()
+    },
+  },
+  computed: {
+    ...mapState({
+      recoverData: state => state.recover.recoverCodeData,
+      recoverCodeError: state => state.recover.recoverCodeError,
+      sendCodeSuccess: state => state.recover.sendCodeSuccess,
+      userId: state => state.recover.userID,
+    })
+  },
 }
 </script>
 
@@ -71,6 +128,7 @@ export default {
 
   .title{
     margin-top: 16px;
+    margin-bottom: 25px;
     font-weight: 400;
     font-size: 14px;
     line-height: 22px;
@@ -89,7 +147,7 @@ export default {
     margin-top: 12px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 20px;
   }
 
   .recover_mes{
@@ -106,7 +164,18 @@ export default {
 
     color: #43BAC0;
   }
+}
 
+.btn_send_block {
+  position: relative;
+
+  .error_mes {
+    position: absolute;
+    left: 10px;
+    top: -20px;
+    font-size: 14px;
+    color: #FF6262;
+  }
 
 }
 </style>

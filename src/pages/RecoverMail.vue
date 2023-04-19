@@ -14,8 +14,11 @@
           ref="authInput"
           :inputInfo="el"
       ></AuthInput>
-      <GrayBtn v-if="actionSend">Получить код</GrayBtn>
-      <BlueBtn v-else @click="enterClick">Получить код</BlueBtn>
+      <div class="btn_send_block">
+        <div v-if="recoverError.error" class="error_mes">{{ recoverCodeError.mes }}</div>
+        <GrayBtn v-if="actionSend">Получить код</GrayBtn>
+        <BlueBtn v-else @click="enterClick">Получить код</BlueBtn>
+      </div>
 
     </form>
     <div class="recover_wrapper" v-if="actionSend">
@@ -35,7 +38,7 @@ import AuthInput from "@/components/ui/input/AuthInput";
 import BlueBtn from "@/components/ui/btn/BlueBtn";
 import FormCode from "@/components/ui/form/FormCode";
 import GrayBtn from "@/components/ui/btn/GrayBtn";
-import {mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "RecoverMail",
@@ -49,15 +52,16 @@ export default {
   data() {
     return {
       inputs: [
-        {f_icon: require('@/assets/icon/form/mail.svg'), title: 'E-mail', l_icon: '', vmod: 'mail', error: ''},
+        {f_icon: require('@/assets/icon/form/mail.svg'), title: 'E-mail', l_icon: '', vmod: 'mail', error: '', value: 'rjbexa@yandex.ru'},
       ],
       actionSend: false,
     }
   },
   methods: {
-    sendBtn(){
-      this.actionSend = true
-    },
+    ...mapActions({
+      recoverCodeRequest: 'recover/recoverCodeRequest',
+    }),
+
 
     async enterClick() {
 
@@ -76,21 +80,21 @@ export default {
           // вбиваем данные авторизации если не пришли ошибки
           if(!el.inputInfo.error){
             this.inputs[index].error = ''
-            this.recoverMailData[el.inputInfo.vmod] = el.inputInfo.value
+            this.recoverData[el.inputInfo.vmod] = el.inputInfo.value
           }
         }
       })
 
-      console.log('this.errors', this.errors)
-      console.log('this.recoverMailData', this.recoverMailData)
 
-
-      this.errors.push('csfasfa')
       if (this.errors.length === 0) {
         // запрос авторизации
-        this.loginData['type'] = 'recoverMail'
+        this.recoverData['type'] = 'recoverMail'
 
-        await this.authRequest()
+        await this.recoverCodeRequest()
+
+        if(!this.recoverError.error){
+          this.actionSend = true
+        }
 
       }
 
@@ -102,7 +106,8 @@ export default {
   },
   computed: {
     ...mapState({
-      recoverMailData: state => state.recover.recoverMailData,
+      recoverData: state => state.recover.recoverCodeData,
+      recoverError: state => state.recover.recoverCodeError,
     })
   },
 }
@@ -141,7 +146,7 @@ export default {
     margin-top: 12px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 20px;
   }
 
   .recover_mes{
@@ -159,6 +164,18 @@ export default {
     color: #43BAC0;
   }
 
+
+}
+.btn_send_block {
+  position: relative;
+
+  .error_mes {
+    position: absolute;
+    left: 10px;
+    top: -20px;
+    font-size: 14px;
+    color: #FF6262;
+  }
 
 }
 </style>

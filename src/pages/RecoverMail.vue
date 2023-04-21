@@ -15,7 +15,7 @@
           :inputInfo="el"
       ></AuthInput>
       <div class="btn_send_block">
-        <div v-if="recoverError.error" class="error_mes">{{ recoverCodeError.mes }}</div>
+        <div v-if="recoverCodeError.error" class="error_mes">{{ recoverCodeError.mes }}</div>
         <GrayBtn v-if="actionSend">Получить код</GrayBtn>
         <BlueBtn v-else @click="enterClick">Получить код</BlueBtn>
       </div>
@@ -26,7 +26,7 @@
         Проверочный код отправлен
       </div>
 
-      <FormCode></FormCode>
+      <FormCode :userId="this.userId"></FormCode>
     </div>
 
   </div>
@@ -51,8 +51,9 @@ export default {
   },
   data() {
     return {
+      errors: [],
       inputs: [
-        {f_icon: require('@/assets/icon/form/mail.svg'), title: 'E-mail', l_icon: '', vmod: 'mail', error: '', value: 'rjbexa@yandex.ru'},
+        {f_icon: require('@/assets/icon/form/mail.svg'), title: 'E-mail', l_icon: '', vmod: 'mail', error: '', value: ''},
       ],
       actionSend: false,
     }
@@ -80,7 +81,7 @@ export default {
           // вбиваем данные авторизации если не пришли ошибки
           if(!el.inputInfo.error){
             this.inputs[index].error = ''
-            this.recoverData[el.inputInfo.vmod] = el.inputInfo.value
+            this.recoverCodeData[el.inputInfo.vmod] = el.inputInfo.value
           }
         }
       })
@@ -88,13 +89,11 @@ export default {
 
       if (this.errors.length === 0) {
         // запрос авторизации
-        this.recoverData['type'] = 'recoverMail'
+        this.recoverCodeData['type'] = 'recoverMail'
 
         await this.recoverCodeRequest()
 
-        if(!this.recoverError.error){
-          this.actionSend = true
-        }
+        if(this.sendCodeSuccess) this.actionSend = true
 
       }
 
@@ -106,8 +105,10 @@ export default {
   },
   computed: {
     ...mapState({
-      recoverData: state => state.recover.recoverCodeData,
-      recoverError: state => state.recover.recoverCodeError,
+      recoverCodeData: state => state.recover.recoverCodeData,
+      recoverCodeError: state => state.recover.recoverCodeError,
+      sendCodeSuccess: state => state.recover.sendCodeSuccess,
+      userId: state => state.recover.userID,
     })
   },
 }

@@ -4,8 +4,14 @@
       <div class="header">
         <div class="title">Бонусы</div>
         <div class="filter">Последняя неделя <img src="@/assets/icon/btn/arrow_down.svg" alt=""></div>
+        <select v-model="selected" @change="selectedChange()">
+          <option v-for="(option, i) in options" :value="option.value" :key="i">
+            {{ option.text }}
+          </option>
+        </select>
+
       </div>
-      <BonusCharts></BonusCharts>
+      <BonusCharts :selectData="chartData[selected]"></BonusCharts>
       <div class="bonus_footer">
         <div class="bonus_sum">136 000 <RubIco style="width: 28px"></RubIco></div>
         <BlueBlurBtn @click="$router.push('/bonus')">Подробнее</BlueBlurBtn>
@@ -44,15 +50,37 @@ export default {
   data() {
     return {
       chartData: {
-        labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-        datasets: {
+        week: {
+          labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
           data: [15000, 0, 1000, 30000, 45000, 5000, 2000]
         },
+        month: {
+          labels: [1,	2,	3,	4,	5,	6,	7,	8,	9,	10,	11,	12,	13,	14,	15,	16,	17,	18,	19,	20,	21,	22,	23,	24,	25,	26,	27,	28,	29,	30,	31],
+          data: [1000,	2000,	0,	0,	0,	0,	15000,	0,	0,	1000,	3000,	0,	0,	1000,	2000,	0,	0,	5000,	0,	0,	2000,	0,	0,	4000,	0,	0,	0,	0,	0,	0,	1000,
+          ]
+        },
+        half_year: {
+          labels: ['ноя','дек','янв','фев','мар','апр'],
+          data: [17000, 23000, 7000, 30000, 45000, 5000]
+        },
+        year: {
+          labels: ['май','июн','июл','авг','сен','окт','ноя','дек','янв','фев','мар','апр'],
+          data: [26000, 23000, 17000, 12000, 31000, 25000,17000, 23000, 7000, 30000, 45000, 5000]
+        }
       },
-      chartOptions: {
-        responsive: true,
-        maintainAspectRatio: false
-      }
+
+      selected: 'week',
+      options: [
+        { text: 'Последняя неделя', value: 'week' },
+        { text: 'Последний месяц', value: 'month' },
+        { text: 'Последние полгода', value: 'half_year' },
+        { text: 'Последний год', value: 'year' },
+      ]
+    }
+  },
+  methods: {
+    selectedChange(){
+      console.log('selected', this.selected)
     }
   }
 }

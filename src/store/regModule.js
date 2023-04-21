@@ -54,13 +54,6 @@ export const regModule = {
         setRegisterError(state, mes) {
             state.registerError = mes
         },
-
-        setPhoneError(state, mes){
-            state.checkError.phone = mes
-        },
-        setMailError(state, mes){
-            state.checkError.mail = mes
-        }
     },
     actions: {
 
@@ -94,7 +87,6 @@ export const regModule = {
                     })
 
                 if (response.data.status == 'error') {
-                    console.log('axios data', response.data)
                     commit('setCheckUniqError', response.data.result)
                 }
             }
@@ -114,10 +106,8 @@ export const regModule = {
                     })
 
                 if (response.data.status == 'ok') {
-                    console.log('axios data', response.data)
                     commit('setAvaLink', response.data.link)
                 } else {
-                    console.log('error', response.data.mes)
                     commit('setRegisterError', response.data.mes)
                 }
 

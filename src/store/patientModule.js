@@ -43,7 +43,6 @@ export const patientModule = {
                     })
 
                 if (response.data.status == 'ok') {
-                    console.log('axios data', response.data)
                     commit('setPatientData', response.data)
                 } else {
                     commit('setPatientError', response.data.mes)

@@ -27,10 +27,8 @@ export default {
     this.$nextTick(function () {
       if(this.token) {
         // проверка токена на актуальность
-        console.log('token yes')
         this.checkAuth()
       } else {
-        console.log('token no')
         this.$router.push('/')
       }
     })

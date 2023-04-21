@@ -3,11 +3,17 @@
     <div class="header">
       <div class="title">Бонусы</div>
       <div class="filter">Период <img src="@/assets/icon/btn/arrow_down.svg" alt=""></div>
+      <select v-model="selected">
+        <option disabled value="">Please select one</option>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+      </select>
     </div>
 
     <div class="sub_header">
       <div class="title">Январь 2023</div>
-      <div class="filter">223 000 Р</div>
+      <div class="filter"><span>223 000</span> <span class="b_icon">ᴃ</span></div>
     </div>
 
     <div class="bonuses">
@@ -88,7 +94,7 @@ export default {
 
       display: flex;
       flex-direction: row;
-      gap: 12px;
+      gap: 4px;
 
       text-align: right;
       letter-spacing: -0.408px;
@@ -122,7 +128,8 @@ export default {
 
       display: flex;
       flex-direction: row;
-      gap: 12px;
+      align-items: center;
+      gap: 4px;
 
       text-align: right;
       letter-spacing: -0.408px;
@@ -164,5 +171,15 @@ export default {
     padding: 15px 24px;
     padding-bottom: 21px;
   }
+}
+
+.b_icon{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 20px;
+  height: 26px;
+
 }
 </style>

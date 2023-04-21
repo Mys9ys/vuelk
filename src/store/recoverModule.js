@@ -65,7 +65,6 @@ export const recoverModule = {
                     })
 
                 if (response.data.status == 'ok') {
-                    console.log('axios data', response.data)
                     commit('setCodeSuccess')
                     commit('setUserId',response.data.id)
                 } else {

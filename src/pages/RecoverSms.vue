@@ -52,6 +52,7 @@ export default {
   },
   data() {
     return {
+      errors: [],
       inputs: [
         { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Телефон', l_icon: '', vmod: 'phone',  error: '', value: ''},
 

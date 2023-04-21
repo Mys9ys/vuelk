@@ -1,5 +1,5 @@
 <template>
-  <img src="@/assets/icon/other/rub.svg" alt="">
+  <img src="@/assets/icon/other/bonus_ico.svg" alt="">
 </template>
 
 <script>

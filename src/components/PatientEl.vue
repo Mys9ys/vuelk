@@ -91,7 +91,7 @@ export default {
       line-height: 20px;
       /* identical to box height, or 183% */
 
-      letter-spacing: -0.408px;
+      //letter-spacing: -0.408px;
 
       /* Черный */
 

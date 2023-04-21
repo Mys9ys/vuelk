@@ -45,37 +45,15 @@ export default {
           }
         }
       },
+      //
+
     }
   },
   mounted() {
-
-    console.log('this.selectData', this.selectData, )
-    // const ctx = document.getElementById('myChart');
     const myChart = new Chart(this.$refs.myChart, this.config)
-    myChart
+    myChart.render()
 
   },
-
-  watch:{
-    selectData(value){
-      myChart.$destroy()
-      console.log('value', value)
-      const myChart = new Chart(this.$refs.myChart, this.config)
-      myChart
-      // const ctx = document.getElementById('myChart');
-      // const myChart = new Chart(ctx, value)
-      // myChart
-    }
-  },
-
-  methods: {
-    rerenderCharts(){
-
-    }
-  }
-
-
-
 }
 </script>
 

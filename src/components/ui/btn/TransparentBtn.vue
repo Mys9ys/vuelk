@@ -27,9 +27,7 @@ export default {
   font-weight: 500;
   font-size: 16px;
   line-height: 22px;
-  /* or 138% */
-
-  letter-spacing: -0.408px;
+  /* or 138% *
 
   /* Черный */
 

@@ -3,17 +3,19 @@
     <div class="bonus_block">
       <div class="header">
         <div class="title">Бонусы</div>
-        <div class="filter">Последняя неделя <img src="@/assets/icon/btn/arrow_down.svg" alt=""></div>
-        <select v-model="selected" @change="selectedChange()">
+        <select v-model="selected" @change="selectedChange()" class="filter">
           <option v-for="(option, i) in options" :value="option.value" :key="i">
             {{ option.text }}
           </option>
         </select>
 
       </div>
-      <BonusCharts :selectData="chartData[selected]"></BonusCharts>
+      <div v-for="(data, index) in chartData" :key="index">
+        <BonusCharts v-if="selected==index" :selectData="data"></BonusCharts>
+      </div>
+
       <div class="bonus_footer">
-        <div class="bonus_sum">136 000 <RubIco style="width: 28px"></RubIco></div>
+        <div class="bonus_sum">{{setNumberSeparate(chartData[selected]["data"])}} <RubIco style="width: 28px"></RubIco></div>
         <BlueBlurBtn @click="$router.push('/bonus')">Подробнее</BlueBlurBtn>
 
       </div>
@@ -80,23 +82,21 @@ export default {
   },
   methods: {
     selectedChange(){
-      console.log('selected', this.selected)
+
+    },
+
+    setNumberSeparate(number){
+      number = number.reduce((partialSum, a) => partialSum + a, 0)
+      return ("" + number).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, function($1) { return $1 + " " });
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+@import "src/assets/css/variables.less";
 .wrapper {
-  position: relative;
-  background: #FFFFFF;
-  width: 100vw;
-  margin: 0 auto;
-  height: 100vh;
-  text-align: center;
-  padding: 0 24px;
-  padding-top: 35px;
-  padding-bottom: 69px;
+  .wrapper_template;
   overflow-y:scroll;
 
   .bonus_block {
@@ -130,10 +130,14 @@ export default {
         gap: 12px;
 
         text-align: right;
-        letter-spacing: -0.408px;
+        font-family: 'Roboto', sans-serif;
 
         /* Серый */
         color: #8A8A8E;
+        border: none;
+        option{
+          text-align: left;
+        }
       }
     }
   }

@@ -27,8 +27,6 @@ export default {
     line-height: 22px;
     /* or 138% */
 
-    letter-spacing: -0.408px;
-
     /* Белый */
 
     color: #8A8A8E;

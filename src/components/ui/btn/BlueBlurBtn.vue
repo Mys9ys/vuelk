@@ -23,8 +23,6 @@ export default {
   line-height: 22px;
   /* identical to box height, or 157% */
 
-  letter-spacing: -0.408px;
-
   /* Корп цвет */
   color: #43BAC0;
 }

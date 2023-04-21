@@ -44,6 +44,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "src/assets/css/variables.less";
 .wrapper {
   position: relative;
   background: #FFFFFF;
@@ -68,8 +69,6 @@ export default {
       line-height: 22px;
       /* identical to box height, or 138% */
 
-      letter-spacing: -0.408px;
-
       /* Черный */
       color: #000000;
     }
@@ -85,7 +84,6 @@ export default {
       gap: 12px;
 
       text-align: right;
-      letter-spacing: -0.408px;
 
       /* Серый */
       color: #8A8A8E;

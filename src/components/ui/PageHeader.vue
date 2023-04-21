@@ -27,8 +27,6 @@ export default {
       line-height: 22px;
       /* identical to box height, or 138% */
 
-      letter-spacing: -0.408px;
-
       /* Черный */
       color: #000000;
     }
@@ -39,7 +37,6 @@ export default {
       /* identical to box height, or 157% */
 
       text-align: right;
-      letter-spacing: -0.408px;
 
       /* Серый */
 

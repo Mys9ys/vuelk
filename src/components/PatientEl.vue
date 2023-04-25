@@ -1,9 +1,9 @@
 <template>
   <div class="patient">
-    <div class="ava" :class="el.ava">{{ el.name.charAt(0).toUpperCase() }}</div>
+    <div class="ava" :class="el.status.color ?? 'grey'">{{ el.name.charAt(0).toUpperCase() }}</div>
     <div class="info">
       <div class="name">{{ el.name }}</div>
-      <div class="status" :class="el.status_bg"><span class="text">{{ el.status }}</span></div>
+      <div class="status" :class="el.status.color ?? 'grey'"><span class="text">{{ el.status.name }}</span></div>
     </div>
   </div>
 </template>
@@ -57,22 +57,26 @@ export default {
     color: #fff;
     border-radius: 10px;
 
-    &.ava1 {
+    &.grey{
+      background: #90a4ae;
+    }
+
+    &.crlff5752 {
       background: @max1;
     }
-    &.ava2 {
+    &.clr00ffff {
       background: @max2;
     }
     &.ava3 {
       background: @max3;
     }
-    &.ava4 {
+    &.clrACE9FB {
       background: @max4;
     }
     &.ava5 {
       background: @max5;
     }
-    &.ava6 {
+    &.rew {
       background: @max6;
     }
     &.ava7 {
@@ -118,13 +122,13 @@ export default {
       &.bg1{
         background: #FFEAA1;
       }
-      &.bg2{
+      &.clrACE9FB{
         background: #B4E3E6;
       }
-      &.bg4{
+      &.clrff5752{
         background: #FFC8C8;
       }
-      &.bg3{
+      &.clr00ffff{
         background: @max2;
       }
 

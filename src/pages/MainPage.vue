@@ -20,15 +20,20 @@
     </div>
     <BlueBtn class="btn_margin" :arrow="true" @click="$router.push('/patient_send')">Передать нового пациента</BlueBtn>
 
-    <div class="patients">
+    <div class="patients" v-if="lastPatients">
       <div class="title">Последние переданные пациенты</div>
       <PatientEl
-          v-for="(el, index) in $store.state.patients"
+          v-for="(el, index) in lastPatients"
           :key="index"
           :el="el"
       ></PatientEl>
-
     </div>
+
+    <div v-else>
+      <div>Вы еще не передавали пациентов</div>
+    </div>
+
+
 
   </div>
   <LKNavbar
@@ -43,6 +48,7 @@ import BlueBtn from "@/components/ui/btn/BlueBtn";
 import BonusCharts from "@/components/BonusCharts";
 import PatientEl from "@/components/PatientEl";
 import LKNavbar from "@/components/LKNavbar";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "MainPage",
@@ -75,19 +81,50 @@ export default {
         { text: 'Последний месяц', value: 'month' },
         { text: 'Последние полгода', value: 'half_year' },
         { text: 'Последний год', value: 'year' },
-      ]
+      ],
+      lastPatients:false
     }
   },
+
+  mounted() {
+    this.$nextTick(function () {
+      this.getLastPatients()
+    })
+  },
+
+  watch:{
+    arLastPatients(){
+      this.lastPatients = this.arLastPatients ?? false
+    }
+  },
+
   methods: {
+    ...mapActions({
+      getProfileInfoRequest: 'info/getProfileInfoRequest',
+    }),
     selectedChange(){
 
+    },
+
+    async getLastPatients(){
+      this.infoRequestData.token = this.token
+      this.infoRequestData.type = 'last'
+
+      await this.getProfileInfoRequest()
     },
 
     setNumberSeparate(number){
       number = number.reduce((partialSum, a) => partialSum + a, 0)
       return ("" + number).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, function($1) { return $1 + " " });
     }
-  }
+  },
+  computed: {
+    ...mapState({
+      token: state => state.auth.authData.token,
+      infoRequestData: state => state.info.infoRequestData,
+      arLastPatients: state => state.info.requestInfo
+    })
+  },
 }
 </script>
 
@@ -96,6 +133,7 @@ export default {
 .wrapper {
   .wrapper_template;
   overflow-y:scroll;
+  padding-bottom: 65px;
 
   .bonus_block {
 

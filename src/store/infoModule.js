@@ -6,22 +6,19 @@ import {baseConfig} from "@/store/config";
 export const infoModule = {
     state: () => ({
 
-        profileInfoRequest: {
+        infoRequestData: {
             token: '',
             type: ''
         },
 
-        profileInfo: {
-
-        },
-
+        requestInfo: {},
 
     }),
 
     getters: {},
     mutations: {
-        setProfileInfo(state, data) {
-            state.profileInfo = data
+        setInfo(state, data) {
+            state.requestInfo = data
         },
 
     },
@@ -31,7 +28,7 @@ export const infoModule = {
         async getProfileInfoRequest({state, commit}) {
             try {
 
-                const response = await axios.post(baseConfig.BASE_URL + 'patient_info/', state.profileInfoRequest,
+                const response = await axios.post(baseConfig.BASE_URL + 'patient_info/', state.infoRequestData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
@@ -39,7 +36,7 @@ export const infoModule = {
                     })
 
                 if (response.data.status == 'ok') {
-                    commit('setProfileInfo', response.data.info)
+                    commit('setInfo', response.data.info)
                 } else {
                 }
 

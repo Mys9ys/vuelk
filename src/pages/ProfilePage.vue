@@ -61,15 +61,7 @@ export default {
     }
   },
 
-  computed: {
-    ...mapState({
-      userInfo: state => state.auth.userInfo,
-      profile: state => state.profile_info,
-      token: state => state.auth.authData.token,
-      profileInfoRequest: state => state.info.profileInfoRequest,
-      profileInfo: state => state.info.profileInfo
-    })
-  },
+
 
   mounted() {
     this.$nextTick(function () {
@@ -92,8 +84,8 @@ export default {
     }),
 
     async getProfileInfo(){
-      this.profileInfoRequest.token = this.token
-      this.profileInfoRequest.type = 'profile'
+      this.infoRequestData.token = this.token
+      this.infoRequestData.type = 'profile'
 
       await this.getProfileInfoRequest()
     },
@@ -105,7 +97,15 @@ export default {
     outLink(){
       window.open('https://lk-partners.eurokappa.ru', '_blank');
     }
-  }
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.auth.userInfo,
+      token: state => state.auth.authData.token,
+      infoRequestData: state => state.info.infoRequestData,
+      profileInfo: state => state.info.requestInfo
+    })
+  },
 }
 </script>
 

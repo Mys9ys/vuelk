@@ -2,7 +2,11 @@
   <div class="wrapper">
     <div class="header">
       <div class="title">Пациенты</div>
-      <div class="filter">Дата <img src="@/assets/icon/btn/arrow_down.svg" alt=""></div>
+      <select v-model="selected" @change="selectedChange()" class="filter_select">
+        <option v-for="(option, i) in options" :value="option.value" :key="i">
+          {{ option.text }}
+        </option>
+      </select>
     </div>
     <div class="patients">
 
@@ -31,6 +35,7 @@ import BlueBtn from "@/components/ui/btn/BlueBtn";
 import PaginationBlock from "@/components/ui/PaginationBlock";
 import PatientEl from "@/components/PatientEl";
 import LKNavbar from "@/components/LKNavbar";
+import {mapActions} from "vuex";
 
 export default {
   name: "PatientsPage",
@@ -40,12 +45,41 @@ export default {
     PatientEl,
     LKNavbar
   },
+  data() {
+    return {
+      selected: 'week',
+      options: [
+        {text: 'Последняя неделя', value: 'week'},
+        {text: 'Последний месяц', value: 'month'},
+        {text: 'Последние полгода', value: 'half_year'},
+        {text: 'Последний год', value: 'year'},
+      ]
+    }
+  },
+
+  mounted() {
+    //
+    this.$nextTick(function () {
+      this.getProfileInfo()
+    })
+  },
+  methods: {
+    ...mapActions({
+      getProfileInfoRequest: 'info/getProfileInfoRequest',
+    }),
+
+    selectedChange() {
+
+    },
+
+  }
 }
 </script>
 
 <style lang="less" scoped>
 @import "src/assets/css/variables.less";
 .wrapper {
+  .wrapper_template;
   overflow-y: scroll;
 
   .header {
@@ -64,20 +98,8 @@ export default {
       color: #000000;
     }
 
-    .filter {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 22px;
-      /* identical to box height, or 157% */
-
-      display: flex;
-      flex-direction: row;
-      gap: 12px;
-
-      text-align: right;
-
-      /* Серый */
-      color: #8A8A8E;
+    .filter_select{
+      .filter_template;
     }
   }
   .patients{

@@ -3,6 +3,7 @@ import {authModule} from "@/store/authModule";
 import {regModule} from "@/store/regModule";
 import {patientModule} from "@/store/patientModule";
 import {recoverModule} from "@/store/recoverModule";
+import {infoModule} from "@/store/infoModule";
 
 
 export default createStore({
@@ -79,6 +80,7 @@ export default createStore({
         auth: authModule,
         reg: regModule,
         patient: patientModule,
-        recover: recoverModule
+        recover: recoverModule,
+        info: infoModule
     }
 })

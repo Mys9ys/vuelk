@@ -2,12 +2,10 @@
   <div class="wrapper">
     <div class="header">
       <div class="title">Бонусы</div>
-      <div class="filter">Период <img src="@/assets/icon/btn/arrow_down.svg" alt=""></div>
-      <select v-model="selected">
-        <option disabled value="">Please select one</option>
-        <option>A</option>
-        <option>B</option>
-        <option>C</option>
+      <select v-model="selected" @change="selectedChange()" class="filter_select">
+        <option v-for="(option, i) in options" :value="option.value" :key="i">
+          {{ option.text }}
+        </option>
       </select>
     </div>
 
@@ -51,6 +49,22 @@ export default {
     PatientBonus,
     PaginationBlock,
     LKNavbar
+  },
+  data() {
+    return {
+      selected: 'week',
+      options: [
+        {text: 'Последняя неделя', value: 'week'},
+        {text: 'Последний месяц', value: 'month'},
+        {text: 'Последние полгода', value: 'half_year'},
+        {text: 'Последний год', value: 'year'},
+      ]
+    }
+  },
+  methods: {
+    selectedChange() {
+
+    },
   }
 }
 </script>
@@ -80,21 +94,8 @@ export default {
       color: #000000;
     }
 
-    .filter {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 22px;
-      /* identical to box height, or 157% */
-
-      display: flex;
-      flex-direction: row;
-      gap: 4px;
-
-      text-align: right;
-      letter-spacing: -0.408px;
-
-      /* Серый */
-      color: #8A8A8E;
+    .filter_select{
+      .filter_template;
     }
   }
   .sub_header{

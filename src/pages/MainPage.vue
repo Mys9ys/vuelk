@@ -3,12 +3,11 @@
     <div class="bonus_block">
       <div class="header">
         <div class="title">Бонусы</div>
-        <select v-model="selected" @change="selectedChange()" class="filter">
+        <select v-model="selected" @change="selectedChange()" class="filter_select">
           <option v-for="(option, i) in options" :value="option.value" :key="i">
             {{ option.text }}
           </option>
         </select>
-
       </div>
       <div v-for="(data, index) in chartData" :key="index">
         <BonusCharts v-if="selected==index" :selectData="data"></BonusCharts>
@@ -17,7 +16,6 @@
       <div class="bonus_footer">
         <div class="bonus_sum">{{setNumberSeparate(chartData[selected]["data"])}} <RubIco style="width: 28px"></RubIco></div>
         <BlueBlurBtn @click="$router.push('/bonus')">Подробнее</BlueBlurBtn>
-
       </div>
     </div>
     <BlueBtn class="btn_margin" :arrow="true" @click="$router.push('/patient_send')">Передать нового пациента</BlueBtn>
@@ -54,7 +52,7 @@ export default {
       chartData: {
         week: {
           labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-          data: [15000, 0, 1000, 30000, 45000, 5000, 2000]
+          data: [0, 0, 0, 0, 0, 0, 0]
         },
         month: {
           labels: [1,	2,	3,	4,	5,	6,	7,	8,	9,	10,	11,	12,	13,	14,	15,	16,	17,	18,	19,	20,	21,	22,	23,	24,	25,	26,	27,	28,	29,	30,	31],
@@ -119,26 +117,10 @@ export default {
         color: #000000;
       }
 
-      .filter {
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 22px;
-        /* identical to box height, or 157% */
-
-        display: flex;
-        flex-direction: row;
-        gap: 12px;
-
-        text-align: right;
-        font-family: 'Roboto', sans-serif;
-
-        /* Серый */
-        color: #8A8A8E;
-        border: none;
-        option{
-          text-align: left;
-        }
+      .filter_select{
+        .filter_template;
       }
+
     }
   }
   .bonus_footer{

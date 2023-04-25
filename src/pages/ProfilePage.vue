@@ -14,15 +14,15 @@
     </div>
     <div class="statistic">
       <div class="patients s_block">
-        <div class="count">{{profile.patients}}</div>
+        <div class="count">{{count}}</div>
         <div class="description">Пациентов</div>
       </div>
       <div class="contracts s_block">
-        <div class="count">{{profile.contracts}}</div>
+        <div class="count">{{contract}}</div>
         <div class="description">Договоров</div>
       </div>
       <div class="bonuses s_block">
-        <div class="count">{{profile.bonuses}}</div>
+        <div class="count">{{bonus}}К</div>
         <div class="description">Бонусов за <br>
           все время</div>
       </div>
@@ -52,18 +52,52 @@ export default {
     AvaComponent,
     LKNavbar
   },
+
+  data(){
+    return{
+      count: 0,
+      contract: 0,
+      bonus: 0
+    }
+  },
+
   computed: {
     ...mapState({
       userInfo: state => state.auth.userInfo,
-      profile: state => state.profile_info
+      profile: state => state.profile_info,
+      token: state => state.auth.authData.token,
+      profileInfoRequest: state => state.info.profileInfoRequest,
+      profileInfo: state => state.info.profileInfo
     })
   },
 
+  mounted() {
+    this.$nextTick(function () {
+      this.getProfileInfo()
+    })
+  },
+
+  watch:{
+    profileInfo(){
+      this.count = this.profileInfo.count ?? 0
+      this.contract = this.profileInfo.contract ?? 0
+      this.bonus = this.profileInfo.bonus ?? 0
+    }
+  },
 
   methods: {
     ...mapActions({
       logoutVue: 'auth/logoutVue',
+      getProfileInfoRequest: 'info/getProfileInfoRequest',
     }),
+
+    async getProfileInfo(){
+      this.profileInfoRequest.token = this.token
+      this.profileInfoRequest.type = 'profile'
+
+      await this.getProfileInfoRequest()
+    },
+
     logoutLK($router, $store) {
       this.logoutVue()
       if(!$store.state.auth.isAuth) $router.push('/')

@@ -3,37 +3,35 @@ import axios from "axios";
 
 import {baseConfig} from "@/store/config";
 
-export const patientModule = {
+export const infoModule = {
     state: () => ({
 
-        patientData: {
+        profileInfoRequest: {
+            token: '',
+            type: ''
+        },
+
+        profileInfo: {
 
         },
 
-        patientError: {
-            mes: ''
-        },
 
     }),
 
     getters: {},
     mutations: {
-        setPatientData(state, data) {
-            state.patientData = data
+        setProfileInfo(state, data) {
+            state.profileInfo = data
         },
-
-        setPatientError(state, mes){
-            state.patientError = mes
-        }
 
     },
 
     actions: {
 
-        async sendPatientRequest({state, commit}) {
+        async getProfileInfoRequest({state, commit}) {
             try {
 
-                const response = await axios.post(baseConfig.BASE_URL + 'send_patient/', state.patientData,
+                const response = await axios.post(baseConfig.BASE_URL + 'patient_info/', state.profileInfoRequest,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
@@ -41,9 +39,8 @@ export const patientModule = {
                     })
 
                 if (response.data.status == 'ok') {
-                    commit('setPatientData', response.data)
+                    commit('setProfileInfo', response.data.info)
                 } else {
-                    commit('setPatientError', response.data.mes)
                 }
 
             } catch (e) {

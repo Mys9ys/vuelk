@@ -71,7 +71,6 @@ export default {
   flex-direction: row;
   justify-content: space-around;
   background: #fff;
-  padding-bottom: 21px;
 }
 
 .lkn_item_box {

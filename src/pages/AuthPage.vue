@@ -136,7 +136,6 @@ export default {
 @import "src/assets/css/variables.less";
 .wrapper {
   .wrapper_template;
-  padding-top: 35px;
 
   .logo {
     margin-top: 149px;

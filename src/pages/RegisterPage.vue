@@ -70,37 +70,6 @@ export default {
         { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass', value: ''},
         { f_icon: require('@/assets/icon/form/pass.svg'), title: 'Повторите пароль', l_icon: require('@/assets/icon/form/eye.svg'), vmod: 'pass2', value: ''},
       ],
-      // inputs: [
-      //   {f_icon: require('@/assets/icon/form/fio.svg'), title: 'Ф.И.О.', l_icon: '', vmod: 'fio', value: 'Иванов Иван'},
-      //   {
-      //     f_icon: require('@/assets/icon/form/phone.svg'),
-      //     title: 'Мобильный телефон',
-      //     l_icon: '',
-      //     vmod: 'phone',
-      //     value: '+7(978) 979-8987'
-      //   },
-      //   {
-      //     f_icon: require('@/assets/icon/form/mail.svg'),
-      //     title: 'E-mail',
-      //     l_icon: '',
-      //     vmod: 'mail',
-      //     value: 'test2test@test.ru'
-      //   },
-      //   {
-      //     f_icon: require('@/assets/icon/form/pass.svg'),
-      //     title: 'Пароль',
-      //     l_icon: require('@/assets/icon/form/eye.svg'),
-      //     vmod: 'pass',
-      //     value: '123456'
-      //   },
-      //   {
-      //     f_icon: require('@/assets/icon/form/pass.svg'),
-      //     title: 'Повторите пароль',
-      //     l_icon: require('@/assets/icon/form/eye.svg'),
-      //     vmod: 'pass2',
-      //     value: '123456'
-      //   },
-      // ]
     }
   },
   methods: {
@@ -172,15 +141,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "src/assets/css/variables.less";
 .wrapper {
-  position: relative;
-  background: #FFFFFF;
-  width: 100vw;
-  margin: 0 auto;
-  height: 100vh;
-  text-align: center;
-  padding: 0 24px;
-  padding-top: 35px;
+  .wrapper_template;
+  overflow-y:scroll;
 
   .form {
     margin-top: 24px;
@@ -194,13 +158,9 @@ export default {
   }
 
   .footer {
+    margin-top: 24px;
     width: 100%;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
     text-align: center;
-    bottom: 45px;
-    padding: 0 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;

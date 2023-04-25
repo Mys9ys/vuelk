@@ -46,15 +46,6 @@ export default {
 <style lang="less" scoped>
 @import "src/assets/css/variables.less";
 .wrapper {
-  position: relative;
-  background: #FFFFFF;
-  width: 100vw;
-  margin: 0 auto;
-  height: 100vh;
-  text-align: center;
-  padding: 0 24px;
-  padding-top: 35px;
-  padding-bottom: 69px;
   overflow-y: scroll;
 
   .header {

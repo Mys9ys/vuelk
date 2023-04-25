@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper policy-lock">
     <div class="icon_close" @click="$router.go(-1)">
-      <svg viewBox="0 0 12 12" >
+      <svg viewBox="0 0 12 12">
         <g clip-path="url(#clip0)">
           <path
               d="M7.09939 5.99996L11.772 1.32726C12.076 1.02332 12.076 0.531895 11.772 0.227955C11.468 -0.0759849 10.9766 -0.0759849 10.6726 0.227955L5.99994 4.90065L1.32737 0.227955C1.02329 -0.0759849 0.532002 -0.0759849 0.228062 0.227955C-0.0760207 0.531895 -0.0760207 1.02332 0.228062 1.32726L4.90063 5.99996L0.228062 10.6727C-0.0760207 10.9766 -0.0760207 11.468 0.228062 11.772C0.379534 11.9236 0.578697 11.9997 0.777717 11.9997C0.976737 11.9997 1.17576 11.9236 1.32737 11.772L5.99994 7.09927L10.6726 11.772C10.8243 11.9236 11.0233 11.9997 11.2223 11.9997C11.4213 11.9997 11.6203 11.9236 11.772 11.772C12.076 11.468 12.076 10.9766 11.772 10.6727L7.09939 5.99996Z"></path>
@@ -94,40 +94,36 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .policy-lock{
-    position: relative;
-    background: #FFFFFF;
-    width: 98vw;
-    margin: 0 auto;
-    height: 100vh;
-    padding: 0px 24px;
-    padding-top: 35px;
+@import "src/assets/css/variables.less";
 
-    color: #43BAC0;
-    color: #163651;
+.policy-lock {
+  .wrapper_template;
 
-    .icon_close{
-      width: 20px;
-      height: 20px;
-      position: absolute;
-      top: 10px;
-      right: 10px;
-    }
+  color: #43BAC0;
+  color: #163651;
 
-    .policy_content{
-      width: 100%;
-    }
-
-    h3, h4 {
-      margin: 15px 0px;
-    }
-
-    p{
-      font-size: inherit;
-      line-height: 1.45;
-      font-weight: inherit;
-      color: inherit;
-      margin: 12px 0px;
-    }
+  .icon_close {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
   }
+
+  .policy_content {
+    width: 100%;
+  }
+
+  h3, h4 {
+    margin: 15px 0px;
+  }
+
+  p {
+    font-size: inherit;
+    line-height: 1.45;
+    font-weight: inherit;
+    color: inherit;
+    margin: 12px 0px;
+  }
+}
 </style>

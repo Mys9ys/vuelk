@@ -1,7 +1,8 @@
 <template>
   <div class="wrapper">
     <div class="info">Вы успешно зарегистрированы!<br>
-      Подтвердите ваш e-mail на почте</div>
+      Подтвердите ваш e-mail на почте
+    </div>
     <TransparentBtn @click="$router.push('/auth')">Войти</TransparentBtn>
   </div>
 </template>
@@ -19,21 +20,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "src/assets/css/variables.less";
+
 .wrapper {
-  position: relative;
-  background: #FFFFFF;
-  width: 100vw;
-  margin: 0 auto;
-  height: 100vh;
-  text-align: center;
-  padding: 0 24px;
-  padding-top: 35px;
+  .wrapper_template;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-
-  .info{
+  .info {
     width: 100%;
     margin-top: 322px;
     font-weight: 500;
@@ -42,7 +37,6 @@ export default {
     text-align: center;
     margin-bottom: 19px;
     /* or 157% */
-
 
 
     /* Черный */

@@ -69,23 +69,17 @@ export default {
       if(!$store.state.auth.isAuth) $router.push('/')
     },
     outLink(){
-      window.location.href = 'https://lk-partners.eurokappa.ru';
+      window.open('https://lk-partners.eurokappa.ru', '_blank');
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+@import "src/assets/css/variables.less";
 .wrapper {
-  position: relative;
-  background: #FFFFFF;
-  width: 100vw;
-  margin: 0 auto;
-  height: 100vh;
-  text-align: center;
-  padding: 0 24px;
-  padding-top: 35px;
-  padding-bottom: 69px;
+  .wrapper_template;
+  overflow-y:scroll;
 
   .header {
     display: flex;

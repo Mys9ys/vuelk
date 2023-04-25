@@ -27,6 +27,7 @@ export default {
 @max5: #90a4ae;
 @max6: #7239ea;
 @max7: #8a1538;
+@max8: rgb(219, 241, 153);;
 
 .patient {
   width: 100%;
@@ -67,19 +68,19 @@ export default {
     &.clr00ffff {
       background: @max2;
     }
-    &.ava3 {
+    &.clrFFBDBC {
       background: @max3;
     }
     &.clrACE9FB {
       background: @max4;
     }
-    &.ava5 {
-      background: @max5;
+    &.clrDBF199 {
+      background: @max8;
     }
     &.rew {
       background: @max6;
     }
-    &.ava7 {
+    &.clrFFBEBD {
       background: @max7;
     }
 
@@ -119,17 +120,24 @@ export default {
         mix-blend-mode: difference;
       }
 
-      &.bg1{
+      &.grey{
+        background: @max5;
+      }
+
+      &.clrFFBDBC{
         background: #FFEAA1;
       }
       &.clrACE9FB{
         background: #B4E3E6;
       }
-      &.clrff5752{
+      &.clrff5752, &.clrFFBEBD{
         background: #FFC8C8;
       }
       &.clr00ffff{
         background: @max2;
+      }
+      &.clrDBF199{
+        background: @max8;
       }
 
     }

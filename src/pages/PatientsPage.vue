@@ -8,17 +8,31 @@
         </option>
       </select>
     </div>
-    <div class="patients">
+<!--    <div class="patients">-->
 
-      <div class="date_block" v-for="(arItems, index) in $store.state.arPatients" :key="index">
-        <div class="title">{{arItems.day.split('.')[1]}} {{$store.state.month[+arItems.day.split('.')[0]-1]}}</div>
+<!--      <div class="date_block" v-for="(arItems, index) in $store.state.arPatients" :key="index">-->
+<!--        <div class="title">{{arItems.day.split('.')[1]}} {{$store.state.month[+arItems.day.split('.')[0]-1]}}</div>-->
 
-        <PatientEl
-            v-for="(el, index) in arItems.patients"
-            :key="index"
-            :el="el"
-        ></PatientEl>
-      </div>
+<!--        <PatientEl-->
+<!--            v-for="(el, index) in arItems.patients"-->
+<!--            :key="index"-->
+<!--            :el="el"-->
+<!--        ></PatientEl>-->
+<!--      </div>-->
+<!--    </div>-->
+
+
+    <div class="patients" v-if="patientList">
+      <div class="title">Последние переданные пациенты</div>
+      <PatientEl
+          v-for="(el, index) in patientList"
+          :key="index"
+          :el="el"
+      ></PatientEl>
+    </div>
+
+    <div v-else>
+      <div>Вы еще не передавали пациентов</div>
     </div>
     <div class="footer">
       <PaginationBlock></PaginationBlock>
@@ -35,7 +49,7 @@ import BlueBtn from "@/components/ui/btn/BlueBtn";
 import PaginationBlock from "@/components/ui/PaginationBlock";
 import PatientEl from "@/components/PatientEl";
 import LKNavbar from "@/components/LKNavbar";
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "PatientsPage",
@@ -53,16 +67,23 @@ export default {
         {text: 'Последний месяц', value: 'month'},
         {text: 'Последние полгода', value: 'half_year'},
         {text: 'Последний год', value: 'year'},
-      ]
+      ],
+      patientList:false
     }
   },
 
   mounted() {
     //
     this.$nextTick(function () {
-      this.getProfileInfo()
+      this.getPatientList()
     })
   },
+  watch:{
+    arPatientList(){
+      this.patientList = this.arPatientList ?? false
+    }
+  },
+
   methods: {
     ...mapActions({
       getProfileInfoRequest: 'info/getProfileInfoRequest',
@@ -72,7 +93,21 @@ export default {
 
     },
 
-  }
+    async getPatientList(){
+      this.infoRequestData.token = this.token
+      this.infoRequestData.type = 'list'
+
+      await this.getProfileInfoRequest()
+    },
+
+  },
+  computed: {
+    ...mapState({
+      token: state => state.auth.authData.token,
+      infoRequestData: state => state.info.infoRequestData,
+      arPatientList: state => state.info.requestInfo
+    })
+  },
 }
 </script>
 

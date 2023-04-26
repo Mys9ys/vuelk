@@ -8,32 +8,25 @@
         </option>
       </select>
     </div>
-<!--    <div class="patients">-->
 
-<!--      <div class="date_block" v-for="(arItems, index) in $store.state.arPatients" :key="index">-->
-<!--        <div class="title">{{arItems.day.split('.')[1]}} {{$store.state.month[+arItems.day.split('.')[0]-1]}}</div>-->
+    <div v-if="loader">
+      <LoaderMini></LoaderMini>
+    </div>
+    <div class="loader_wrapper" v-else>
+      <div class="patients" v-if="patientList">
+        <div class="title">Последние переданные пациенты</div>
+        <PatientEl
+            v-for="(el, index) in patientList"
+            :key="index"
+            :el="el"
+        ></PatientEl>
+      </div>
 
-<!--        <PatientEl-->
-<!--            v-for="(el, index) in arItems.patients"-->
-<!--            :key="index"-->
-<!--            :el="el"-->
-<!--        ></PatientEl>-->
-<!--      </div>-->
-<!--    </div>-->
-
-
-    <div class="patients" v-if="patientList">
-      <div class="title">Последние переданные пациенты</div>
-      <PatientEl
-          v-for="(el, index) in patientList"
-          :key="index"
-          :el="el"
-      ></PatientEl>
+      <div v-else>
+        <div>Вы еще не передавали пациентов</div>
+      </div>
     </div>
 
-    <div v-else>
-      <div>Вы еще не передавали пациентов</div>
-    </div>
     <div class="footer">
       <PaginationBlock></PaginationBlock>
       <BlueBtn class="btn_margin" :arrow="true" @click="$router.push('/patient_send')">Передать нового пациента</BlueBtn>
@@ -50,6 +43,7 @@ import PaginationBlock from "@/components/ui/PaginationBlock";
 import PatientEl from "@/components/PatientEl";
 import LKNavbar from "@/components/LKNavbar";
 import {mapActions, mapState} from "vuex";
+import LoaderMini from "@/components/ui/LoaderMini";
 
 export default {
   name: "PatientsPage",
@@ -57,7 +51,8 @@ export default {
     BlueBtn,
     PaginationBlock,
     PatientEl,
-    LKNavbar
+    LKNavbar,
+    LoaderMini
   },
   data() {
     return {
@@ -68,19 +63,21 @@ export default {
         {text: 'Последние полгода', value: 'half_year'},
         {text: 'Последний год', value: 'year'},
       ],
-      patientList:false
+      patientList:false,
+      loader: false,
     }
   },
 
   mounted() {
-    //
     this.$nextTick(function () {
+      this.loader = true
       this.getPatientList()
     })
   },
   watch:{
     arPatientList(){
       this.patientList = this.arPatientList ?? false
+      this.loader = false
     }
   },
 

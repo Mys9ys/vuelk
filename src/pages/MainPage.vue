@@ -20,17 +20,22 @@
     </div>
     <BlueBtn class="btn_margin" :arrow="true" @click="$router.push('/patient_send')">Передать нового пациента</BlueBtn>
 
-    <div class="patients" v-if="lastPatients">
-      <div class="title">Последние переданные пациенты</div>
-      <PatientEl
-          v-for="(el, index) in lastPatients"
-          :key="index"
-          :el="el"
-      ></PatientEl>
+    <div v-if="loader">
+      <LoaderMini></LoaderMini>
     </div>
+    <div class="loader_wrapper" v-else>
+      <div class="patients" v-if="lastPatients">
+        <div class="title">Последние переданные пациенты</div>
+        <PatientEl
+            v-for="(el, index) in lastPatients"
+            :key="index"
+            :el="el"
+        ></PatientEl>
+      </div>
 
-    <div v-else>
-      <div>Вы еще не передавали пациентов</div>
+      <div v-else>
+        <div>Вы еще не передавали пациентов</div>
+      </div>
     </div>
 
 
@@ -49,10 +54,11 @@ import BonusCharts from "@/components/BonusCharts";
 import PatientEl from "@/components/PatientEl";
 import LKNavbar from "@/components/LKNavbar";
 import {mapActions, mapState} from "vuex";
+import LoaderMini from "@/components/ui/LoaderMini";
 
 export default {
   name: "MainPage",
-  components: {BonusCharts, BlueBlurBtn, RubIco, BlueBtn, PatientEl, LKNavbar},
+  components: {BonusCharts, BlueBlurBtn, RubIco, BlueBtn, PatientEl, LKNavbar, LoaderMini},
   data() {
     return {
       chartData: {
@@ -82,12 +88,14 @@ export default {
         { text: 'Последние полгода', value: 'half_year' },
         { text: 'Последний год', value: 'year' },
       ],
-      lastPatients:false
+      lastPatients:false,
+      loader: false
     }
   },
 
   mounted() {
     this.$nextTick(function () {
+      this.loader = true
       this.getLastPatients()
     })
   },
@@ -95,6 +103,7 @@ export default {
   watch:{
     arLastPatients(){
       this.lastPatients = this.arLastPatients ?? false
+      this.loader = false
     }
   },
 

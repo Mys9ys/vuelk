@@ -1,5 +1,6 @@
 <template>
-  <div class="wrapper">
+  <LoaderEK v-if="loader"></LoaderEK>
+  <div class="wrapper" v-else>
     <PageHeader class="header">Передача пациента</PageHeader>
     <AvaComponent></AvaComponent>
     <form action="" class="form">
@@ -29,6 +30,7 @@ import AvaComponent from "@/components/AvaComponent";
 import AuthInput from "@/components/ui/input/AuthInput";
 import BlueBtn from "@/components/ui/btn/BlueBtn";
 import {mapActions, mapState} from "vuex";
+import LoaderEK from "@/components/ui/LoaderEK";
 
 export default {
   name: "PatientSend",
@@ -36,7 +38,8 @@ export default {
     PageHeader,
     AvaComponent,
     AuthInput,
-    BlueBtn
+    BlueBtn,
+    LoaderEK
   },
   data(){
     return {
@@ -47,13 +50,7 @@ export default {
         { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Отчество', l_icon: '', vmod: 'fatherstvo'},
         { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: '', vmod: 'phone'},
       ],
-
-      // inputs: [
-      //   { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Фамилия', l_icon: '', vmod: 'family', value: 'shsghsh'},
-      //   { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Имя', l_icon: '', vmod: 'name', value: 'fsddgfs'},
-      //   { f_icon: require('@/assets/icon/form/fio.svg'), title: 'Отчество', l_icon: '', vmod: 'fatherstvo', value: 'as tgasgf'},
-      //   { f_icon: require('@/assets/icon/form/phone.svg'), title: 'Мобильный телефон', l_icon: '', vmod: 'phone', value:'+7(969) 567-9556'},
-      // ]
+      loader: false
     }
   },
   methods: {
@@ -84,6 +81,7 @@ export default {
       // this.errors.push('fsfds')
 
       if (this.errors.length === 0) {
+        this.loader = true
         // запрос авторизации
         this.patientData['token'] = this.token
 

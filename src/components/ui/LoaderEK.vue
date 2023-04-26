@@ -1,7 +1,7 @@
 <template>
   <div id="loader" class="loader_box">
     <div class="loader">
-      <div class="loader_block">1</div>
+      <div class="loader_block"></div>
       <div class="loader_block"></div>
       <div class="loader_block"></div>
     </div>
@@ -45,7 +45,7 @@ export default {
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%)
+  transform: translate(-50%, -50%);
 }
 
 .loader_block {
@@ -66,6 +66,7 @@ export default {
   right: 0;
   background-color: lightblue;
   border-radius: @radius;
+  z-index: 25;
 }
 
 .loader_block:nth-child(1) {

@@ -15,11 +15,18 @@
     <div class="loader_wrapper" v-else>
       <div class="patients" v-if="patientList">
         <div class="title">Последние переданные пациенты</div>
-        <PatientEl
-            v-for="(el, index) in patientList"
-            :key="index"
-            :el="el"
-        ></PatientEl>
+        <div class="patient_wrapper_for" v-for="(dateArr,index) in patientList" :key="index" >
+          <div class="patient_wrapper" v-if="pagination == index">
+            <div class="date_block" v-for="(arr, date) in dateArr" :key="date">
+              <div class="title">{{formatDate(date)}}</div>
+              <PatientEl
+                  v-for="(el, index) in arr"
+                  :key="index"
+                  :el="el"
+              ></PatientEl>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div v-else>
@@ -28,7 +35,7 @@
     </div>
 
     <div class="footer">
-      <PaginationBlock></PaginationBlock>
+      <PaginationBlock :max="max" @updatePagination="changePagination" v-if="max"></PaginationBlock>
       <BlueBtn class="btn_margin" :arrow="true" @click="$router.push('/patient_send')">Передать нового пациента</BlueBtn>
     </div>
   </div>
@@ -63,8 +70,14 @@ export default {
         {text: 'Последние полгода', value: 'half_year'},
         {text: 'Последний год', value: 'year'},
       ],
-      patientList:false,
+      patientList: false,
       loader: false,
+
+      pagination: 1,
+
+      max: '',
+
+      dateList: []
     }
   },
 
@@ -78,6 +91,8 @@ export default {
     arPatientList(){
       this.patientList = this.arPatientList ?? false
       this.loader = false
+
+      this.max = Object.keys(this.patientList).length
     }
   },
 
@@ -86,8 +101,17 @@ export default {
       getProfileInfoRequest: 'info/getProfileInfoRequest',
     }),
 
+    formatDate(date){
+      let ar = date.split('.')
+      return Number(ar[0]) + ' ' + this.month[Number(ar[1])-1]
+    },
+
     selectedChange() {
 
+    },
+
+    changePagination(data){
+      this.pagination = data.pagination
     },
 
     async getPatientList(){
@@ -102,7 +126,8 @@ export default {
     ...mapState({
       token: state => state.auth.authData.token,
       infoRequestData: state => state.info.infoRequestData,
-      arPatientList: state => state.info.requestInfo
+      arPatientList: state => state.info.requestInfo,
+      month: state => state.month
     })
   },
 }
@@ -155,7 +180,7 @@ export default {
   .footer{
     width: 100%;
     position: fixed;
-    bottom: 67px;
+    bottom: 45px;
     display: flex;
     flex-direction: column;
     gap: 21px;

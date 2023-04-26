@@ -1,7 +1,8 @@
 <template>
   <div class="pagination">
     <div class="left arrow" @click="minusPage"><img src="@/assets/icon/pagination/left.svg" alt=""></div>
-
+    <div class="btn_page" :class="{'active' : active===1}" @click="paginationClick(1)"><span>1</span></div>
+    <span class="btn_page pagination_doted" v-if="active > 3">...</span>
     <div
         v-for="index in btns" :key="index"
         class="btn_page"
@@ -9,8 +10,8 @@
         @click="paginationClick(index)"
     ><span>{{index}}</span></div>
 
-    <span class="btn_page">...</span>
-    <div class="btn_page"><span>{{btns_max}}</span></div>
+    <span class="btn_page pagination_doted" v-if="active < btns_max-2">...</span>
+    <div class="btn_page" :class="{'active' : active===btns_max}" @click="paginationClick(btns_max)"><span>{{btns_max}}</span></div>
     <div class="right" @click="plusPage"><img src="@/assets/icon/pagination/right.svg" alt=""></div>
   </div>
 </template>
@@ -18,31 +19,72 @@
 <script>
 export default {
   name: "PaginationBlock",
+  props: {
+    max:{
+      type: String
+    }
+  },
   data() {
     return {
-      btns_max: 14,
+      btns_max: this.max ?? '',
       active: 1,
-      btns: [1,2,3,4]
-      // btns: [1,2,3,4, '...', btns_max]
+      btns: []
+    }
+  },
+  mounted() {
+    if(this.btns_max ===3){
+      this.btns = [2]
+    }
+    if(this.btns_max ===4){
+      this.btns = [2,3]
+    }
+    if(this.btns_max >4){
+      this.btns = [2,3,4]
     }
   },
   methods: {
     paginationClick(value){
-      if(this.btns[0]<this.btns_max-4){
-        this.btns = Array.from({ length: 4 }, (_, i) => i+value)
+      if(value>2 && value< this.btns_max-2){
+        if(this.btns_max > 4) {
+          this.btns = [value - 1, value, value + 1]
+        }
+      }
+      if(value>1 && value<2){
+        if(this.btns_max > 4){
+          this.btns = [value,value+1,value+2]
+        }
+      }
+      if(value>this.btns_max-3 && value<this.btns_max-1){
+        if(this.btns_max > 4){
+          this.btns = [value-1,value,value+1]
+        }
+      }
+      if(value === 1) {
+        if(this.btns_max > 4) {
+          this.btns = Array.from({length: 3}, (_, i) => i + value + 1)
+        }
+      }
+      if(value === this.btns_max) {
+        if(this.btns_max > 4) {
+          this.btns = Array.from({length: 3}, (_, i) => i + value - 3)
+        }
       }
       this.active = value
+      this.$emit('updatePagination', {
+        pagination:this.active
+      })
     },
     minusPage(){
-      if(this.btns[0]>1) {
-        this.btns = this.btns.map(i=>i-1)
-        this.active -= 1
+      if(this.active>1){
+        this.active -=1
+        this.paginationClick(this.active)
       }
+
     },
     plusPage(){
-      if(this.btns[0]<this.btns_max) {
-        this.btns = this.btns.map(i=>i+1)
+      if(this.active<this.btns_max) {
         this.active += 1
+        this.paginationClick(this.active)
       }
     }
   }
@@ -56,7 +98,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 0px 20px;
-  gap:20px;
+  gap:16px;
   .arrow{
     display: flex;
     flex-direction: row;
@@ -96,6 +138,10 @@ export default {
         color: #535355;
         mix-blend-mode: difference;
       }
+    }
+
+    &.pagination_doted{
+      width: 14px;
     }
   }
 }

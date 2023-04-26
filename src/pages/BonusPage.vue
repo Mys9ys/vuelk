@@ -153,10 +153,9 @@ export default {
     }
   }
   .footer{
-
     width: 100%;
     position: fixed;
-    bottom: 67px;
+    bottom: 42px;
     display: flex;
     flex-direction: column;
     gap: 21px;

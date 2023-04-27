@@ -2,35 +2,79 @@
   <div class="wrapper">
     <div class="header">
       <div class="title">Бонусы</div>
-      <select v-model="selected" @change="selectedChange()" class="filter_select">
-        <option v-for="(option, i) in options" :value="option.value" :key="i">
-          {{ option.text }}
+      <select v-model="selected" class="filter_select">
+        <option v-for="(name, index) in periods" :value="index" :key="index">
+          {{ name }}
         </option>
       </select>
     </div>
 
     <div class="sub_header">
-      <div class="title">Январь 2023</div>
+      <div class="title">{{periods[selected]}}</div>
       <div class="filter"><span>223 000</span> <span class="b_icon">ᴃ</span></div>
     </div>
 
-    <div class="bonuses">
+    <div v-if="loader">
+      <LoaderMini></LoaderMini>
+    </div>
 
-      <div class="date_block" v-for="(arItems, index) in $store.state.bonuses" :key="index">
-        <div class="title">{{arItems.day.split('.')[1]}} {{$store.state.month[+arItems.day.split('.')[0]-1]}}</div>
+    <div class="loader_wrapper" v-else>
+      <!-- 1 Подгрузка блока после получения данных-->
+      <div class="bonuses" v-if="patientList">
+        <div class="title">Последние переданные пациенты</div>
 
-        <PatientBonus
-            v-for="(el, index) in arItems.patients"
-            :key="index"
-            :el="el"
-        ></PatientBonus>
+        <!-- 2 разбиение массива пациентов на периоды для фильтра-->
+        <div class="period_wrapper_for" v-for="(name,period) in periods" :key="period">
+          <div class="period_wrapper" v-if="period === selected">
+
+            <div class="empty_wrapper_" v-if="patientList[period]">
+              <!-- 3 разбиение массива пациентов заданного периода на страницы пагинации-->
+              <div class="patient_wrapper_for" v-for="(arPeriod,pageNumber) in patientList[period]" :key="pageNumber" >
+                <div class="patient_wrapper" v-if="pagination[period] == pageNumber">
+                  <!-- 4 разбиение по датам-->
+                  <div class="date_block" v-for="(arr, date) in arPeriod" :key="date">
+                    <div class="title">{{formatDate(date)}}</div>
+                    <PatientBonus
+                        v-for="(el, index) in arr"
+                        :key="index"
+                        :el="el"
+                    ></PatientBonus>
+                  </div>
+                  <!-- 4 end-->
+
+                </div>
+              </div>
+              <!-- 3 end-->
+            </div>
+            <div class="empty_wrapper" v-else>
+              Нет переданных пациентов за выбранный период
+            </div>
+
+          </div>
+        </div>
+        <!-- 2 end-->
+
+      </div>
+      <!-- 1 end-->
+      <div v-else>
+        <div>Вы еще не передавали пациентов</div>
       </div>
     </div>
 
     <div class="footer">
-      <PaginationBlock></PaginationBlock>
-    </div>
+      <div class="pagination_wrapper" v-if="max">
+        <div class="pagination_wrapper_for" v-for="(count, period) in max" :key="period">
+          <PaginationBlock
+              :max="count"
+              @updatePagination="changePagination"
+              v-if="period == selected"
+              ref="pagination"
+              :name="period"
+          ></PaginationBlock>
+        </div>
+      </div>
 
+    </div>
 
   </div>
   <LKNavbar
@@ -42,30 +86,86 @@
 import PatientBonus from "@/components/PatientBonus";
 import PaginationBlock from "@/components/ui/PaginationBlock";
 import LKNavbar from "@/components/LKNavbar";
+import LoaderMini from "@/components/ui/LoaderMini";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "BonusPage",
   components: {
-    PatientBonus,
     PaginationBlock,
-    LKNavbar
+    LKNavbar,
+    LoaderMini,
+    PatientBonus
   },
   data() {
     return {
-      selected: 'week',
-      options: [
-        {text: 'Последняя неделя', value: 'week'},
-        {text: 'Последний месяц', value: 'month'},
-        {text: 'Последние полгода', value: 'half_year'},
-        {text: 'Последний год', value: 'year'},
-      ]
+      index: 1,
+      selected: 'all',
+      periods: {
+        'all': 'За все время',
+        'week': 'Последняя неделя',
+        'month': 'Последний месяц',
+        'half': 'Последние полгода',
+        'year': 'Последний год',
+      },
+      patientList: false,
+      loader: false,
+
+      pagination: {},
+
+      max: {},
+    }
+  },
+
+  mounted() {
+    this.$nextTick(function () {
+      this.loader = true
+      this.getPatientList()
+    })
+  },
+  watch:{
+    arPatientList(){
+      this.patientList = this.arPatientList ?? false
+      this.loader = false
+
+      let keys = Object.keys(this.patientList)
+
+      keys.forEach(key=>{
+        this.max[key] = Object.keys(this.patientList[key]).length
+        this.pagination[key] = 1
+      })
     }
   },
   methods: {
-    selectedChange() {
+    ...mapActions({
+      getProfileInfoRequest: 'info/getProfileInfoRequest',
+    }),
 
+    formatDate(date){
+      let ar = date.split('.')
+      return Number(ar[0]) + ' ' + this.month[Number(ar[1])-1]
     },
-  }
+
+    changePagination(data){
+      this.pagination[this.$refs.pagination[0].name] = data.pagination
+    },
+
+    async getPatientList(){
+      this.infoRequestData.token = this.token
+      this.infoRequestData.type = 'bonus'
+
+      await this.getProfileInfoRequest()
+    },
+  },
+  computed: {
+    ...mapState({
+      token: state => state.auth.authData.token,
+      infoRequestData: state => state.info.infoRequestData,
+      arPatientList: state => state.info.requestInfo,
+      month: state => state.month
+    })
+  },
+
 }
 </script>
 
@@ -174,6 +274,10 @@ export default {
   justify-content: flex-start;
   font-size: 20px;
   height: 26px;
+}
 
+.empty_wrapper{
+  margin-top: 25px;
+  font-size: 13px;
 }
 </style>

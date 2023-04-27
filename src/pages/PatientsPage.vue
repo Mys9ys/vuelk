@@ -3,8 +3,8 @@
     <div class="header">
       <div class="title">Пациенты</div>
       <select v-model="selected" class="filter_select">
-        <option v-for="(option, i) in options" :value="option.value" :key="i">
-          {{ option.text }}
+        <option v-for="(name, index) in periods" :value="index" :key="index">
+          {{ name }}
         </option>
       </select>
     </div>
@@ -13,36 +13,43 @@
       <LoaderMini></LoaderMini>
     </div>
     <div class="loader_wrapper" v-else>
-      <!-- Подгрузка блока после получения данных-->
+      <!-- 1 Подгрузка блока после получения данных-->
       <div class="patients" v-if="patientList">
-
         <div class="title">Последние переданные пациенты</div>
 
-        <!-- разбиение массива пациентов на периоды для фильтра-->
-        <div class="period_wrapper_for" v-for="(arPeriod,title) in patientList" :key="title">
-          <div class="period_wrapper" v-if="title === selected">
+        <!-- 2 разбиение массива пациентов на периоды для фильтра-->
+        <div class="period_wrapper_for" v-for="(name,period) in periods" :key="period">
+          <div class="period_wrapper" v-if="period === selected">
 
-            <!-- разбиение массива пациентов заданного периода на страницы пагинации-->
-            <div class="patient_wrapper_for" v-for="(dateArr,index) in arPeriod" :key="index" >
-              <div class="patient_wrapper" v-if="pagination[title] == index">
+            <div class="empty_wrapper_" v-if="patientList[period]">
+              <!-- 3 разбиение массива пациентов заданного периода на страницы пагинации-->
+              <div class="patient_wrapper_for" v-for="(arPeriod,pageNumber) in patientList[period]" :key="pageNumber" >
+                <div class="patient_wrapper" v-if="pagination[period] == pageNumber">
+                  <!-- 4 разбиение по датам-->
+                  <div class="date_block" v-for="(arr, date) in arPeriod" :key="date">
+                    <div class="title">{{formatDate(date)}}</div>
+                    <PatientEl
+                        v-for="(el, index) in arr"
+                        :key="index"
+                        :el="el"
+                    ></PatientEl>
+                  </div>
+                  <!-- 4 end-->
 
-                <!-- разбиение по датам-->
-                <div class="date_block" v-for="(arr, date) in dateArr" :key="date">
-                  <div class="title">{{formatDate(date)}}</div>
-                  <PatientEl
-                      v-for="(el, index) in arr"
-                      :key="index"
-                      :el="el"
-                  ></PatientEl>
                 </div>
-
               </div>
+              <!-- 3 end-->
+            </div>
+            <div class="empty_wrapper" v-else>
+              Нет переданных пациентов за выбранный период
             </div>
 
           </div>
         </div>
+        <!-- 2 end-->
 
       </div>
+      <!-- 1 end-->
       <div v-else>
         <div>Вы еще не передавали пациентов</div>
       </div>
@@ -96,6 +103,14 @@ export default {
         {text: 'Последние полгода', value: 'half'},
         {text: 'Последний год', value: 'year'},
       ],
+
+      periods: {
+        'all': 'За все время',
+        'week': 'Последняя неделя',
+        'month': 'Последний месяц',
+        'half': 'Последние полгода',
+        'year': 'Последний год',
+      },
       patientList: false,
       loader: false,
 

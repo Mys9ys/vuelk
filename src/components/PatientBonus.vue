@@ -6,9 +6,9 @@
     <div class="info">
       <div class="header">
         <div class="name">{{ el.name }}</div>
-        <div class="money" >{{el.status === 'Подписан договор' ? '15 000 ' : '1 000 '}}<span class="b_icon">ᴃ</span></div>
+        <div class="money" >{{el.bonus}}<span class="b_icon">ᴃ</span></div>
       </div>
-      <div class="status"><span class="text">{{ el.status }}</span></div>
+      <div class="status"><span class="text">{{ el.b_status }}</span></div>
     </div>
   </div>
 </template>

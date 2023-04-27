@@ -182,11 +182,8 @@ export default {
   }
 
   .privacy {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
     text-align: center;
-    bottom: 45px;
+    margin-top:30%;
   }
 }
 </style>

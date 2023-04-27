@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="header">
       <div class="title">Пациенты</div>
-      <select v-model="selected" @change="selectedChange()" class="filter_select">
+      <select v-model="selected" class="filter_select">
         <option v-for="(option, i) in options" :value="option.value" :key="i">
           {{ option.text }}
         </option>
@@ -13,29 +13,54 @@
       <LoaderMini></LoaderMini>
     </div>
     <div class="loader_wrapper" v-else>
+      <!-- Подгрузка блока после получения данных-->
       <div class="patients" v-if="patientList">
+
         <div class="title">Последние переданные пациенты</div>
-        <div class="patient_wrapper_for" v-for="(dateArr,index) in patientList" :key="index" >
-          <div class="patient_wrapper" v-if="pagination == index">
-            <div class="date_block" v-for="(arr, date) in dateArr" :key="date">
-              <div class="title">{{formatDate(date)}}</div>
-              <PatientEl
-                  v-for="(el, index) in arr"
-                  :key="index"
-                  :el="el"
-              ></PatientEl>
+
+        <!-- разбиение массива пациентов на периоды для фильтра-->
+        <div class="period_wrapper_for" v-for="(arPeriod,title) in patientList" :key="title">
+          <div class="period_wrapper" v-if="title === selected">
+
+            <!-- разбиение массива пациентов заданного периода на страницы пагинации-->
+            <div class="patient_wrapper_for" v-for="(dateArr,index) in arPeriod" :key="index" >
+              <div class="patient_wrapper" v-if="pagination[title] == index">
+
+                <!-- разбиение по датам-->
+                <div class="date_block" v-for="(arr, date) in dateArr" :key="date">
+                  <div class="title">{{formatDate(date)}}</div>
+                  <PatientEl
+                      v-for="(el, index) in arr"
+                      :key="index"
+                      :el="el"
+                  ></PatientEl>
+                </div>
+
+              </div>
             </div>
+
           </div>
         </div>
-      </div>
 
+      </div>
       <div v-else>
         <div>Вы еще не передавали пациентов</div>
       </div>
     </div>
 
     <div class="footer">
-      <PaginationBlock :max="max" @updatePagination="changePagination" v-if="max"></PaginationBlock>
+      <div class="pagination_wrapper" v-if="max">
+        <div class="pagination_wrapper_for" v-for="(count, period) in max" :key="period">
+          <PaginationBlock
+              :max="count"
+              @updatePagination="changePagination"
+              v-if="period == selected"
+              ref="pagination"
+              :name="period"
+          ></PaginationBlock>
+        </div>
+      </div>
+
       <BlueBtn class="btn_margin" :arrow="true" @click="$router.push('/patient_send')">Передать нового пациента</BlueBtn>
     </div>
   </div>
@@ -63,21 +88,20 @@ export default {
   },
   data() {
     return {
-      selected: 'week',
+      selected: 'all',
       options: [
+        {text: 'За все время', value: 'all'},
         {text: 'Последняя неделя', value: 'week'},
         {text: 'Последний месяц', value: 'month'},
-        {text: 'Последние полгода', value: 'half_year'},
+        {text: 'Последние полгода', value: 'half'},
         {text: 'Последний год', value: 'year'},
       ],
       patientList: false,
       loader: false,
 
-      pagination: 1,
+      pagination: {},
 
-      max: '',
-
-      dateList: []
+      max: {},
     }
   },
 
@@ -92,7 +116,12 @@ export default {
       this.patientList = this.arPatientList ?? false
       this.loader = false
 
-      this.max = Object.keys(this.patientList).length
+      let keys = Object.keys(this.patientList)
+
+      keys.forEach(key=>{
+        this.max[key] = Object.keys(this.patientList[key]).length
+        this.pagination[key] = 1
+      })
     }
   },
 
@@ -106,12 +135,8 @@ export default {
       return Number(ar[0]) + ' ' + this.month[Number(ar[1])-1]
     },
 
-    selectedChange() {
-
-    },
-
     changePagination(data){
-      this.pagination = data.pagination
+      this.pagination[this.$refs.pagination[0].name] = data.pagination
     },
 
     async getPatientList(){

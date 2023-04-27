@@ -11,7 +11,7 @@
     ><span>{{index}}</span></div>
 
     <span class="btn_page pagination_doted" v-if="active < btns_max-2">...</span>
-    <div class="btn_page" :class="{'active' : active===btns_max}" @click="paginationClick(btns_max)"><span>{{btns_max}}</span></div>
+    <div class="btn_page"  v-if="btns_max>1" :class="{'active' : active===btns_max}" @click="paginationClick(btns_max)"><span>{{btns_max}}</span></div>
     <div class="right" @click="plusPage"><img src="@/assets/icon/pagination/right.svg" alt=""></div>
   </div>
 </template>
@@ -21,6 +21,9 @@ export default {
   name: "PaginationBlock",
   props: {
     max:{
+      type: String
+    },
+    name: {
       type: String
     }
   },
@@ -32,6 +35,9 @@ export default {
     }
   },
   mounted() {
+    if(this.btns_max<3){
+      this.btns = []
+    }
     if(this.btns_max ===3){
       this.btns = [2]
     }

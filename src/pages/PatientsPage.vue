@@ -96,7 +96,7 @@ export default {
   data() {
     return {
       selected: 'all',
-      
+
       periods: {
         'all': 'За все время',
         'week': 'Последняя неделя',
@@ -122,7 +122,6 @@ export default {
   watch:{
     arPatientList(){
       this.patientList = this.arPatientList ?? false
-      this.loader = false
 
       let keys = Object.keys(this.patientList)
 
@@ -152,6 +151,8 @@ export default {
       this.infoRequestData.type = 'list'
 
       await this.getProfileInfoRequest()
+
+      this.loader = false
     },
 
   },

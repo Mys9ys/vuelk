@@ -103,7 +103,7 @@ export default {
   watch:{
     arLastPatients(){
       this.lastPatients = this.arLastPatients ?? false
-      this.loader = false
+
     }
   },
 
@@ -120,6 +120,8 @@ export default {
       this.infoRequestData.type = 'last'
 
       await this.getProfileInfoRequest()
+
+      this.loader = false
     },
 
     setNumberSeparate(number){

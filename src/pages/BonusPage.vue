@@ -126,7 +126,6 @@ export default {
   watch:{
     arPatientList(){
       this.patientList = this.arPatientList ?? false
-      this.loader = false
 
       let keys = Object.keys(this.patientList)
 
@@ -155,6 +154,8 @@ export default {
       this.infoRequestData.type = 'bonus'
 
       await this.getProfileInfoRequest()
+
+      this.loader = false
     },
   },
   computed: {

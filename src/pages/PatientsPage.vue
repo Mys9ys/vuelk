@@ -96,14 +96,7 @@ export default {
   data() {
     return {
       selected: 'all',
-      options: [
-        {text: 'За все время', value: 'all'},
-        {text: 'Последняя неделя', value: 'week'},
-        {text: 'Последний месяц', value: 'month'},
-        {text: 'Последние полгода', value: 'half'},
-        {text: 'Последний год', value: 'year'},
-      ],
-
+      
       periods: {
         'all': 'За все время',
         'week': 'Последняя неделя',

@@ -225,4 +225,9 @@ export default {
     padding-bottom: 21px;
   }
 }
+
+.empty_wrapper{
+  margin-top: 25px;
+  font-size: 13px;
+}
 </style>

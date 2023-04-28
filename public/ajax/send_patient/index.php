@@ -1,31 +1,33 @@
 <?php
 
-use Bitrix\Main\Loader;
-use Bitrix\Main\UserTable;
-
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST');
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php");
 
-file_put_contents('../_logs/debug_send_patient.json', json_encode($_REQUEST), FILE_APPEND);
+use Bitrix\Main\Loader;
+use Bitrix\Main\UserTable;
 
-$res = new VueSendPatient($_REQUEST);
+$_REQUEST['date'] = date(\CDatabase::DateFormatToPHP("DD.MM.YYYY HH:MI:SS"), time());
 
-echo json_encode($res->getStatus());
+file_put_contents('../_logs/send_patient.log', json_encode($_REQUEST) . PHP_EOL, FILE_APPEND);
 
-class VueSendPatient
+if($_REQUEST){
+    $res = new LKSendPatient($_REQUEST);
+
+    echo json_encode($res->result());
+}
+
+class LKSendPatient
 {
 
-    protected $sendData = [];
     protected $clientsIb = '';
     protected $userId = '';
 
-    protected $arrError = [
-        'status' => '',
-        'mes' => ''
-    ];
+    protected $sendData = [];
+
+    protected $arResult = [];
 
     public function __construct($data)
     {
@@ -38,24 +40,22 @@ class VueSendPatient
 
         $this->sendData = $data;
 
-        $this->getUserIdForToken($this->sendData['token']);
+        $this->getUserIdForToken();
 
         if ($this->userId) {
             $this->setClientSendData();
-            $this->arrError['status'] = 'ok';
+            $this->setResult('ok', '');
         } else {
-            $this->arrError['status'] = 'error';
-            $this->arrError['mes'] = 'Передача не удалась';
+            $this->setResult('error', 'Ошибка авторизации');
         }
 
     }
 
-    protected function getUserIdForToken($token)
+    protected function getUserIdForToken()
     {
-
         $dbUser = UserTable::getList(array(
             'select' => array('ID'),
-            'filter' => array('=UF_TOKEN' => $token)
+            'filter' => array('=UF_TOKEN' => $this->sendData['token'])
         ))->fetch();
 
         $this->userId = $dbUser['ID'];
@@ -90,13 +90,23 @@ class VueSendPatient
         $name->OnAfterIBlockElementAddHandler($data);
         $name->OnBeforeIBlockElementAddHandler($data);
 
-        $this->result = $ib->Add($data);
+        if($ib->Add($data)){
+            $this->setResult('ok', '');
+        } else {
+            $this->setResult('error', 'Передача не удалась');
+        }
 
     }
 
-    public function getStatus()
+    protected function setResult($status,$mes)
     {
-        return $this->arrError;
+        $this->arResult['status'] = $status;
+        $this->arResult['mes'] = $mes;
+    }
+
+    public function result()
+    {
+        return $this->arResult;
     }
 
 }

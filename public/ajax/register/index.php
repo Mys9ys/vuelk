@@ -1,84 +1,82 @@
 <?php
-
-use Bitrix\Main\UserTable;
-
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST');
 header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php");
 
-file_put_contents('../_logs/debug_new.json', json_encode($_REQUEST), FILE_APPEND);
+use Bitrix\Main\UserTable;
 
-$res= new VueRegistrationClass($_REQUEST);
+$_REQUEST['date'] = date(\CDatabase::DateFormatToPHP("DD.MM.YYYY HH:MI:SS"), time());
 
-echo json_encode($res->getStatus());
+file_put_contents('../_logs/register.log', json_encode($_REQUEST) . PHP_EOL, FILE_APPEND);
 
-class VueRegistrationClass
+if($_REQUEST){
+
+    $res= new LKRegistrationClass($_REQUEST);
+
+    echo json_encode($res->result());
+}
+
+
+class LKRegistrationClass
 {
 
-    protected $regData = [];
+    protected $data = [];
 
-    protected $arrError = [
-        'status' => '',
-        'mes' => ''
-    ];
+    protected $arResult = [];
 
     public function __construct($data)
     {
-        if ($data) $this->regData = $data;
+        $this->data = $data;
 
-        if($this->regData['type'] === 'reg') $this->userRegistration();
-
-        if($this->regData['type'] === 'check') $this->checkImportantInput();
-
+        if($this->data['type'] === 'reg') $this->userRegistration();
+        if($this->data['type'] === 'check') $this->checkImportantInput();
     }
 
     protected function userRegistration()
     {
-        $arIMAGE = CFile::MakeFileArray($_SERVER["DOCUMENT_ROOT"].$this->regData['file']);
+        $arIMAGE = CFile::MakeFileArray($_SERVER["DOCUMENT_ROOT"].$this->data['file']);
 
-        $arrFio = explode(' ', $this->regData['fio']);
+        $arrFio = explode(' ', $this->data['fio']);
 
         $user = new CUser;
         $arFields = Array(
             "NAME"              => $arrFio[1],
             "LAST_NAME"         => $arrFio[0],
-            "EMAIL"             => $this->regData['mail'],
-            "LOGIN"             => $this->regData['mail'],
+            "EMAIL"             => $this->data['mail'],
+            "LOGIN"             => $this->data['mail'],
             "LID"               => "ru",
             "ACTIVE"            => "Y",
             "GROUP_ID"          => array(7),
-            "PASSWORD"          => $this->regData['pass'],
-            "CONFIRM_PASSWORD"  => $this->regData['pass2'],
+            "PASSWORD"          => $this->data['pass'],
+            "CONFIRM_PASSWORD"  => $this->data['pass2'],
             "PERSONAL_PHOTO"    => $arIMAGE,
-            "PERSONAL_PHONE"    => \NormalizePhone($this->regData["phone"]),
+            "PERSONAL_PHONE"    => \NormalizePhone($this->data["phone"]),
         );
 
         $ID = $user->Add($arFields);
 
         if($user->LAST_ERROR) {
-            $this->arrError['status'] = 'error';
-            $this->arrError['mes'] = explode('(', $user->LAST_ERROR)[0] . 'уже существует';
+            $this->setResult('error', explode('(', $user->LAST_ERROR)[0] . 'уже существует');
         } else {
-            $this->arrError['status'] = 'ok';
+            $this->setResult('ok', '');
         }
-
     }
 
     protected function checkImportantInput(){
 
-        file_put_contents('../_logs/debug_phone.json', \NormalizePhone($this->regData["value"]), FILE_APPEND);
+        file_put_contents('../_logs/set_phone.log', \NormalizePhone($this->data["value"]), FILE_APPEND);
 
         $filter = [];
         $mes = '';
-        if($this->regData['name'] === 'phone') {
-            $filter['=PERSONAL_PHONE'] = \NormalizePhone($this->regData["value"]);
+        if($this->data['name'] === 'phone') {
+            $filter['=PERSONAL_PHONE'] = \NormalizePhone($this->data["value"]);
             $mes = 'Номер уже используется';
         }
 
-        if($this->regData['name'] === 'mail') {
-            $filter['=EMAIL'] = $this->regData["value"];
+        if($this->data['name'] === 'mail') {
+            $filter['=EMAIL'] = $this->data["value"];
             $mes = 'E-mail уже используется';
         }
 
@@ -88,16 +86,25 @@ class VueRegistrationClass
         ))->fetch();
 
         if($dbUser['ID']){
-            $this->arrError['status'] = 'error';
-            $this->arrError['result'] = [
-                'name' => $this->regData['name'],
-                'mes'=>$mes
+            $this->setResult('error', $mes, $this->data['name']);
+        }
+    }
+
+    protected function setResult($status,$mes, $name = '')
+    {
+        $this->arResult['status'] = $status;
+        $this->arResult['mes'] = $mes;
+        if($name){
+            $this->arResult['result'] = [
+                'mes' => $mes,
+                'name' => $name
             ];
         }
-
     }
 
-    public function getStatus(){
-        return $this->arrError;
+    public function result()
+    {
+        return $this->arResult;
     }
+
 }

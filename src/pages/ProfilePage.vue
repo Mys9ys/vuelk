@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="btns">
-      <a class="btn" href="tel:8 (800) 500-11-61"><img src="@/assets/icon/profile/call.svg" alt=""><span>Связаться с нами</span></a>
+      <a class="btn" href="tel:+7 925 355 9014"><img src="@/assets/icon/profile/call.svg" alt=""><span>Связаться с нами</span></a>
       <div class="btn" @click="$router.push('/policy')"><img src="@/assets/icon/profile/shield.svg" alt=""><span>Политика конфиденциальности</span></div>
 <!--      <div class="btn"><img src="@/assets/icon/profile/pen.svg" alt=""><span>Изменить профиль</span></div>-->
       <div class="btn" @click="outLink"><img src="@/assets/icon/profile/link.svg" alt=""><span>Наш сайт</span></div>

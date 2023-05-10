@@ -164,6 +164,8 @@ export default {
 
         /* Черный */
         color: #000000;
+
+        margin-bottom: 25px;
       }
 
       .filter_select{

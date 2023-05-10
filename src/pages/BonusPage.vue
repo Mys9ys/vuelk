@@ -21,7 +21,7 @@
     <div class="loader_wrapper" v-else>
       <!-- 1 Подгрузка блока после получения данных-->
       <div class="bonuses" v-if="patientList">
-        <div class="title">Последние переданные пациенты</div>
+        <div class="title title_bottom">Последние переданные пациенты</div>
 
         <!-- 2 разбиение массива пациентов на периоды для фильтра-->
         <div class="period_wrapper_for" v-for="(name,period) in periods" :key="period">
@@ -57,7 +57,7 @@
       </div>
       <!-- 1 end-->
       <div v-else>
-        <div>Вы еще не передавали пациентов</div>
+        <div>Вам еще не подтвердили успешные сделки</div>
       </div>
     </div>
 
@@ -189,8 +189,6 @@ export default {
       line-height: 22px;
       /* identical to box height, or 138% */
 
-      letter-spacing: -0.408px;
-
       /* Черный */
       color: #000000;
     }
@@ -236,6 +234,9 @@ export default {
   }
   .bonuses{
     padding-bottom: 45px;
+    .title_bottom{
+      margin-bottom: 25px;
+    }
   }
 
   .date_block{
@@ -245,8 +246,6 @@ export default {
       line-height: 22px;
       text-align:left;
       /* identical to box height, or 183% */
-
-      letter-spacing: -0.408px;
 
       /* Черный */
 

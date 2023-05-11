@@ -58,7 +58,6 @@ export default {
     }),
 
     async sendRecoverPass(){
-      console.log('send', this.userId)
 
       this.errors = []
 

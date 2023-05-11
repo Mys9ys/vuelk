@@ -87,8 +87,6 @@ export default {
         }
       })
 
-      console.log('this.errors', this.errors)
-
       if (this.errors.length === 0) {
         // запрос авторизации
         this.recoverData['type'] = 'recoverPhone'

@@ -27,7 +27,6 @@ export const authModule = {
 
         userInfo: [],
 
-        baseUrl: baseConfig.BASE_URL
     }),
     getters: {},
     mutations: {
@@ -73,10 +72,9 @@ export const authModule = {
         },
 
         async authRequest({state, commit}) {
-            console.log('axios data', state.loginData)
 
             try {
-                const response = await axios.post(state.baseUrl + 'auth/', state.loginData,
+                const response = await axios.post(baseConfig.BASE_URL + 'auth/', state.loginData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
@@ -97,7 +95,6 @@ export const authModule = {
                     commit('setAuth', false)
                 }
 
-                // console.log(response.data)
             } catch (e) {
                 console.log('error', e)
             }
@@ -107,7 +104,7 @@ export const authModule = {
 
             commit('setTypeRequest', 'tokenLogin')
             try {
-                const response = await axios.post(state.baseUrl + 'auth/', state.authData,
+                const response = await axios.post(baseConfig.BASE_URL + 'auth/', state.authData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
@@ -135,7 +132,7 @@ export const authModule = {
 
                 state.avaData.token = state.authData.token
 
-                const response = await axios.post(state.baseUrl + 'auth/', state.avaData,
+                const response = await axios.post(baseConfig.BASE_URL + 'auth/', state.avaData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
@@ -143,7 +140,6 @@ export const authModule = {
                     })
 
                 if (response.data.status == 'ok') {
-                    console.log('response.data', response.data)
                     commit('setUserInfo', response.data.info)
                 }
 

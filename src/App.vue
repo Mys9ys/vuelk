@@ -2,9 +2,7 @@
   <div v-if="$store.state.loading">
     <LoadingStart></LoadingStart>
   </div>
-  <transition-group name="fade">
-    <router-view></router-view>
-  </transition-group>
+  <router-view></router-view>
 </template>
 
 <script>

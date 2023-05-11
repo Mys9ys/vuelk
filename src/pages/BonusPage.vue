@@ -9,9 +9,9 @@
       </select>
     </div>
 
-    <div class="sub_header">
+    <div class="sub_header" v-if="patientList">
       <div class="title">{{periods[selected]}}</div>
-      <div class="filter"><span>223 000</span> <span class="b_icon">ᴃ</span></div>
+      <div class="filter"><span>{{patientList['bonus'][selected] ? patientList['bonus'][selected]['count'] : 0}}</span> <span class="b_icon">ᴃ</span></div>
     </div>
 
     <div v-if="loader">
@@ -47,7 +47,7 @@
               <!-- 3 end-->
             </div>
             <div class="empty_wrapper" v-else>
-              Нет переданных пациентов за выбранный период
+              Нет успешных сделок за выбранный период
             </div>
 
           </div>

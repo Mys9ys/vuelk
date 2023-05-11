@@ -12,7 +12,12 @@ export default {
   name: "SendSuccess",
   components: {
     TransparentBtn
-  }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.$router.go(-2)
+    }, 2800)
+  },
 
 }
 </script>

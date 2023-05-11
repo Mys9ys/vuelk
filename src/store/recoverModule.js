@@ -86,7 +86,6 @@ export const recoverModule = {
                     })
 
                 if (response.data.status == 'ok') {
-                    console.log('axios data', response.data)
                     commit('setPassSuccess')
                 } else {
                     commit('setPassError', response.data.mes)

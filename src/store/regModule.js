@@ -33,7 +33,6 @@ export const regModule = {
 
         registerError: '',
 
-        baseUrl: baseConfig.BASE_URL
     }),
 
     getters: {},
@@ -60,7 +59,7 @@ export const regModule = {
         async avaLoadRequest({state, commit}) {
             try {
 
-                const response = await axios.post(state.baseUrl + 'reg_ava/', state.avaFileReg,
+                const response = await axios.post(baseConfig.BASE_URL + 'reg_ava/', state.avaFileReg,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
@@ -68,7 +67,6 @@ export const regModule = {
                     })
 
                 if (response.data.status == 'ok') {
-                    console.log('axios data', response.data)
                     commit('setAvaLink', response.data.link)
                 }
 
@@ -79,7 +77,7 @@ export const regModule = {
 
         async checkUniqValueRequest({state, commit}){
             try {
-                const response = await axios.post(state.baseUrl + 'register/', state.checkUniqArray,
+                const response = await axios.post(baseConfig.BASE_URL + 'register/', state.checkUniqArray,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
@@ -98,7 +96,7 @@ export const regModule = {
         async registrationRequest({state, commit}) {
             try {
 
-                const response = await axios.post(state.baseUrl + 'register/', state.regData,
+                const response = await axios.post(baseConfig.BASE_URL + 'register/', state.regData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'

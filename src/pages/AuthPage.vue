@@ -90,8 +90,6 @@ export default {
 
       this.$refs.authInput.forEach((el, index) =>{
 
-        console.log('el', el.inputInfo)
-
         if(el.inputInfo.error) this.errors.push(el.inputInfo.error)
         if(!el.inputInfo.value) {
           // вбиваем ошибки незаполненых полей

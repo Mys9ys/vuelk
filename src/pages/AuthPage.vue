@@ -7,20 +7,26 @@
     </div>
 
     <form action="" @click="formSubmit" class="form">
-      <AuthInput
-          v-for="(el, index) in inputs"
-          :key="index"
-          :name="el.vmod"
-          v-model:value="el.value"
-          v-model:error="el.error"
+      <div class="input_wrapper"
+           v-for="(el, index) in inputs"
+           :key="index"
+      >
+        <AuthInput class="auth_gap"
+            v-if="!el.login || activeLogin == el.login"
+            :name="el.vmod"
+            v-model:value="el.value"
+            v-model:error="el.error"
 
-          ref="authInput"
-          :inputInfo="el"
-      ></AuthInput>
+            v-model:login="activeLogin"
+
+            ref="authInput"
+            :inputInfo="el"
+        ></AuthInput>
+      </div>
+
 
       <div class="btn_send_block">
         <div v-if="loginError" class="error_mes">{{ loginError }}</div>
-        <!--        <BlueBtn class="disable" :arrow="true">Войти</BlueBtn>-->
         <BlueBtn @click="enterClick" :arrow="true">Войти</BlueBtn>
       </div>
 
@@ -54,13 +60,23 @@ export default {
     return {
       errors: [],
       inputs: [
-         {
+        {
           f_icon: require('@/assets/icon/form/mail.svg'),
           title: 'E-mail',
           l_icon: '',
           vmod: 'mail',
           value: '',
           error: null,
+          login: 'mail'
+        },
+        {
+          f_icon: require('@/assets/icon/form/phone.svg'),
+          title: 'Телефон',
+          l_icon: '',
+          vmod: 'phone',
+          value: '',
+          error: null,
+          login: 'phone'
         },
         {
           f_icon: require('@/assets/icon/form/pass.svg'),
@@ -72,7 +88,8 @@ export default {
         },
       ],
       error: null,
-      allowFlag: []
+      allowFlag: [],
+      activeLogin: 'mail'
     }
   },
 
@@ -88,16 +105,16 @@ export default {
 
       this.errors = []
 
-      this.$refs.authInput.forEach((el, index) =>{
+      this.$refs.authInput.forEach((el, index) => {
 
-        if(el.inputInfo.error) this.errors.push(el.inputInfo.error)
-        if(!el.inputInfo.value) {
+        if (el.inputInfo.error) this.errors.push(el.inputInfo.error)
+        if (!el.inputInfo.value) {
           // вбиваем ошибки незаполненых полей
           this.inputs[index].error = 'Введите ' + el.inputInfo.title
           this.errors.push(this.inputs[index].error)
         } else {
           // вбиваем данные авторизации если не пришли ошибки
-          if(!el.inputInfo.error){
+          if (!el.inputInfo.error) {
             this.inputs[index].error = ''
             this.loginData[el.inputInfo.vmod] = el.inputInfo.value
           }
@@ -105,8 +122,10 @@ export default {
       })
 
       if (this.errors.length === 0) {
-        // запрос авторизации
-        this.loginData['type'] = 'newLogin'
+
+        // запрос авторизации по разным тпам логирования
+        if(this.loginData['mail'] && this.activeLogin === 'mail') this.loginData['type'] = 'loginMail'
+        if(this.loginData['phone'] && this.activeLogin === 'phone') this.loginData['type'] = 'loginPhone'
 
         await this.authRequest()
 
@@ -132,6 +151,7 @@ export default {
 
 <style lang="less" scoped>
 @import "src/assets/css/variables.less";
+
 .wrapper {
   .wrapper_template;
 
@@ -143,7 +163,13 @@ export default {
     display: flex;
     margin-top: 52px;
     flex-direction: column;
-    gap: 32px;
+    .input_wrapper{
+      display: flex;
+      flex-direction: column;
+      .auth_gap{
+        margin-bottom: 32px;
+      }
+    }
   }
 
   .btn_send_block {
@@ -181,7 +207,7 @@ export default {
 
   .privacy {
     text-align: center;
-    margin-top:30%;
+    margin-top: 30%;
   }
 }
 </style>

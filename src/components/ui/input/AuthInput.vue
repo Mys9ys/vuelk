@@ -14,6 +14,8 @@
            @input="inputChange($event.target.value)"
            @error="error || inputInfo.error"
     >
+    <div class="change_login" v-if="inputInfo.login === 'mail' && !inputText" @click="changeLogin('phone')">Использовать телефон</div>
+    <div class="change_login" v-if="inputInfo.login === 'phone' && !inputText"  @click="changeLogin('mail')">Использовать mail</div>
     <div class="last_icon" v-if="inputInfo.l_icon" @click="openPassword">
       <img :src="inputInfo.l_icon" alt="">
     </div>
@@ -51,6 +53,12 @@ export default {
       this.error = null
     },
 
+    changeLogin(val){
+      // смена инпута с типов ввода логина
+      this.$emit('update:login', val)
+      this.$emit('update:value', '')
+    },
+
     focusOut(type) {
       this.activeBorder = false
 
@@ -78,7 +86,7 @@ export default {
           this.$emit('update:error', this.error)
         }
 
-        if(type === 'Мобильный телефон'){
+        if(type === 'Мобильный телефон' || type === 'Телефон'){
           if(this.inputText.length!==16){
             this.error = 'Ошибка в номере'
           }else {
@@ -232,6 +240,15 @@ export default {
     left: 18px;
     top: 50%;
     transform: translateY(-50%);
+  }
+
+  .change_login{
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #43BAC0;
+    cursor: pointer;
   }
 
   .last_icon {

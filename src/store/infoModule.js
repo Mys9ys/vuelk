@@ -11,6 +11,8 @@ export const infoModule = {
             type: ''
         },
 
+        chartData: {},
+
         requestInfo: {},
 
     }),
@@ -20,6 +22,10 @@ export const infoModule = {
         setInfo(state, data) {
             state.requestInfo = data
         },
+        setChartData(state, data){
+            state.chartData = data
+        },
+
 
     },
 
@@ -37,6 +43,7 @@ export const infoModule = {
 
                 if (response.data.status == 'ok') {
                     commit('setInfo', response.data.info)
+                    commit('setChartData', response.data.chart)
                 } else {
                 }
 

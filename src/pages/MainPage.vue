@@ -13,7 +13,7 @@
         <BonusCharts v-if="selected==index" :selectData="data"></BonusCharts>
       </div>
 
-      <div class="bonus_footer">
+      <div class="bonus_footer" v-if="chartData.week">
         <div class="bonus_sum">{{setNumberSeparate(chartData[selected]["data"])}} <RubIco style="width: 28px"></RubIco></div>
         <BlueBlurBtn @click="$router.push('/bonus')">Подробнее</BlueBlurBtn>
       </div>
@@ -62,16 +62,13 @@ export default {
   data() {
     return {
       chartData: {
-        week: {
-          labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-          data: [0, 0, 0, 0, 0, 0, 0]
-        },
+
         month: {
           labels: [1,	2,	3,	4,	5,	6,	7,	8,	9,	10,	11,	12,	13,	14,	15,	16,	17,	18,	19,	20,	21,	22,	23,	24,	25,	26,	27,	28,	29,	30,	31],
           data: [1000,	2000,	0,	0,	0,	0,	15000,	0,	0,	1000,	3000,	0,	0,	1000,	2000,	0,	0,	5000,	0,	0,	2000,	0,	0,	4000,	0,	0,	0,	0,	0,	0,	1000,
           ]
         },
-        half_year: {
+        half: {
           labels: ['ноя','дек','янв','фев','мар','апр'],
           data: [17000, 23000, 7000, 30000, 45000, 5000]
         },
@@ -85,7 +82,7 @@ export default {
       options: [
         { text: 'Последняя неделя', value: 'week' },
         { text: 'Последний месяц', value: 'month' },
-        { text: 'Последние полгода', value: 'half_year' },
+        { text: 'Последние полгода', value: 'half' },
         { text: 'Последний год', value: 'year' },
       ],
       lastPatients:false,
@@ -103,23 +100,25 @@ export default {
   watch:{
     arLastPatients(){
       this.lastPatients = this.arLastPatients ?? false
+    },
 
-    }
+    // chartData(){
+    //
+    // }
   },
 
   methods: {
     ...mapActions({
       getProfileInfoRequest: 'info/getProfileInfoRequest',
     }),
-    selectedChange(){
-
-    },
 
     async getLastPatients(){
       this.infoRequestData.token = this.token
       this.infoRequestData.type = 'last'
 
       await this.getProfileInfoRequest()
+
+      this.chartData = this.chartDataRes
 
       this.loader = false
     },
@@ -133,7 +132,8 @@ export default {
     ...mapState({
       token: state => state.auth.authData.token,
       infoRequestData: state => state.info.infoRequestData,
-      arLastPatients: state => state.info.requestInfo
+      arLastPatients: state => state.info.requestInfo,
+      chartDataRes: state => state.info.chartData,
     })
   },
 }

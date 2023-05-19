@@ -42,8 +42,6 @@ export default {
     margin-bottom: 19px;
     /* or 157% */
 
-
-
     /* Черный */
     color: #000000;
   }

@@ -62,28 +62,6 @@ export default {
       background: #90a4ae;
     }
 
-    &.crlff5752 {
-      background: @max1;
-    }
-    &.clr00ffff {
-      background: @max2;
-    }
-    &.clrFFBDBC {
-      background: @max3;
-    }
-    &.clrACE9FB {
-      background: @max4;
-    }
-    &.clrDBF199 {
-      background: @max8;
-    }
-    &.rew {
-      background: @max6;
-    }
-    &.clrFFBEBD {
-      background: @max7;
-    }
-
   }
 
   .info{
@@ -120,27 +98,28 @@ export default {
         mix-blend-mode: difference;
       }
 
-      &.grey{
-        background: @max5;
-      }
-
-      &.clrFFBDBC{
-        background: #FFEAA1;
-      }
-      &.clrACE9FB{
-        background: #B4E3E6;
-      }
-      &.clrff5752, &.clrFFBEBD{
-        background: #FFC8C8;
-      }
-      &.clr00ffff{
-        background: @max2;
-      }
-      &.clrDBF199{
-        background: @max8;
-      }
 
     }
   }
 }
+
+.grey{
+  background: @max5;
+}
+.clrFFBDBC{
+  background: #FFEAA1;
+}
+&.clrACE9FB{
+  background: #B4E3E6;
+}
+.clrff5752, &.clrFFBEBD{
+  background: #FFC8C8;
+}
+.clr00ffff, .clrDBF199{
+  background: @max2;
+}
+.clr00FF00{
+  background: @max8;
+}
+
 </style>

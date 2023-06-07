@@ -106,16 +106,16 @@ export default {
 .grey{
   background: @max5;
 }
-.clrFFBDBC{
+.clrFFBDBC, .clrED008C{
   background: #FFEAA1;
 }
-&.clrACE9FB{
+.clrACE9FB{
   background: #B4E3E6;
 }
-.clrff5752, &.clrFFBEBD{
+.clrff5752, .clrFFBEBD, .clrffbebd, .clrED008C{
   background: #FFC8C8;
 }
-.clr00ffff, .clrDBF199{
+.clr00ffff, .clrDBF199, .clr04b4ab{
   background: @max2;
 }
 .clr00FF00{

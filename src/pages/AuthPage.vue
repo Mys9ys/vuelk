@@ -131,13 +131,11 @@ export default {
 
         if (!this.loginError) this.$router.push('/main')
       }
-
     },
 
     formSubmit(e) {
       e.preventDefault()
     },
-
   },
 
   computed: {

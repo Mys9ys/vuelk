@@ -61,22 +61,7 @@ export default {
   components: {BonusCharts, BlueBlurBtn, RubIco, BlueBtn, PatientEl, LKNavbar, LoaderMini},
   data() {
     return {
-      chartData: {
-
-        month: {
-          labels: [1,	2,	3,	4,	5,	6,	7,	8,	9,	10,	11,	12,	13,	14,	15,	16,	17,	18,	19,	20,	21,	22,	23,	24,	25,	26,	27,	28,	29,	30,	31],
-          data: [1000,	2000,	0,	0,	0,	0,	15000,	0,	0,	1000,	3000,	0,	0,	1000,	2000,	0,	0,	5000,	0,	0,	2000,	0,	0,	4000,	0,	0,	0,	0,	0,	0,	1000,
-          ]
-        },
-        half: {
-          labels: ['ноя','дек','янв','фев','мар','апр'],
-          data: [17000, 23000, 7000, 30000, 45000, 5000]
-        },
-        year: {
-          labels: ['май','июн','июл','авг','сен','окт','ноя','дек','янв','фев','мар','апр'],
-          data: [26000, 23000, 17000, 12000, 31000, 25000,17000, 23000, 7000, 30000, 45000, 5000]
-        }
-      },
+      chartData: {},
 
       selected: 'week',
       options: [
@@ -101,10 +86,6 @@ export default {
     arLastPatients(){
       this.lastPatients = this.arLastPatients ?? false
     },
-
-    // chartData(){
-    //
-    // }
   },
 
   methods: {
